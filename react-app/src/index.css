@@ -1,1 +1,15 @@
-/* TODO Add site wide styles */
+/* styles.css */
+/* body {
+  background-color: #edecec;
+} */
+
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

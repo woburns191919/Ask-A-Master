@@ -1,0 +1,43 @@
+.profile-button-container {
+  position: relative;
+  /* border:none; */
+  /* width:fit-content; */
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  min-width: 180px;
+  text-decoration: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.user-initial {
+  width: 36px;
+  height: 36px;
+  background-color: #0073e6;
+  color: white;
+  font-size: 18px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border:none;
+}
+
+.user-initial:hover {
+  background-color: #0059b3;
+  cursor: pointer;
+}
