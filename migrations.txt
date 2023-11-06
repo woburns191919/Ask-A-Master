@@ -7,8 +7,6 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 
-# DON'T FORGET TO INCLUDE!!    REVISION NUMBER WILL CHANGE
-
 
 
 
