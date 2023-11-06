@@ -1,3 +1,18 @@
 https://ask-a-master.onrender.com
 
 
+SECRET_KEY (click "Generate" to generate a secure secret for production)
+FLASK_ENV production
+FLASK_APP app
+SCHEMA (your unique schema name, in snake_case)
+REACT_APP_BASE_URL https://ask-a-master.onrender.com
+
+
+
+
+npm install --prefix react-app &&
+npm run build --prefix react-app &&
+pip install -r requirements.txt &&
+pip install psycopg2 &&
+flask db upgrade &&
+flask seed all
