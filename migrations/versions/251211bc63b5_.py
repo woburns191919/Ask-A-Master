@@ -1,12 +1,13 @@
 """empty message
 
-Revision ID: 08aebd302ea6
+Revision ID: 251211bc63b5
 Revises:
-Create Date: 2023-11-06 08:05:12.310612
+Create Date: 2023-11-06 08:20:55.638814
 
 """
 from alembic import op
 import sqlalchemy as sa
+
 
 import os
 environment = os.getenv("FLASK_ENV")
@@ -14,7 +15,7 @@ SCHEMA = os.environ.get("SCHEMA")
 
 
 # revision identifiers, used by Alembic.
-revision = '08aebd302ea6'
+revision = '251211bc63b5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,6 +28,7 @@ def upgrade():
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+
     if environment == "production":
         op.execute(f"ALTER TABLE topics SET SCHEMA {SCHEMA};")
 
@@ -73,8 +75,10 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+
     if environment == "production":
         op.execute(f"ALTER TABLE answers SET SCHEMA {SCHEMA};")
+
 
     op.create_table('question_topic_association',
     sa.Column('question_id', sa.Integer(), nullable=False),
@@ -83,7 +87,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['topic_id'], ['topics.id'], ),
     sa.PrimaryKeyConstraint('question_id', 'topic_id')
     )
-
     if environment == "production":
         op.execute(f"ALTER TABLE question_topic_association SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###
