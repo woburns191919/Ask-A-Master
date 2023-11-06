@@ -5,3 +5,67 @@
 .hidden {
   display: none;
 }
+
+/* Navbar styles */
+.navBarContainer {
+  background-color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+/* Adjust logo style */
+.header-logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0073e6;
+}
+
+/* Style navigation links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  font-size: 16px;
+}
+
+/* Style navigation icons */
+.left-icons {
+  height: 40px;
+  color: #0073e6;
+}
+
+
+.navLeft {
+  display:flex;
+  justify-content: center;
+  gap:20px;
+}
+
+.navRight {
+  display:flex;
+  gap:20px;
+}
+
+.left-icons {
+  height:40px;
+}
+
+
+#notifications-icon {
+  height: 40px;
+}
+
+
+.left-icons {
+  height: 40px;
+}
+
+.navLeft {
+  align-items:center;
+}

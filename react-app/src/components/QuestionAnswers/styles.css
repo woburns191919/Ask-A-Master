@@ -1,0 +1,41 @@
+
+.question-answer-box{
+  padding: 12px 12px 0px;
+  border: 1px solid gray;
+  background-color:white;
+  font-size: 16px;
+}
+
+
+.photos {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 20px;
+}
+
+
+.question-box, .answer-box {
+  margin-top: 10px;
+}
+
+
+.user-name {
+  font-weight: 600;
+  color: #161718; /* Quora blue */
+}
+
+.question-answer-box {
+  background-color: #fff; /* White background */
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #e1e1e1;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
