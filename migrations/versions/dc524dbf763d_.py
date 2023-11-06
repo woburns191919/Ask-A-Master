@@ -15,6 +15,7 @@ SCHEMA = os.environ.get("SCHEMA")
 
 
 revision = 'dc524dbf763d'
+down_revision = None
 
 
 def upgrade():
