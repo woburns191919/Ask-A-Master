@@ -14,6 +14,9 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 
+revision = 'de9344919551'
+down_revision = None
+
 
 
 
