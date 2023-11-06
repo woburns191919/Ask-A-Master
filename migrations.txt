@@ -69,16 +69,6 @@ def upgrade():
         op.execute(f"ALTER TABLE answers SET SCHEMA {SCHEMA};")
 
 
-    op.create_table('question_topic_association',
-    sa.Column('question_id', sa.Integer(), nullable=False),
-    sa.Column('topic_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
-    sa.ForeignKeyConstraint(['topic_id'], ['topics.id'], ),
-    sa.PrimaryKeyConstraint('question_id', 'topic_id')
-    )
-    if environment == "production":
-        op.execute(f"ALTER TABLE question_topic_association SET SCHEMA {SCHEMA};")
-    # ### end Alembic commands ###
 
 
 def downgrade():

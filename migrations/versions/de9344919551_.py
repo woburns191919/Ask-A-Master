@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: dc524dbf763d
+Revision ID: de9344919551
 Revises:
-Create Date: 2023-11-06 10:11:37.018712
+Create Date: 2023-11-06 10:52:02.602233
 
 """
 
@@ -14,8 +14,7 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 
-revision = 'dc524dbf763d'
-down_revision = None
+
 
 
 def upgrade():
@@ -77,16 +76,6 @@ def upgrade():
         op.execute(f"ALTER TABLE answers SET SCHEMA {SCHEMA};")
 
 
-    op.create_table('question_topic_association',
-    sa.Column('question_id', sa.Integer(), nullable=False),
-    sa.Column('topic_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
-    sa.ForeignKeyConstraint(['topic_id'], ['topics.id'], ),
-    sa.PrimaryKeyConstraint('question_id', 'topic_id')
-    )
-    if environment == "production":
-        op.execute(f"ALTER TABLE question_topic_association SET SCHEMA {SCHEMA};")
-    # ### end Alembic commands ###
 
 
 def downgrade():

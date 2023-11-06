@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from app.models.question import question_topic_association
+# from app.models.question import question_topic_association
 
 
 
@@ -14,7 +14,7 @@ class Topic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
 
-    questions = db.relationship('Question', secondary=question_topic_association, back_populates='topics')
+    questions = db.relationship('Question', back_populates='topic')
 
     def to_dict(self):
         return {

@@ -9,14 +9,14 @@ def add_prefix_for_prod(attr):
     else:
         return attr
 
-question_topic_association = db.Table(
-    'question_topic_association',
-    db.Column('question_id', db.Integer, db.ForeignKey('questions.id'), primary_key=True),
-    db.Column('topic_id', db.Integer, db.ForeignKey('topics.id'), primary_key=True)
-)
+# question_topic_association = db.Table(
+#     'question_topic_association',
+#     db.Column('question_id', db.Integer, db.ForeignKey('questions.id'), primary_key=True),
+#     db.Column('topic_id', db.Integer, db.ForeignKey('topics.id'), primary_key=True)
+# )
 
-if environment == "production":
-    question_topic_association.schema=SCHEMA
+# if environment == "production":
+#     question_topic_association.schema=SCHEMA
 
 
 class Question(db.Model):
@@ -34,7 +34,7 @@ class Question(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now())
 
     user = db.relationship('User', back_populates='questions')
-    topics = db.relationship('Topic', secondary=question_topic_association, back_populates='questions')
+    topic = db.relationship('Topic', back_populates='questions')
     answers = db.relationship('Answer', back_populates='question')
 
     def to_dict(self):
