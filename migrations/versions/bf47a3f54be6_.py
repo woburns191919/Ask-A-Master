@@ -1,11 +1,10 @@
 """empty message
 
-Revision ID: de9344919551
+Revision ID: bf47a3f54be6
 Revises:
-Create Date: 2023-11-06 10:52:02.602233
+Create Date: 2023-11-06 11:37:00.532674
 
 """
-
 from alembic import op
 import sqlalchemy as sa
 
@@ -14,10 +13,11 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 
-revision = 'de9344919551'
+# revision identifiers, used by Alembic.
+revision = 'bf47a3f54be6'
 down_revision = None
-
-
+branch_labels = None
+depends_on = None
 
 
 def upgrade():
