@@ -19,10 +19,6 @@ def get_all_questions():
   all_questions = {'questions': [question.to_dict() for question in questions]}
   return jsonify(all_questions)
 
-from flask import Blueprint, request, jsonify
-from app.models import db, Question
-
-questions_routes = Blueprint('questions', __name__)
 
 
 @questions_routes.route('/new', methods=['POST'])
