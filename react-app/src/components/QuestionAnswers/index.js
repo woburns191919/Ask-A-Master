@@ -18,8 +18,10 @@ export default function QuestionAnswers() {
   const fetchAllQuestions = async () => {
     try {
       const res = await fetch("/api/questions");
+      console.log('res??', res)
       if (res.ok) {
         const data = await res.json();
+        console.log('questions', data.questions)
         return data.questions;
       } else {
         console.error("Failed to fetch questions. Status:", res.status);

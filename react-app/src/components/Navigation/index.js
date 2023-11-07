@@ -11,18 +11,17 @@ import languages from "../../images/languages.png";
 import notifications from "../../images/notifications.png";
 import searchIcon from "../../images/searchIcon.png";
 import spaces from "../../images/spaces.png";
-import "./Navigation.css"
-
+import OpenModalButton from "../OpenModalButton";
+import AddQuestionForm from "../QuestionModal/AddQuestion";
+import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
   const history = useHistory();
 
   if (!sessionUser) {
-    return null
+    return null;
   }
-
-
 
   return (
     <header className="navBarContainer">
@@ -35,7 +34,8 @@ function Navigation({ isLoaded }) {
         <img className="left-icons" src={following} alt="following-icon" />
         <img className="left-icons" src={spaces} alt="spaces-icon" />
         <img
-          id="notifications-icon" className="notificaitons-icon"
+          id="notifications-icon"
+          className="notificaitons-icon"
           src={notifications}
           alt="notifications-icon"
         />
@@ -45,16 +45,18 @@ function Navigation({ isLoaded }) {
       </div>
       <div className="navRight">
         <ProfileButton />
-				<button>
-					Try Quora
-				</button>
-				<img className="languages" src={languages} alt="languages"/>
-			</div>
+
+        <OpenModalButton
+          // className="question-form"
+          buttonText="Ask question"
+          modalComponent={<AddQuestionForm />}
+        />
+
+        <button>Try Quora</button>
+        <img className="languages" src={languages} alt="languages" />
+      </div>
     </header>
-
   );
-
 }
-
 
 export default Navigation;
