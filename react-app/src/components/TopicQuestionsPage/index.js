@@ -85,41 +85,41 @@ const TopicQuestionsPage = () => {
                   {question.body.includes("Defense") && (
                     <img
                       src={middleGameImage}
-                      alt="Middle Game Photo"
+                      alt="middle game"
                       className="photos"
                     />
                   )}
                   {question.body.includes("books") && (
-                    <img src={fischer} alt="Fischer Photo" className="photos" />
+                    <img src={fischer} alt="fischer" className="photos" />
                   )}
                   {question.body.includes("endgame") && (
-                    <img src={endGame} alt="Endgame Photo" className="photos" />
+                    <img src={endGame} alt="endgame" className="photos" />
                   )}
                   {question.body.includes("platforms") && (
                     <img
                       src={platforms}
-                      alt="Platforms Photo"
+                      alt="platforms"
                       className="photos"
                     />
                   )}
                   {question.body.includes("analysis") && (
                     <img
                       src={analysis}
-                      alt="Analysis Photo"
+                      alt="analysis"
                       className="photos"
                     />
                   )}
                   {question.body.includes("blunders") && (
                     <img
                       src={blunders}
-                      alt="Blunders Photo"
+                      alt="blunders"
                       className="photos"
                     />
                   )}
                   {question.body.includes("structure") && (
                     <img
                       src={structure}
-                      alt="Structure Photo"
+                      alt="structure"
                       className="photos"
                     />
                   )}
