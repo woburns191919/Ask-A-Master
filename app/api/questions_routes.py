@@ -32,8 +32,8 @@ def create_question():
     topic_id = data.get('topic_id')
 
 
-    # if not title or not body or user_id is None or topic_id is None:
-    #     return jsonify({'error': 'Missing required fields'}), 400
+    if not title or not body or user_id is None or topic_id is None:
+        return jsonify({'error': 'Missing required fields'}), 400
 
 
     new_question = Question(

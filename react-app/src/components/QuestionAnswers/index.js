@@ -9,11 +9,39 @@ import platforms from '../../images/platforms.jpg';
 import analysis from '../../images/analysis.png';
 import structure from '../../images/structure.jpg';
 import blunders from '../../images/blunder.png'
+import axios from "axios";
 
 export default function QuestionAnswers() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [answersForQuestions, setAnswersForQuestions] = useState({});
+  const [randomChessImage, setRandomChessImage] = useState("");
   const dispatch = useDispatch();
+
+  const UnsplashAccessKey = "sEqk1GS_E6oKdR_J2aJGBVGeIc-bxELWHjl_xGB8jq0";
+
+  const fetchRandomChessImage = async () => {
+    try {
+      const response = await axios.get("https://api.unsplash.com/photos/random", {
+        params: {
+          query: "chess",
+          orientation: "landscape",
+        },
+        headers: {
+          Authorization: `Client-ID ${UnsplashAccessKey}`,
+        },
+      });
+
+      const imageUrl = response.data.urls.regular;
+      setRandomChessImage(imageUrl);
+    } catch (error) {
+      console.error("Failed to fetch random chess image:", error);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchRandomChessImage();
+  }, []);
 
   const fetchAllQuestions = async () => {
     try {
@@ -83,6 +111,7 @@ export default function QuestionAnswers() {
   // users.map(user => console.log('user obj', user))
 
   // console.log('session user id', sessionUser.id)
+  console.log('unsplash data', randomChessImage)
 
   return (
     <main className="main-container">
@@ -102,6 +131,16 @@ export default function QuestionAnswers() {
             {answersForQuestions[question.id]?.map((answer, i) => (
               <p key={i}>{answer.content}</p>
             ))}
+
+{randomChessImage && (
+              <img
+                className="photos"
+                src={randomChessImage}
+                alt="random-chess-image"
+                style={{ height: "150px", width: "250px" }}
+              />
+            )}
+            
 
             {question.body.includes('Defense') && (
               <img className="photos" src={middleGameImage} alt="middle-game" style={{ height: "150px", width: "250px"  }} />
@@ -124,6 +163,7 @@ export default function QuestionAnswers() {
             {question.body.includes('structure') && (
               <img className="photos" src={structure} alt="structure" style={{ height: "150px", width: "250px" }} />
             )}
+
           </div>
         </div>
       ))}
