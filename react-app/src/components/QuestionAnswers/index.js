@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { thunkgetAllUsers } from "../../store/session";
+import { thunkGetAllUsers } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles.css";
 import middleGameImage from '../../images/images.png';
@@ -18,10 +18,10 @@ export default function QuestionAnswers() {
   const fetchAllQuestions = async () => {
     try {
       const res = await fetch("/api/questions");
-      console.log('res??', res)
+      // console.log('res??', res)
       if (res.ok) {
         const data = await res.json();
-        console.log('questions', data.questions)
+        // console.log('questions', data.questions)
         return data.questions;
       } else {
         console.error("Failed to fetch questions. Status:", res.status);
@@ -58,6 +58,8 @@ export default function QuestionAnswers() {
     )
   );
 
+  const sessionUser = useSelector((state) => state.session.user);
+
   useEffect(() => {
     (async function () {
       const allQuestionsData = await fetchAllQuestions();
@@ -73,7 +75,7 @@ export default function QuestionAnswers() {
   }, []);
 
   useEffect(() => {
-    dispatch(thunkgetAllUsers());
+    dispatch(thunkGetAllUsers());
   }, [dispatch]);
 
   return (
@@ -82,7 +84,7 @@ export default function QuestionAnswers() {
         <div className="question-answer-box" key={index}>
           <div className="question-box">
             <h5 className="user-name">
-              {users[0]?.find((user) => user.id === question.id)?.first_name}
+              {users[0]?.find((user) => user.id === question.id)?.first_name || sessionUser.first_name}
             </h5>
             <h4>{question.body}</h4>
           </div>
@@ -92,25 +94,25 @@ export default function QuestionAnswers() {
             ))}
 
             {question.body.includes('Defense') && (
-              <img className="photos" src={middleGameImage} alt="middle-game-photo" style={{ height: "150px", width: "250px"  }} />
+              <img className="photos" src={middleGameImage} alt="middle-game" style={{ height: "150px", width: "250px"  }} />
             )}
             {question.body.includes('books') && (
-              <img className="photos" src={fischer} alt="fischer-photo" style={{ height: "150px", width: "250px"  }} />
+              <img className="photos" src={fischer} alt="fischer" style={{ height: "150px", width: "250px"  }} />
             )}
             {question.body.includes('endgame') && (
-              <img className="photos" src={endGame} alt="endgame-photo" style={{ height: "150px", width: "250px"  }} />
+              <img className="photos" src={endGame} alt="endgame" style={{ height: "150px", width: "250px"  }} />
             )}
             {question.body.includes('platforms') && (
-              <img className="photos" src={platforms} alt="platforms-photo" style={{ height: "150px", width: "250px"  }} />
+              <img className="photos" src={platforms} alt="platforms" style={{ height: "150px", width: "250px"  }} />
             )}
             {question.body.includes('analysis') && (
-              <img className="photos" src={analysis} alt="analysis-photo" style={{ height: "150px", width: "250px"  }} />
+              <img className="photos" src={analysis} alt="analysis" style={{ height: "150px", width: "250px"  }} />
             )}
             {question.body.includes('blunders') && (
-              <img className="photos" src={blunders} alt="analysis-photo" style={{ height: "150px", width: "250px"  }} />
+              <img className="photos" src={blunders} alt="analysis" style={{ height: "150px", width: "250px"  }} />
             )}
             {question.body.includes('structure') && (
-              <img className="photos" src={structure} alt="structure-photo" style={{ height: "150px", width: "250px" }} />
+              <img className="photos" src={structure} alt="structure" style={{ height: "150px", width: "250px" }} />
             )}
           </div>
         </div>

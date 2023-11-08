@@ -100,7 +100,7 @@ export const signUp = (username, email, password) => async (dispatch) => {
   }
 };
 
-export const thunkgetAllUsers = () => async (dispatch) => {
+export const thunkGetAllUsers = () => async (dispatch) => {
   try {
     const response = await fetch("/api/users", {
       headers: {
