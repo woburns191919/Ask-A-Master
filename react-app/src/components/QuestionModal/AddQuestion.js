@@ -147,6 +147,7 @@ export default function AddQuestionForm() {
     try {
       fetchHandleQuestion(formData);
       console.log('form data***', formData)
+      window.location.reload()
     } catch (error) {
       console.error("Error processing question:", error.message);
     }

@@ -77,15 +77,25 @@ export default function QuestionAnswers() {
   useEffect(() => {
     dispatch(thunkGetAllUsers());
   }, [dispatch]);
+  // console.log('user array', users)
+  // console.log('session user', sessionUser)
+  // console.log('user??', !(users[0]?.find(user => user.id == sessionUser.id)))
+  // users.map(user => console.log('user obj', user))
+
+  // console.log('session user id', sessionUser.id)
 
   return (
     <main className="main-container">
-      {allQuestions?.map((question, index) => (
-        <div className="question-answer-box" key={index}>
-          <div className="question-box">
-            <h5 className="user-name">
-              {users[0]?.find((user) => user.id === question.id)?.first_name || sessionUser.first_name}
-            </h5>
+
+          {allQuestions?.concat().reverse().map((question, index) => (
+  <div className="question-answer-box" key={index}>
+    <div className="question-box">
+      <h5 className="user-name">
+        {question.user_id == sessionUser?.id
+          ? sessionUser?.first_name
+          : (users[0]?.find(user => user.id === question.user_id)?.first_name)}
+      </h5>
+
             <h4>{question.body}</h4>
           </div>
           <div className="answer-box">
