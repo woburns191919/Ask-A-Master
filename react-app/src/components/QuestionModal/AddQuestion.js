@@ -251,7 +251,9 @@ export default function AddQuestionForm({ formType = 'Create', questionId}) {
         <button onClick={handleSubmit} style={buttonStyles}>
         {formType === 'Edit' ? 'Update Question' : 'Submit Question'}
         </button>
-        <button style={modalButtonStyles}>
+        <button style={modalButtonStyles}
+         onClick={handleCloseModal}
+        >
           Cancel
         </button>
         {/* {console.log('form type', formType)} */}

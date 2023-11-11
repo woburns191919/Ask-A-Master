@@ -112,6 +112,9 @@ export default function QuestionAnswers() {
     dispatch(thunkGetAllUsers());
   }, [dispatch]);
 
+  console.log('user questions', allQuestions.find(question => question.user_id == sessionUser.id))
+  console.log('session user', sessionUser)
+
   return (
     <main className="main-container">
       {allQuestions
@@ -200,10 +203,11 @@ export default function QuestionAnswers() {
                 />
               )}
             </div>
+            {question.user_id === sessionUser?.id &&
             <OpenModalButton
               buttonText="Edit question"
               modalComponent={<AddQuestionForm formType="Edit" questionId={question.id} />}
-            />
+            />}
           </div>
         ))}
     </main>
