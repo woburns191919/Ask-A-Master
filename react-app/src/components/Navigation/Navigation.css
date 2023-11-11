@@ -69,3 +69,22 @@
 .navLeft {
   align-items:center;
 }
+
+
+.navRight button:nth-child(2) {
+  background-color: #b92b27;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+.navRight button:nth-child(2):hover {
+  background-color: #8c1d19;
+}
+
+

@@ -1,57 +1,25 @@
-
-.topic-questions-page {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-
-.topic-side-panel {
-  flex: 1;
-  margin-right: 20px;
-}
-
-.topic-questions-content {
-  flex: 2;
-}
-
-.topic-side-panel h2 {
-  font-size: 18px;
-}
-
-.topic-side-panel ul {
+/* Add styles for the topics list */
+.topic-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-.topic-side-panel li {
-  margin-bottom: 10px;
+.topic-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #e1e1e1;
+  transition: box-shadow 0.2s;
+  display:flex;
+  flex-direction:column;
 }
 
-.topic-side-panel a {
-  text-decoration: none;
-  color: #0077cc;
-}
-
-.topic-questions-content h1 {
-  font-size: 24px;
-}
-
-.question-image {
-  max-width: 100%;
-  height: auto;
-}
-
-.topic-questions-content h3 {
-  font-size: 20px;
-}
-
-.topic-questions-content ul {
-  list-style: none;
-  padding: 0;
-}
-
-.topic-questions-content li {
-  margin-bottom: 10px;
+.topic-list li:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
 }
 
 
+.topic-question-container {
+  display:flex;
+  width:fit-content;
+}

@@ -23,9 +23,9 @@ export default function GetTopics() {
 
   useEffect(() => {
     (async function () {
-      console.log("Fetching topics...");
+      // console.log("Fetching topics...");
       const topicsData = await fetchAllTopics();
-      console.log("Fetched topics:", topicsData);
+      // console.log("Fetched topics:", topicsData);
       setAllTopics(topicsData);
     })();
   }, []);
