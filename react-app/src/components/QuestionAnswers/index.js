@@ -9,14 +9,14 @@ import platforms from "../../images/platforms.jpg";
 import analysis from "../../images/analysis.png";
 import structure from "../../images/structure.jpg";
 import blunders from "../../images/blunder.png";
-import axios from "axios";
+// import axios from "axios";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 
 export default function QuestionAnswers() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [answersForQuestions, setAnswersForQuestions] = useState({});
-  const [randomChessImage, setRandomChessImage] = useState("");
+  // const [randomChessImage, setRandomChessImage] = useState("");
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -31,31 +31,31 @@ export default function QuestionAnswers() {
 
   const sessionUser = useSelector((state) => state.session.user);
 
-  const fetchRandomChessImage = async () => {
-    try {
-      const response = await axios.get(
-        "https://api.unsplash.com/photos/random",
-        {
-          params: {
-            query: "chess",
-            orientation: "landscape",
-          },
-          headers: {
-            Authorization: `Client-ID ${UnsplashAccessKey}`,
-          },
-        }
-      );
+  // const fetchRandomChessImage = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "https://api.unsplash.com/photos/random",
+  //       {
+  //         params: {
+  //           query: "chess",
+  //           orientation: "landscape",
+  //         },
+  //         headers: {
+  //           Authorization: `Client-ID ${UnsplashAccessKey}`,
+  //         },
+  //       }
+  //     );
 
-      const imageUrl = response.data.urls.regular;
-      setRandomChessImage(imageUrl);
-    } catch (error) {
-      console.error("Failed to fetch random chess image:", error);
-    }
-  };
+  //     const imageUrl = response.data.urls.regular;
+  //     setRandomChessImage(imageUrl);
+  //   } catch (error) {
+  //     console.error("Failed to fetch random chess image:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchRandomChessImage();
-  }, []);
+  // useEffect(() => {
+  //   fetchRandomChessImage();
+  // }, []);
 
   const fetchAllQuestions = async () => {
     try {
@@ -137,14 +137,14 @@ export default function QuestionAnswers() {
                 <p key={i}>{answer.content}</p>
               ))}
 
-              {randomChessImage && (
+              {/* {randomChessImage && (
                 <img
                   className="photos"
                   src={randomChessImage}
                   alt="random-chess-image"
                   style={{ height: "150px", width: "250px" }}
                 />
-              )}
+              )} */}
 
               {question.body.includes("Defense") && (
                 <img
