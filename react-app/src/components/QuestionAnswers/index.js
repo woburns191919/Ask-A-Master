@@ -9,19 +9,18 @@ import platforms from "../../images/platforms.jpg";
 import analysis from "../../images/analysis.png";
 import structure from "../../images/structure.jpg";
 import blunders from "../../images/blunder.png";
-// import axios from "axios";
+import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
+import ConfirmDelete from "../QuestionModal/ConfirmDelete";
 
 export default function QuestionAnswers() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [answersForQuestions, setAnswersForQuestions] = useState({});
-  // const [randomChessImage, setRandomChessImage] = useState("");
+  const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-
-  // const UnsplashAccessKey = "sEqk1GS_E6oKdR_J2aJGBVGeIc-bxELWHjl_xGB8jq0";
 
   const users = Object.values(
     useSelector((state) =>
@@ -31,39 +30,11 @@ export default function QuestionAnswers() {
 
   const sessionUser = useSelector((state) => state.session.user);
 
-  // const fetchRandomChessImage = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "https://api.unsplash.com/photos/random",
-  //       {
-  //         params: {
-  //           query: "chess",
-  //           orientation: "landscape",
-  //         },
-  //         headers: {
-  //           Authorization: `Client-ID ${UnsplashAccessKey}`,
-  //         },
-  //       }
-  //     );
-
-  //     const imageUrl = response.data.urls.regular;
-  //     setRandomChessImage(imageUrl);
-  //   } catch (error) {
-  //     console.error("Failed to fetch random chess image:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchRandomChessImage();
-  // }, []);
-
   const fetchAllQuestions = async () => {
     try {
       const res = await fetch("/api/questions");
-      // console.log('res??', res)
       if (res.ok) {
         const data = await res.json();
-        // console.log('questions', data.questions)
         return data.questions;
       } else {
         console.error("Failed to fetch questions. Status:", res.status);
@@ -112,8 +83,17 @@ export default function QuestionAnswers() {
     dispatch(thunkGetAllUsers());
   }, [dispatch]);
 
-  console.log('user questions', allQuestions.find(question => question.user_id == sessionUser.id))
-  console.log('session user', sessionUser)
+  const toggleDropdown = (questionId) => {
+    setShowDropdown(showDropdown === questionId ? null : questionId);
+  };
+
+  const closeDropdown = () => {
+    setShowDropdown(null);
+  };
+
+  const isCurrentUserAuthor = (question) => {
+    return question.user_id === sessionUser?.id;
+  };
 
   return (
     <main className="main-container">
@@ -124,12 +104,11 @@ export default function QuestionAnswers() {
           <div className="question-answer-box" key={index}>
             <div className="question-box">
               <h5 className="user-name">
-                {question.user_id == sessionUser?.id
+                {question.user_id === sessionUser?.id
                   ? sessionUser?.first_name
                   : users[0]?.find((user) => user.id === question.user_id)
                       ?.first_name}
               </h5>
-
               <h4>{question.body}</h4>
             </div>
             <div className="answer-box">
@@ -203,11 +182,38 @@ export default function QuestionAnswers() {
                 />
               )}
             </div>
-            {question.user_id === sessionUser?.id &&
-            <OpenModalButton
-              buttonText="Edit question"
-              modalComponent={<AddQuestionForm formType="Edit" questionId={question.id} />}
-            />}
+            <div className="ellipsis-container">
+              <img
+                className="ellipsis"
+                src={ellipsis}
+                onClick={() => toggleDropdown(question.id)}
+              />
+              {showDropdown === question.id && (
+                <div className="dropdown">
+                  {isCurrentUserAuthor(question) && (
+                    <>
+                      <OpenModalButton
+                        buttonText="Edit question"
+                        modalComponent={
+                          <AddQuestionForm
+                            formType="Edit"
+                            questionId={question.id}
+                            closeModal={closeDropdown}
+                          />
+                        }
+                      />
+                      <OpenModalButton
+                        buttonText="Delete question"
+                        modalComponent={
+                          <ConfirmDelete questionId={question.id} />
+                        }
+                      />
+                      {/* Add delete option or any other actions */}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         ))}
     </main>
