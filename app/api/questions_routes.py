@@ -12,6 +12,13 @@ def get_answers_for_question(question_id):
     answers = Answer.query.filter_by(question_id=question_id).all()
     return jsonify({'answers': [answer.to_dict() for answer in answers]})
 
+@questions_routes.route("<int:question_id>")
+def get_question(question_id):
+    """returns a specific question by id"""
+    question = Question.query.get(question_id)
+    return jsonify(question.to_dict())
+
+
 @questions_routes.route("/")
 def get_all_questions():
   """returns a dictionary of all questions"""
@@ -32,8 +39,8 @@ def create_question():
     topic_id = data.get('topic_id')
 
 
-    if not title or not body or user_id is None or topic_id is None:
-        return jsonify({'error': 'Missing required fields'}), 400
+    # if not title or not body or user_id is None or topic_id is None:
+    #     return jsonify({'error': 'Missing required fields'}), 400
 
 
     new_question = Question(
@@ -47,3 +54,40 @@ def create_question():
     db.session.commit()
 
     return jsonify({'message': 'Question created successfully', 'question': new_question.to_dict()}), 201
+
+
+@questions_routes.route('/edit/<int:question_id>', methods=['GET', 'PUT'])
+@login_required
+def edit_question(question_id):
+    # Check if the user is authenticated
+    if not current_user.is_authenticated:
+        return jsonify(message="You need to be logged in"), 401
+
+    # Retrieve the question to be edited
+    question_to_edit = Question.query.get(question_id)
+
+    # Check if the question exists
+    if not question_to_edit:
+        return jsonify(message="Question not found"), 404
+
+    # Check if the logged-in user is the owner of the question
+    if question_to_edit.user_id != current_user.id:
+        return jsonify(message="You cannot edit this question"), 403
+
+    if request.method == 'GET':
+        # Return the current question details
+        return jsonify(question=question_to_edit.to_dict()), 200
+
+    elif request.method == 'PUT':
+        # Parse the JSON data from the request
+        data = request.get_json()
+
+        # Update the question fields with the new data
+        question_to_edit.title = data.get('title', question_to_edit.title)
+        question_to_edit.body = data.get('body', question_to_edit.body)
+        question_to_edit.topic_id = data.get('topic_id', question_to_edit.topic_id)
+
+        # Commit the changes to the database
+        db.session.commit()
+
+        return jsonify(message="Question edited successfully", question=question_to_edit.to_dict()), 200

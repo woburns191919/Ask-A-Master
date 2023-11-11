@@ -15,7 +15,7 @@ import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import "./Navigation.css";
 
-function Navigation({ isLoaded }) {
+function Navigation({ isLoaded, formType }) {
   const sessionUser = useSelector((state) => state.session.user);
   const history = useHistory();
 
@@ -47,9 +47,8 @@ function Navigation({ isLoaded }) {
         <ProfileButton />
 
         <OpenModalButton
-          // className="question-form"
-          buttonText="Ask question"
-          modalComponent={<AddQuestionForm />}
+          buttonText="Ask a question"
+          modalComponent={<AddQuestionForm formType={formType} />}
         />
 
         <button>Try Quora</button>
