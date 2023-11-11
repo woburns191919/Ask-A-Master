@@ -21,7 +21,7 @@ export default function QuestionAnswers() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  const UnsplashAccessKey = "sEqk1GS_E6oKdR_J2aJGBVGeIc-bxELWHjl_xGB8jq0";
+  // const UnsplashAccessKey = "sEqk1GS_E6oKdR_J2aJGBVGeIc-bxELWHjl_xGB8jq0";
 
   const users = Object.values(
     useSelector((state) =>
