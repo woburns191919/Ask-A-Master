@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { thunkGetAllUsers } from "../../store/session";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles.css";
 import middleGameImage from "../../images/images.png";
@@ -14,12 +15,14 @@ import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import ConfirmDelete from "../QuestionModal/ConfirmDelete";
 import { useHistory } from "react-router-dom";
+import Comments from "../Comments";
 
 export default function QuestionAnswers() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [answersForQuestions, setAnswersForQuestions] = useState({});
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
+  const { questionId } = useParams()
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const history = useHistory()
@@ -104,6 +107,8 @@ export default function QuestionAnswers() {
     }
     history.push(`/questions/${questionId}`);
   };
+
+  console.log('questionId from question answers', questionId)
 
 
   return (
@@ -223,6 +228,7 @@ export default function QuestionAnswers() {
                       {/* Add delete option or any other actions */}
                     </>
                   )}
+                  {/* <Comments questionId={question.id} /> */}
                 </div>
               )}
             </div>

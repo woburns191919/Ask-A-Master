@@ -6,6 +6,37 @@ from app.forms import question_form
 
 comments_routes = Blueprint('comments', __name__)
 
+@comments_routes.route("/<int:comment_id>/edit", methods=['GET','PUT'])
+@login_required
+def edit_comment(question_id, comment_id):
+  
+    """
+    Edit an existing comment
+    """
+
+    if not current_user.is_authenticated:
+        return jsonify({"message": "You need to be logged in"}), 401
+
+    comment_to_edit = Answer.query.get(comment_id)
+
+    if not comment_to_edit:
+        return jsonify({"message": "Comment not found"}), 404
+
+    if comment_to_edit.user_id != current_user.id:
+        return jsonify({"message": "You cannot edit this comment"}), 403
+
+    data = request.get_json()
+    new_content = data.get('content')
+
+    if not new_content:
+        return jsonify({"error": "Comment content cannot be empty"}), 400
+
+    comment_to_edit.content = new_content
+
+    db.session.commit()
+
+    return jsonify({"message": "Comment edited successfully", "comment": comment_to_edit.to_dict()}), 200
+
 
 @comments_routes.route("/new", methods=['POST'])
 @login_required

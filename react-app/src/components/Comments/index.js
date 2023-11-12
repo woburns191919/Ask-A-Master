@@ -11,11 +11,12 @@ const Comments = () => {
   const { id } = useParams();
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([]);
+  const [answerId, setAnswerId] = useState("");
   const [newComment, setNewComment] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const sessionUser = useSelector((state) => state.session.user);
   const { openModalWithComponent } = useModal();
-  console.log("open modal with componoent", openModalWithComponent);
+  // console.log("open modal with componoent", openModalWithComponent);
 
   useEffect(() => {
     const fetchQuestionAndAnswers = async () => {
@@ -28,7 +29,9 @@ const Comments = () => {
           const answersData = await answersResponse.json();
 
           setQuestion(questionData.body);
+          // setAnswerId(answersData.id)
           setAnswers(answersData.answers);
+          console.log("answers data", answersData.answers);
         } else {
           console.error(
             "Failed to fetch question or answers:",
@@ -71,15 +74,16 @@ const Comments = () => {
     }
   };
 
-  const submitEdit = async () => {
+  const submitEdit = async (commentId) => {
     if (!newComment.trim()) {
       alert("Comment cannot be empty.");
       return;
     }
+    console.log("Submitting edit for commentId:", commentId);
 
     try {
       const response = await fetch(
-        `/api/questions/comments/${editingCommentId}`,
+        `/api/questions/${id}/comments/${commentId}/edit`,
         {
           method: "PUT",
           headers: {
@@ -108,9 +112,12 @@ const Comments = () => {
 
   const handleCommentDeletion = async (commentId) => {
     try {
-      const response = await fetch(`/api/questions/comments/${commentId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `/api/questions/${id}/comments/${commentId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (response.ok) {
         setAnswers(answers.filter((answer) => answer.id !== commentId));
@@ -121,6 +128,13 @@ const Comments = () => {
       console.error("Error deleting comment:", error);
     }
   };
+  // useEffect(() => {
+  //   console.log("Updated editingCommentId:", editingCommentId);
+  // }, [editingCommentId]);
+
+  // answers.find(answer => console.log(answer.id))
+  console.log("question id from Comments?", id);
+  console.log("editing comment id", editingCommentId);
   return (
     <div className="question-comments-container">
       <div className="question-body">{question}</div>
@@ -134,10 +148,16 @@ const Comments = () => {
               {new Date(answer.created_at).toLocaleDateString()}
               {sessionUser && answer.user_id === sessionUser.id && (
                 <>
-                  <button onClick={() => {
-                    setEditingCommentId(answer.id);
-                    setNewComment(answer.content);
-                  }}>Edit</button>
+                  <button
+                    onClick={() => {
+                      setEditingCommentId(answer.id);
+                      console.log("Setting editingCommentId to:", answer.id);
+                      setNewComment(answer.content);
+                    }}
+                  >
+                    Edit
+                  </button>
+
                   <OpenModalButton
                     buttonText="Delete"
                     modalComponent={
@@ -161,9 +181,10 @@ const Comments = () => {
             onChange={(e) => setNewComment(e.target.value)}
           />
           {editingCommentId ? (
-            <button className="comment-submit-button" onClick={submitEdit}>
-              Save Edit
-            </button>
+           <button className="comment-submit-button" onClick={() => submitEdit(editingCommentId)}>
+           Save Edit
+         </button>
+
           ) : (
             <button className="comment-submit-button" onClick={postComment}>
               Comment
