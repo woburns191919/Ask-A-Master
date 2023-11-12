@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { thunkGetAllUsers } from "../../store/session";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles.css";
 import middleGameImage from "../../images/images.png";
@@ -13,14 +14,18 @@ import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import ConfirmDelete from "../QuestionModal/ConfirmDelete";
+import { useHistory } from "react-router-dom";
+import Comments from "../Comments";
 
 export default function QuestionAnswers() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [answersForQuestions, setAnswersForQuestions] = useState({});
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
+  const { questionId } = useParams()
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const history = useHistory()
 
   const users = Object.values(
     useSelector((state) =>
@@ -95,13 +100,25 @@ export default function QuestionAnswers() {
     return question.user_id === sessionUser?.id;
   };
 
+  const handleBoxClick = (questionId, event) => {
+    // Prevent routing if the ellipsis or any of its children is clicked
+    if (event.target.closest('.ellipsis-container')) {
+      return;
+    }
+    history.push(`/questions/${questionId}`);
+  };
+
+  // console.log('questionId from question answers', questionId)
+
+
   return (
     <main className="main-container">
       {allQuestions
         ?.concat()
         .reverse()
         .map((question, index) => (
-          <div className="question-answer-box" key={index}>
+          <div className="question-answer-box" key={index}
+          onClick={(e) => handleBoxClick(question.id, e)}>
             <div className="question-box">
               <h5 className="user-name">
                 {question.user_id === sessionUser?.id
@@ -211,6 +228,7 @@ export default function QuestionAnswers() {
                       {/* Add delete option or any other actions */}
                     </>
                   )}
+                  {/* <Comments questionId={question.id} /> */}
                 </div>
               )}
             </div>
