@@ -9,6 +9,7 @@ import LandingPage from "./components/LandingPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import ProfileButton from "./components/Navigation/ProfileButton";
 import TopicQuestionsPage from "./components/TopicQuestionsPage";
+import Comments from "./components/Comments";
 
 function App() {
   const sessionUser = useSelector((state) => state.session.user);
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route exact path="/topics/:id">
             <TopicQuestionsPage />
+          </Route>
+          <Route exact path="/questions/:id">
+            <Comments />
           </Route>
           <ProtectedRoute path="/">
             <ProfileButton user={sessionUser} />

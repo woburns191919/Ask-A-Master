@@ -9,8 +9,10 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.questions_routes import questions_routes
 from .api.topics_routes import topics_routes
+from .api.comments_routes import comments_routes
 from .seeds import seed_commands
 from .config import Config
+
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -32,6 +34,7 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(questions_routes, url_prefix='/api/questions')
 app.register_blueprint(topics_routes, url_prefix='/api/topics')
+app.register_blueprint(comments_routes, url_prefix='/api/questions/<int:question_id>/comments')
 
 
 db.init_app(app)

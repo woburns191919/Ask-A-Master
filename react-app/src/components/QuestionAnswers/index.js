@@ -13,6 +13,7 @@ import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import ConfirmDelete from "../QuestionModal/ConfirmDelete";
+import { useHistory } from "react-router-dom";
 
 export default function QuestionAnswers() {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -21,6 +22,7 @@ export default function QuestionAnswers() {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const history = useHistory()
 
   const users = Object.values(
     useSelector((state) =>
@@ -95,13 +97,23 @@ export default function QuestionAnswers() {
     return question.user_id === sessionUser?.id;
   };
 
+  const handleBoxClick = (questionId, event) => {
+    // Prevent routing if the ellipsis or any of its children is clicked
+    if (event.target.closest('.ellipsis-container')) {
+      return;
+    }
+    history.push(`/questions/${questionId}`);
+  };
+
+
   return (
     <main className="main-container">
       {allQuestions
         ?.concat()
         .reverse()
         .map((question, index) => (
-          <div className="question-answer-box" key={index}>
+          <div className="question-answer-box" key={index}
+          onClick={(e) => handleBoxClick(question.id, e)}>
             <div className="question-box">
               <h5 className="user-name">
                 {question.user_id === sessionUser?.id
