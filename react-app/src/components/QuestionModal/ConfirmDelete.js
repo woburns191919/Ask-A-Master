@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useModal } from "../../context/Modal";
 
+// Styles for modal elements
 const modalContainerStyles = {
   position: "fixed",
   top: 0,
@@ -53,36 +54,39 @@ const cancelButtonStyles = {
   transition: "background-color 0.3s",
 };
 
-export default function ConfirmDelete({ questionId }) {
+const ConfirmDelete = ({ itemType, itemId, questionId, onDeletionSuccess }) => {
   const { closeModal } = useModal();
-  const [allQuestions, setAllQuestions] = useState([]);
 
   const handleDelete = async () => {
+    let url = '';
+
+    if (itemType === 'question') {
+      url = `/api/questions/${itemId}`;
+    } else if (itemType === 'comment') {
+      url = `/api/questions/${questionId}/comments/${itemId}`;
+    }
+
     try {
-      const response = await fetch(`/api/questions/${questionId}`, {
+      const response = await fetch(url, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        // Update state after successful deletion
-        const updatedQuestions = allQuestions.filter((q) => q.id !== questionId);
-        setAllQuestions(updatedQuestions);
-        closeModal()
-        window.location.reload()
+        onDeletionSuccess(itemId);
+        closeModal();
       } else {
-        console.error('Failed to delete question:', response.status);
+        console.error(`Failed to delete ${itemType}:`, response.status);
       }
     } catch (error) {
-      console.error('Error deleting question:', error);
+      console.error(`Error deleting ${itemType}:`, error);
     }
   };
-
 
   return (
     <div style={modalContainerStyles} onClick={closeModal}>
       <div style={modalContentStyles} onClick={(e) => e.stopPropagation()}>
         <p style={confirmDeleteTextStyles}>
-          Are you sure you want to delete this question?
+          Are you sure you want to delete this {itemType}?
         </p>
         <div style={buttonContainerStyles}>
           <button style={deleteButtonStyles} onClick={handleDelete}>
@@ -95,4 +99,6 @@ export default function ConfirmDelete({ questionId }) {
       </div>
     </div>
   );
-}
+};
+
+export default ConfirmDelete;

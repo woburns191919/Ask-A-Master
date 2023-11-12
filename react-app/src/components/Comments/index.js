@@ -162,8 +162,12 @@ const Comments = () => {
                     buttonText="Delete"
                     modalComponent={
                       <ConfirmDelete
-                        commentId={answer.id}
-                        onDelete={() => handleCommentDeletion(answer.id)}
+                        itemType="comment" // Specify 'question' if deleting a question
+                        itemId={answer.id} // ID of the comment or question to delete
+                        questionId={id} // Question ID (needed only for comment deletion)
+                        onDeletionSuccess={() =>
+                          handleCommentDeletion(answer.id)
+                        }
                       />
                     }
                   />
@@ -181,10 +185,12 @@ const Comments = () => {
             onChange={(e) => setNewComment(e.target.value)}
           />
           {editingCommentId ? (
-           <button className="comment-submit-button" onClick={() => submitEdit(editingCommentId)}>
-           Save Edit
-         </button>
-
+            <button
+              className="comment-submit-button"
+              onClick={() => submitEdit(editingCommentId)}
+            >
+              Save Edit
+            </button>
           ) : (
             <button className="comment-submit-button" onClick={postComment}>
               Comment
