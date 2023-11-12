@@ -108,7 +108,7 @@ export default function QuestionAnswers() {
     history.push(`/questions/${questionId}`);
   };
 
-  console.log('questionId from question answers', questionId)
+  // console.log('questionId from question answers', questionId)
 
 
   return (

@@ -183,7 +183,7 @@ export default function AddQuestionForm({ formType = 'Create', questionId}) {
     const fetchData = async () => {
       try {
         const res = await fetchQuestion(questionId);
-        console.log('data from fetch question', res);
+        // console.log('data from fetch question', res);
         if (res) {
           setTitle(res.title);
           setQuestion(res.body);

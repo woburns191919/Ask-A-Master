@@ -31,7 +31,7 @@ const Comments = () => {
           setQuestion(questionData.body);
           // setAnswerId(answersData.id)
           setAnswers(answersData.answers);
-          console.log("answers data", answersData.answers);
+          // console.log("answers data", answersData.answers);
         } else {
           console.error(
             "Failed to fetch question or answers:",
@@ -79,7 +79,7 @@ const Comments = () => {
       alert("Comment cannot be empty.");
       return;
     }
-    console.log("Submitting edit for commentId:", commentId);
+    // console.log("Submitting edit for commentId:", commentId);
 
     try {
       const response = await fetch(
@@ -133,8 +133,8 @@ const Comments = () => {
   // }, [editingCommentId]);
 
   // answers.find(answer => console.log(answer.id))
-  console.log("question id from Comments?", id);
-  console.log("editing comment id", editingCommentId);
+  // console.log("question id from Comments?", id);
+  // console.log("editing comment id", editingCommentId);
   return (
     <div className="question-comments-container">
       <div className="question-body">{question}</div>
@@ -151,7 +151,7 @@ const Comments = () => {
                   <button
                     onClick={() => {
                       setEditingCommentId(answer.id);
-                      console.log("Setting editingCommentId to:", answer.id);
+                      // console.log("Setting editingCommentId to:", answer.id);
                       setNewComment(answer.content);
                     }}
                   >
