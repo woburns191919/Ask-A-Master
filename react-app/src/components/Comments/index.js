@@ -11,12 +11,28 @@ const Comments = () => {
   const { id } = useParams();
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([]);
-  const [answerId, setAnswerId] = useState("");
+  const [allComments, setAllComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const sessionUser = useSelector((state) => state.session.user);
-  const { openModalWithComponent } = useModal();
-  // console.log("open modal with componoent", openModalWithComponent);
+  const { openModalWithComponent, setModalContent } = useModal();
+
+  const onDeleteComment = (deletedCommentId) => {
+    setAllComments((currentComments) =>
+      currentComments.filter((comment) => comment.id !== deletedCommentId)
+    );
+  };
+
+  const openDeleteModal = (commentId) => {
+    setModalContent(
+      <ConfirmDelete
+        itemType="comment"
+        itemId={commentId}
+        questionId={id} // Assuming 'id' is the question ID
+        onDeletionSuccess={() => onDeleteComment(commentId)}
+      />
+    );
+  };
 
   useEffect(() => {
     const fetchQuestionAndAnswers = async () => {
@@ -158,19 +174,9 @@ const Comments = () => {
                     Edit
                   </button>
 
-                  <OpenModalButton
-                    buttonText="Delete"
-                    modalComponent={
-                      <ConfirmDelete
-                        itemType="comment" // Specify 'question' if deleting a question
-                        itemId={answer.id} // ID of the comment or question to delete
-                        questionId={id} // Question ID (needed only for comment deletion)
-                        onDeletionSuccess={() =>
-                          handleCommentDeletion(answer.id)
-                        }
-                      />
-                    }
-                  />
+                  <button onClick={() => openDeleteModal(answer.id)}>
+                    Delete Comment
+                  </button>
                 </>
               )}
             </div>

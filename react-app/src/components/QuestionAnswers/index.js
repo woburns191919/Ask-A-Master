@@ -36,10 +36,12 @@ export default function QuestionAnswers() {
   };
 
   const openDeleteModal = (questionId) => {
+    console.log("Opening delete modal for questionId:", questionId); // Debug log
     setModalContent(
       <ConfirmDelete
+        itemType="question"
         questionId={questionId}
-        onDelete={() => onDeleteQuestion(questionId)}
+        onDeletionSuccess={() => onDeleteQuestion(questionId)}
       />
     );
   };
@@ -238,9 +240,9 @@ export default function QuestionAnswers() {
                           />
                         }
                       />
-                      <button onClick={() => openDeleteModal(question.id)}>
-                        Delete question
-                      </button>
+                     <button onClick={() => openDeleteModal(question.id)}>Delete question</button>
+
+                      {console.log('Active dropdown for question.id:', question.id)}
 
                       {/* Add delete option or any other actions */}
                     </>
