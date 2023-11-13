@@ -69,7 +69,7 @@ export default function ConfirmDelete({
   const { closeModal, setOnCloseCallback } = useModal();
 
   // console.log("itemId:", itemId);
-  console.log("itemType:", itemType);
+  // console.log("itemType:", itemType);
   // console.log("questionId:", questionId);
 
   const handleDelete = async () => {
@@ -78,7 +78,7 @@ export default function ConfirmDelete({
         ? `/api/questions/${questionId}/comments/${itemId}`
         : `/api/questions/${questionId}`;
 
-    console.log("Delete URL:", url);
+    // console.log("Delete URL:", url);
 
     try {
       const response = await fetch(url, {

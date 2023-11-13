@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
@@ -17,11 +17,18 @@ import "./Navigation.css";
 
 function Navigation({ isLoaded, formType }) {
   const sessionUser = useSelector((state) => state.session.user);
+  const [allQuestions, setAllQuestions] = useState([]);
   const history = useHistory();
 
   if (!sessionUser) {
     return null;
   }
+
+  const handleAddQuestion = (newQuestion) => {
+    // console.log('new question received:', newQuestion)
+    setAllQuestions((currentQuestions) => [...currentQuestions, newQuestion]);
+  };
+
 
   return (
     <header className="navBarContainer">
@@ -47,9 +54,14 @@ function Navigation({ isLoaded, formType }) {
         <ProfileButton />
 
         <OpenModalButton
-          buttonText="Ask a question"
-          modalComponent={<AddQuestionForm formType={formType} />}
-        />
+        buttonText="Ask a question"
+        modalComponent={
+          <AddQuestionForm
+            formType="Create"
+            onQuestionAdded={handleAddQuestion}
+          />
+        }
+      />
 
         <button>Try Quora</button>
         <img className="languages" src={languages} alt="languages" />
