@@ -242,7 +242,7 @@ export default function QuestionAnswers() {
                       />
                      <button onClick={() => openDeleteModal(question.id)}>Delete question</button>
 
-                      {console.log('Active dropdown for question.id:', question.id)}
+                      {/* {console.log('Active dropdown for question.id:', question.id)} */}
 
                       {/* Add delete option or any other actions */}
                     </>
