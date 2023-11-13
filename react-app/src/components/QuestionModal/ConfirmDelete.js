@@ -66,7 +66,7 @@ export default function ConfirmDelete({ questionId, onDelete }) {
 
       if (response.ok) {
 
-        // setOnCloseCallback(() => onDelete(questionId)); 
+        // setOnCloseCallback(() => onDelete(questionId));
         closeModal();
         onDelete()
         // window.location.reload()
