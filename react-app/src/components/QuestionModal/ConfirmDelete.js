@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useModal } from "../../context/Modal";
 
-// Styles for modal elements
 const modalContainerStyles = {
   position: "fixed",
   top: 0,
@@ -54,39 +53,37 @@ const cancelButtonStyles = {
   transition: "background-color 0.3s",
 };
 
-const ConfirmDelete = ({ itemType, itemId, questionId, onDeletionSuccess }) => {
-  const { closeModal } = useModal();
+export default function ConfirmDelete({ questionId, onDelete }) {
+
+  const [allQuestions, setAllQuestions] = useState([]);
+  const { closeModal, setOnCloseCallback } = useModal();
 
   const handleDelete = async () => {
-    let url = '';
-
-    if (itemType === 'question') {
-      url = `/api/questions/${itemId}`;
-    } else if (itemType === 'comment') {
-      url = `/api/questions/${questionId}/comments/${itemId}`;
-    }
-
     try {
-      const response = await fetch(url, {
+      const response = await fetch(`/api/questions/${questionId}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        onDeletionSuccess(itemId);
+
+        // setOnCloseCallback(() => onDelete(questionId)); 
         closeModal();
+        onDelete()
+        // window.location.reload()
       } else {
-        console.error(`Failed to delete ${itemType}:`, response.status);
+        console.error('Failed to delete question:', response.status);
       }
     } catch (error) {
-      console.error(`Error deleting ${itemType}:`, error);
+      console.error('Error deleting question:', error);
     }
   };
+
 
   return (
     <div style={modalContainerStyles} onClick={closeModal}>
       <div style={modalContentStyles} onClick={(e) => e.stopPropagation()}>
         <p style={confirmDeleteTextStyles}>
-          Are you sure you want to delete this {itemType}?
+          Are you sure you want to delete this question?
         </p>
         <div style={buttonContainerStyles}>
           <button style={deleteButtonStyles} onClick={handleDelete}>
@@ -99,6 +96,4 @@ const ConfirmDelete = ({ itemType, itemId, questionId, onDeletionSuccess }) => {
       </div>
     </div>
   );
-};
-
-export default ConfirmDelete;
+}
