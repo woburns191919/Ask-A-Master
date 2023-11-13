@@ -53,9 +53,10 @@ const cancelButtonStyles = {
   transition: "background-color 0.3s",
 };
 
-export default function ConfirmDelete({ questionId }) {
-  const { closeModal } = useModal();
+export default function ConfirmDelete({ questionId, onDelete }) {
+
   const [allQuestions, setAllQuestions] = useState([]);
+  const { closeModal, setOnCloseCallback } = useModal();
 
   const handleDelete = async () => {
     try {
@@ -64,11 +65,11 @@ export default function ConfirmDelete({ questionId }) {
       });
 
       if (response.ok) {
-        // Update state after successful deletion
-        const updatedQuestions = allQuestions.filter((q) => q.id !== questionId);
-        setAllQuestions(updatedQuestions);
-        closeModal()
-        window.location.reload()
+
+        // setOnCloseCallback(() => onDelete(questionId));
+        closeModal();
+        onDelete()
+        // window.location.reload()
       } else {
         console.error('Failed to delete question:', response.status);
       }

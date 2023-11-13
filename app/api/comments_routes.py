@@ -6,10 +6,33 @@ from app.forms import question_form
 
 comments_routes = Blueprint('comments', __name__)
 
+@comments_routes.route("/<int:comment_id>", methods=['DELETE'])
+@login_required
+def delete_comment(comment_id):
+    """
+    Delete an existing comment
+    """
+
+    if not current_user.is_authenticated:
+        return jsonify({"message": "You need to be logged in"}), 401
+
+    comment_to_delete = Answer.query.get(comment_id)
+
+    if not comment_to_delete:
+        return jsonify({"message": "Comment not found"}), 404
+
+    if comment_to_delete.user_id != current_user.id:
+        return jsonify({"message": "You cannot delete this comment"}), 403
+
+    db.session.delete(comment_to_delete)
+    db.session.commit()
+
+    return jsonify({"message": "Comment deleted successfully"}), 200
+
 @comments_routes.route("/<int:comment_id>/edit", methods=['GET','PUT'])
 @login_required
 def edit_comment(question_id, comment_id):
-  
+
     """
     Edit an existing comment
     """

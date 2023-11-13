@@ -16,16 +16,33 @@ import AddQuestionForm from "../QuestionModal/AddQuestion";
 import ConfirmDelete from "../QuestionModal/ConfirmDelete";
 import { useHistory } from "react-router-dom";
 import Comments from "../Comments";
+import { useModal } from "../../context/Modal";
 
 export default function QuestionAnswers() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [answersForQuestions, setAnswersForQuestions] = useState({});
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
-  const { questionId } = useParams()
+  const { questionId } = useParams();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const history = useHistory()
+  const history = useHistory();
+  const { setModalContent } = useModal();
+
+  const onDeleteQuestion = (deletedQuestionId) => {
+    setAllQuestions((currentQuestions) =>
+      currentQuestions.filter((question) => question.id !== deletedQuestionId)
+    );
+  };
+
+  const openDeleteModal = (questionId) => {
+    setModalContent(
+      <ConfirmDelete
+        questionId={questionId}
+        onDelete={() => onDeleteQuestion(questionId)}
+      />
+    );
+  };
 
   const users = Object.values(
     useSelector((state) =>
@@ -102,7 +119,7 @@ export default function QuestionAnswers() {
 
   const handleBoxClick = (questionId, event) => {
     // Prevent routing if the ellipsis or any of its children is clicked
-    if (event.target.closest('.ellipsis-container')) {
+    if (event.target.closest(".ellipsis-container")) {
       return;
     }
     history.push(`/questions/${questionId}`);
@@ -110,15 +127,17 @@ export default function QuestionAnswers() {
 
   // console.log('questionId from question answers', questionId)
 
-
   return (
     <main className="main-container">
       {allQuestions
         ?.concat()
         .reverse()
         .map((question, index) => (
-          <div className="question-answer-box" key={index}
-          onClick={(e) => handleBoxClick(question.id, e)}>
+          <div
+            className="question-answer-box"
+            key={index}
+            onClick={(e) => handleBoxClick(question.id, e)}
+          >
             <div className="question-box">
               <h5 className="user-name">
                 {question.user_id === sessionUser?.id
@@ -219,12 +238,10 @@ export default function QuestionAnswers() {
                           />
                         }
                       />
-                      <OpenModalButton
-                        buttonText="Delete question"
-                        modalComponent={
-                          <ConfirmDelete questionId={question.id} />
-                        }
-                      />
+                      <button onClick={() => openDeleteModal(question.id)}>
+                        Delete question
+                      </button>
+
                       {/* Add delete option or any other actions */}
                     </>
                   )}
