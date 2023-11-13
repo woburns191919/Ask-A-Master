@@ -18,10 +18,11 @@ const Comments = () => {
   const { openModalWithComponent, setModalContent } = useModal();
 
   const onDeleteComment = (deletedCommentId) => {
-    setAllComments((currentComments) =>
-      currentComments.filter((comment) => comment.id !== deletedCommentId)
+    setAnswers((currentAnswers) =>
+      currentAnswers.filter((answer) => answer.id !== deletedCommentId)
     );
   };
+
 
   const openDeleteModal = (commentId) => {
     setModalContent(
