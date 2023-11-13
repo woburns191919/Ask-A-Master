@@ -29,14 +29,40 @@ export default function QuestionAnswers() {
   const history = useHistory();
   const { setModalContent } = useModal();
 
+  useEffect(() => {
+    (async function () {
+      const allQuestionsData = await fetchAllQuestions();
+      setAllQuestions(allQuestionsData);
+      // console.log("Sample Question:", allQuestionsData[0]);
+    })();
+  }, []);
+
+
+  useEffect(() => {
+    fetchAllQuestions().then((questions) => {
+      setAllQuestions(questions);
+    });
+  }, []);
+
+
+const handleUpdateQuestion = (updatedQuestion) => {
+  setAllQuestions((currentQuestions) =>
+    currentQuestions.map((question) =>
+      question.id === updatedQuestion.id ? updatedQuestion : question
+    )
+  );
+};
+
+
   const onDeleteQuestion = (deletedQuestionId) => {
     setAllQuestions((currentQuestions) =>
       currentQuestions.filter((question) => question.id !== deletedQuestionId)
     );
   };
 
+
   const openDeleteModal = (questionId) => {
-    console.log("Opening delete modal for questionId:", questionId); // Debug log
+    // console.log("Opening delete modal for questionId:", questionId); 
     setModalContent(
       <ConfirmDelete
         itemType="question"
@@ -236,17 +262,22 @@ export default function QuestionAnswers() {
                           <AddQuestionForm
                             formType="Edit"
                             questionId={question.id}
+                            onQuestionUpdated={handleUpdateQuestion}
                             closeModal={closeDropdown}
                           />
                         }
                       />
-                     <button onClick={() => openDeleteModal(question.id)}>Delete question</button>
+                      <button onClick={() => openDeleteModal(question.id)}>
+                        Delete question
+                      </button>
 
-                      {/* {console.log('Active dropdown for question.id:', question.id)} */}
 
-                      {/* Add delete option or any other actions */}
+
+
                     </>
                   )}
+
+
                   {/* <Comments questionId={question.id} /> */}
                 </div>
               )}
