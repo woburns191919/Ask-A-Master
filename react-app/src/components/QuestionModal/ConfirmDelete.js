@@ -53,31 +53,51 @@ const cancelButtonStyles = {
   transition: "background-color 0.3s",
 };
 
-export default function ConfirmDelete({ questionId, onDelete }) {
-
+export default function ConfirmDelete({
+  questionId,
+  onDeletionSuccess,
+  itemType,
+  itemId,
+}) {
+  console.log(
+    "ConfirmDelete rendered with questionId:",
+    questionId,
+    "and itemId:",
+    itemId
+  );
   const [allQuestions, setAllQuestions] = useState([]);
   const { closeModal, setOnCloseCallback } = useModal();
 
+  // console.log("itemId:", itemId);
+  console.log("itemType:", itemType);
+  // console.log("questionId:", questionId);
+
   const handleDelete = async () => {
+    const url =
+      itemType === "comment"
+        ? `/api/questions/${questionId}/comments/${itemId}`
+        : `/api/questions/${questionId}`;
+
+    console.log("Delete URL:", url);
+
     try {
-      const response = await fetch(`/api/questions/${questionId}`, {
-        method: 'DELETE',
+      const response = await fetch(url, {
+        method: "DELETE",
       });
-
       if (response.ok) {
+        if (response.ok) {
+          setOnCloseCallback(() => setTimeout(() => onDeletionSuccess(), 0));
+          closeModal();
+        }
 
-        // setOnCloseCallback(() => onDelete(questionId));
         closeModal();
-        onDelete()
-        // window.location.reload()
       } else {
-        console.error('Failed to delete question:', response.status);
+        console.error("Failed to delete:", response.status);
       }
     } catch (error) {
-      console.error('Error deleting question:', error);
+      console.error("Error:", error);
     }
   };
-
 
   return (
     <div style={modalContainerStyles} onClick={closeModal}>
