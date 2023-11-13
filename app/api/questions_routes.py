@@ -6,6 +6,37 @@ from app.forms import question_form
 
 questions_routes = Blueprint('questions', __name__)
 
+@questions_routes.route("/<int:question_id>", methods=['DELETE'])
+@login_required
+def delete_question(question_id):
+    try:
+        # Check if the user is authenticated
+        if not current_user.is_authenticated:
+            return jsonify(message="You need to be logged in"), 401
+
+        # Retrieve the question to be deleted
+        question_to_delete = Question.query.get(question_id)
+
+        # Check if the question exists
+        if not question_to_delete:
+            return jsonify(message="Question not found"), 404
+
+        # Check if the logged-in user is the owner of the question
+        if question_to_delete.user_id != current_user.id:
+            return jsonify(message="You cannot delete this question"), 403
+
+        # Delete the question from the database
+        db.session.delete(question_to_delete)
+        db.session.commit()
+
+        return jsonify(message="Question deleted successfully"), 200
+
+    except Exception as e:
+        # Log the exception
+        print("Error deleting question:", str(e))
+        return jsonify(message="Internal Server Error"), 500
+
+
 @questions_routes.route("<int:question_id>/answers")
 def get_answers_for_question(question_id):
     """returns answers to a specific question"""

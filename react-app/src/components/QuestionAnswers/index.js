@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { thunkGetAllUsers } from "../../store/session";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles.css";
 import middleGameImage from "../../images/images.png";
@@ -9,19 +10,67 @@ import platforms from "../../images/platforms.jpg";
 import analysis from "../../images/analysis.png";
 import structure from "../../images/structure.jpg";
 import blunders from "../../images/blunder.png";
-// import axios from "axios";
+import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
+import ConfirmDelete from "../QuestionModal/ConfirmDelete";
+import { useHistory } from "react-router-dom";
+import Comments from "../Comments";
+import { useModal } from "../../context/Modal";
 
 export default function QuestionAnswers() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [answersForQuestions, setAnswersForQuestions] = useState({});
-  // const [randomChessImage, setRandomChessImage] = useState("");
+  const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
+  const { questionId } = useParams();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const history = useHistory();
+  const { setModalContent } = useModal();
 
-  // const UnsplashAccessKey = "sEqk1GS_E6oKdR_J2aJGBVGeIc-bxELWHjl_xGB8jq0";
+  useEffect(() => {
+    (async function () {
+      const allQuestionsData = await fetchAllQuestions();
+      setAllQuestions(allQuestionsData);
+      // console.log("Sample Question:", allQuestionsData[0]);
+    })();
+  }, []);
+
+
+  useEffect(() => {
+    fetchAllQuestions().then((questions) => {
+      setAllQuestions(questions);
+    });
+  }, []);
+
+
+const handleUpdateQuestion = (updatedQuestion) => {
+  setAllQuestions((currentQuestions) =>
+    currentQuestions.map((question) =>
+      question.id === updatedQuestion.id ? updatedQuestion : question
+    )
+  );
+};
+
+
+  const onDeleteQuestion = (deletedQuestionId) => {
+    setAllQuestions((currentQuestions) =>
+      currentQuestions.filter((question) => question.id !== deletedQuestionId)
+    );
+  };
+
+
+  const openDeleteModal = (questionId) => {
+    // console.log("Opening delete modal for questionId:", questionId); 
+    setModalContent(
+      <ConfirmDelete
+        itemType="question"
+        questionId={questionId}
+        onDeletionSuccess={() => onDeleteQuestion(questionId)}
+      />
+    );
+  };
 
   const users = Object.values(
     useSelector((state) =>
@@ -31,39 +80,11 @@ export default function QuestionAnswers() {
 
   const sessionUser = useSelector((state) => state.session.user);
 
-  // const fetchRandomChessImage = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "https://api.unsplash.com/photos/random",
-  //       {
-  //         params: {
-  //           query: "chess",
-  //           orientation: "landscape",
-  //         },
-  //         headers: {
-  //           Authorization: `Client-ID ${UnsplashAccessKey}`,
-  //         },
-  //       }
-  //     );
-
-  //     const imageUrl = response.data.urls.regular;
-  //     setRandomChessImage(imageUrl);
-  //   } catch (error) {
-  //     console.error("Failed to fetch random chess image:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchRandomChessImage();
-  // }, []);
-
   const fetchAllQuestions = async () => {
     try {
       const res = await fetch("/api/questions");
-      // console.log('res??', res)
       if (res.ok) {
         const data = await res.json();
-        // console.log('questions', data.questions)
         return data.questions;
       } else {
         console.error("Failed to fetch questions. Status:", res.status);
@@ -112,8 +133,27 @@ export default function QuestionAnswers() {
     dispatch(thunkGetAllUsers());
   }, [dispatch]);
 
-  console.log('user questions', allQuestions.find(question => question.user_id == sessionUser.id))
-  console.log('session user', sessionUser)
+  const toggleDropdown = (questionId) => {
+    setShowDropdown(showDropdown === questionId ? null : questionId);
+  };
+
+  const closeDropdown = () => {
+    setShowDropdown(null);
+  };
+
+  const isCurrentUserAuthor = (question) => {
+    return question.user_id === sessionUser?.id;
+  };
+
+  const handleBoxClick = (questionId, event) => {
+    // Prevent routing if the ellipsis or any of its children is clicked
+    if (event.target.closest(".ellipsis-container")) {
+      return;
+    }
+    history.push(`/questions/${questionId}`);
+  };
+
+  // console.log('questionId from question answers', questionId)
 
   return (
     <main className="main-container">
@@ -121,15 +161,18 @@ export default function QuestionAnswers() {
         ?.concat()
         .reverse()
         .map((question, index) => (
-          <div className="question-answer-box" key={index}>
+          <div
+            className="question-answer-box"
+            key={index}
+            onClick={(e) => handleBoxClick(question.id, e)}
+          >
             <div className="question-box">
               <h5 className="user-name">
-                {question.user_id == sessionUser?.id
+                {question.user_id === sessionUser?.id
                   ? sessionUser?.first_name
                   : users[0]?.find((user) => user.id === question.user_id)
                       ?.first_name}
               </h5>
-
               <h4>{question.body}</h4>
             </div>
             <div className="answer-box">
@@ -203,11 +246,42 @@ export default function QuestionAnswers() {
                 />
               )}
             </div>
-            {question.user_id === sessionUser?.id &&
-            <OpenModalButton
-              buttonText="Edit question"
-              modalComponent={<AddQuestionForm formType="Edit" questionId={question.id} />}
-            />}
+            <div className="ellipsis-container">
+              <img
+                className="ellipsis"
+                src={ellipsis}
+                onClick={() => toggleDropdown(question.id)}
+              />
+              {showDropdown === question.id && (
+                <div className="dropdown">
+                  {isCurrentUserAuthor(question) && (
+                    <>
+                      <OpenModalButton
+                        buttonText="Edit question"
+                        modalComponent={
+                          <AddQuestionForm
+                            formType="Edit"
+                            questionId={question.id}
+                            onQuestionUpdated={handleUpdateQuestion}
+                            closeModal={closeDropdown}
+                          />
+                        }
+                      />
+                      <button onClick={() => openDeleteModal(question.id)}>
+                        Delete question
+                      </button>
+
+
+
+
+                    </>
+                  )}
+
+
+                  {/* <Comments questionId={question.id} /> */}
+                </div>
+              )}
+            </div>
           </div>
         ))}
     </main>

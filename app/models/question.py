@@ -35,7 +35,7 @@ class Question(db.Model):
 
     user = db.relationship('User', back_populates='questions')
     topics = db.relationship('Topic', secondary=question_topic_association, back_populates='questions')
-    answers = db.relationship('Answer', back_populates='question')
+    answers = db.relationship('Answer', back_populates='question', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {
