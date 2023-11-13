@@ -48,7 +48,7 @@ function Navigation({ isLoaded, formType }) {
 
         <OpenModalButton
           buttonText="Ask a question"
-          modalComponent={<AddQuestionForm formType={formType} />}
+          modalComponent={<AddQuestionForm formType="create" />}
         />
 
         <button>Try Quora</button>
