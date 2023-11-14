@@ -54,14 +54,6 @@ def get_question(question_id):
     return jsonify(question.to_dict())
 
 
-@questions_routes.route("/")
-def get_all_questions():
-  """returns a dictionary of all questions"""
-  questions = db.session.query(Question).all()
-  all_questions = {'questions': [question.to_dict() for question in questions]}
-  return jsonify(all_questions)
-
-
 
 @questions_routes.route('/new', methods=['POST'])
 def create_question():
@@ -89,6 +81,16 @@ def create_question():
     db.session.commit()
 
     return jsonify({'message': 'Question created successfully', 'question': new_question.to_dict()}), 201
+
+@questions_routes.route("/")
+def get_all_questions():
+  """returns a dictionary of all questions"""
+  questions = db.session.query(Question).all()
+  all_questions = {'questions': [question.to_dict() for question in questions]}
+  return jsonify(all_questions)
+
+
+
 
 
 @questions_routes.route('/edit/<int:question_id>', methods=['GET', 'PUT'])
