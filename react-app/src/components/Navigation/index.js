@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
@@ -13,22 +13,14 @@ import searchIcon from "../../images/searchIcon.png";
 import spaces from "../../images/spaces.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
-import "./Navigation.css";
 
-function Navigation({ isLoaded, formType }) {
+function Navigation({ onAddQuestion, questionId }) {
+  console.log('question id??', questionId)
   const sessionUser = useSelector((state) => state.session.user);
-  const [allQuestions, setAllQuestions] = useState([]);
-  const history = useHistory();
 
   if (!sessionUser) {
     return null;
   }
-
-  const handleAddQuestion = (newQuestion) => {
-    // console.log('new question received:', newQuestion)
-    setAllQuestions((currentQuestions) => [...currentQuestions, newQuestion]);
-  };
-
 
   return (
     <header className="navBarContainer">
@@ -58,7 +50,8 @@ function Navigation({ isLoaded, formType }) {
         modalComponent={
           <AddQuestionForm
             formType="Create"
-            onQuestionAdded={handleAddQuestion}
+            onQuestionAdded={onAddQuestion}
+
           />
         }
       />
