@@ -103,7 +103,7 @@ export default function ConfirmDelete({
     <div style={modalContainerStyles} onClick={closeModal}>
       <div style={modalContentStyles} onClick={(e) => e.stopPropagation()}>
         <p style={confirmDeleteTextStyles}>
-          Are you sure you want to delete this question?
+          {`Are you sure you want to delete this ${itemType}?`}
         </p>
         <div style={buttonContainerStyles}>
           <button style={deleteButtonStyles} onClick={handleDelete}>
