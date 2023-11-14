@@ -47,14 +47,6 @@ def get_answers_for_question(question_id):
     answers = Answer.query.filter_by(question_id=question_id).all()
     return jsonify({'answers': [answer.to_dict() for answer in answers]})
 
-@questions_routes.route("<int:question_id>")
-def get_question(question_id):
-    """returns a specific question by id"""
-    question = Question.query.get(question_id)
-    return jsonify(question.to_dict())
-
-
-
 @questions_routes.route('/new', methods=['POST'])
 def create_question():
 
@@ -81,6 +73,16 @@ def create_question():
     db.session.commit()
 
     return jsonify({'message': 'Question created successfully', 'question': new_question.to_dict()}), 201
+
+
+@questions_routes.route("<int:question_id>")
+def get_question(question_id):
+    """returns a specific question by id"""
+    question = Question.query.get(question_id)
+    return jsonify(question.to_dict())
+
+
+
 
 @questions_routes.route("/")
 def get_all_questions():
