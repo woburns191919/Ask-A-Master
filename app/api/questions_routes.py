@@ -9,6 +9,8 @@ questions_routes = Blueprint('questions', __name__)
 @questions_routes.route("/<int:question_id>", methods=['DELETE'])
 @login_required
 def delete_question(question_id):
+    print(f"Current User: {current_user}, User ID: {current_user.id}")
+    print(f"Requested Question ID for Deletion: {question_id}")
     try:
         # Check if the user is authenticated
         if not current_user.is_authenticated:
@@ -21,8 +23,10 @@ def delete_question(question_id):
         if not question_to_delete:
             return jsonify(message="Question not found"), 404
 
-        # Check if the logged-in user is the owner of the question
-        if question_to_delete.user_id != current_user.id:
+
+        if str(question_to_delete.user_id) != str(current_user.id):
+            print("User is not the owner of the question")
+            print('question to del id, cur user id', question_to_delete.user_id, current_user.id)
             return jsonify(message="You cannot delete this question"), 403
 
         # Delete the question from the database
@@ -42,22 +46,6 @@ def get_answers_for_question(question_id):
     """returns answers to a specific question"""
     answers = Answer.query.filter_by(question_id=question_id).all()
     return jsonify({'answers': [answer.to_dict() for answer in answers]})
-
-@questions_routes.route("<int:question_id>")
-def get_question(question_id):
-    """returns a specific question by id"""
-    question = Question.query.get(question_id)
-    return jsonify(question.to_dict())
-
-
-@questions_routes.route("/")
-def get_all_questions():
-  """returns a dictionary of all questions"""
-  questions = db.session.query(Question).all()
-  all_questions = {'questions': [question.to_dict() for question in questions]}
-  return jsonify(all_questions)
-
-
 
 @questions_routes.route('/new', methods=['POST'])
 def create_question():
@@ -85,6 +73,26 @@ def create_question():
     db.session.commit()
 
     return jsonify({'message': 'Question created successfully', 'question': new_question.to_dict()}), 201
+
+
+@questions_routes.route("<int:question_id>")
+def get_question(question_id):
+    """returns a specific question by id"""
+    question = Question.query.get(question_id)
+    return jsonify(question.to_dict())
+
+
+
+
+@questions_routes.route("/")
+def get_all_questions():
+  """returns a dictionary of all questions"""
+  questions = db.session.query(Question).all()
+  all_questions = {'questions': [question.to_dict() for question in questions]}
+  return jsonify(all_questions)
+
+
+
 
 
 @questions_routes.route('/edit/<int:question_id>', methods=['GET', 'PUT'])

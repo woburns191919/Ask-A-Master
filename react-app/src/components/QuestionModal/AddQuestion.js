@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { useDispatch, useSelector } from "react-redux";
-import { thunkGetAllUsers } from "../../store/session";
 
 const modalStyles = {
   position: "fixed",
@@ -48,11 +47,7 @@ const buttonStyles = {
   transition: "background-color 0.3s",
 };
 
-const modalButtonStyles = {
-  ...buttonStyles,
-  backgroundColor: "#0050a3", // Darker blue on hover
-};
-// Map of topics where the keys are the topic names
+// Define your topics map
 const topicsMap = {
   "Opening Theory": 1,
   "Middle Game Strategy": 2,
@@ -63,44 +58,64 @@ const topicsMap = {
   "Chess Books and Resources": 7,
 };
 
-export default function AddQuestionForm({ formType = "Create", questionId, onQuestionAdded, onQuestionUpdated }) {
-  const [question, setQuestion] = useState("");
-  const { closeModal } = useModal();
+export default function AddQuestionForm({
+  formType,
+  questionId,
+  onQuestionAdded,
+  onQuestionUpdated,
+}) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [validationObj, setValidationObj] = useState({});
-  const [userProvidedTopic, setUserProvidedTopic] = useState(""); // User-provided topic
+  const [topic, setTopic] = useState("");
+  const { closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
-  const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
-  const ulRef = useRef();
-  const [allQuestions, setAllQuestions] = useState([]);
-
-  const openMenu = () => {
-    if (showMenu) return;
-    setShowMenu(true);
-  };
-
   useEffect(() => {
-    if (!showMenu) return;
-
-    const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
-        setShowMenu(false);
+    const fetchQuestionData = async () => {
+      try {
+        const response = await fetch(`/api/questions/${questionId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setTitle(data.title);
+          setBody(data.body);
+          setTopic(data.topic);
+        } else {
+          console.error("Failed to fetch question data:", response.status);
+        }
+      } catch (error) {
+        console.error("Error fetching question data:", error);
       }
     };
 
-    document.addEventListener("click", closeMenu);
+    if (formType === "Edit" && questionId) {
+      fetchQuestionData();
+    }
+  }, [formType, questionId]);
 
-    return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const fetchHandleQuestion = async (formData) => {
+    const formData = {
+      title,
+      body,
+      user_id: sessionUser.id,
+      topic_id: topicsMap[topic] || 1,
+    };
+
     try {
-      const url = formType === "Edit" ? `/api/questions/edit/${questionId}` : "/api/questions/new";
-      const method = formType === "Edit" ? "PUT" : "POST";
+      let url;
+      let method;
 
-      const res = await fetch(url, {
+      if (formType === "Edit") {
+        // Update URL and method for editing
+        url = `/api/questions/edit/${questionId}`;
+        method = "PUT";
+      } else {
+        // URL and method for creating a new question
+        url = "/api/questions/new";
+        method = "POST";
+      }
+
+      const response = await fetch(url, {
         method: method,
         headers: {
           "Content-Type": "application/json",
@@ -108,110 +123,25 @@ export default function AddQuestionForm({ formType = "Create", questionId, onQue
         body: JSON.stringify(formData),
       });
 
-      const data = await res.json();
-      if (res.ok && formType === "Edit") {
-        // console.log("API response data:", data); // response data
-        onQuestionUpdated(data.question);
-        closeModal();
-        return formType === "Create" ? data.question : data; // 'data.question' is the new question for Create
-      } else {
-        console.error("Failed to handle question. Status:", res.status, data);
-      }
-    } catch (error) {
-      console.error("Error in fetchHandleQuestion:", error);
-    }
-  };
-
-
-  const handleCloseModal = (e) => {
-    if (e.target === e.currentTarget) {
-      closeModal();
-    }
-  };
-
-  // Function to get the topic ID based on the topic name
-  const getTopicId = (topicName) => {
-    return topicsMap[topicName] || null; // Return the topic ID or null if not found
-  };
-
-  useEffect(() => {
-    dispatch(thunkGetAllUsers());
-  }, [dispatch]);
-
-  const fetchQuestion = async () => {
-    try {
-      const res = await fetch(`/api/questions/${questionId}`);
-      console.log("res", res);
-      if (res.ok) {
-        const data = await res.json();
-        // console.log("data from fetch question", data);
-        return data;
-      } else {
-        console.error(
-          "Failed to fetch question data:",
-          res.status,
-          res.statusText
-        );
-        return null;
-      }
-    } catch (error) {
-      console.error("Error in fetchQuestion:", error);
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (formType === 'Edit' && questionId) {
-        try {
-          const res = await fetchQuestion(questionId);
-          if (res) {
-            setTitle(res.title);
-            setQuestion(res.body);
-            setUserProvidedTopic(res.userProvidedTopic);
-          } else {
-            console.error(`Failed to fetch question data for question id: ${questionId}`);
-          }
-        } catch (error) {
-          console.error("Error in fetchQuestion:", error);
+      if (response.ok) {
+        const data = await response.json();
+        if (formType === "Edit") {
+          onQuestionUpdated(data.question); // Update the question
+        } else {
+          onQuestionAdded(data.question); // Add the new question
         }
-      }
-    };
-
-    fetchData();
-  }, [questionId, formType]);
-
-
-  const handleSubmit = async (e) => {
-    // console.log('handle submit from add question')
-    // Convert the user-provided topic to a topic ID
-    e.preventDefault();
-    const topicId = getTopicId(userProvidedTopic);
-
-    const formData = {
-      title,
-      body: question,
-      user_id: sessionUser.id,
-      topic_id: topicId, // Use the converted topic ID
-    };
-    // console.log('form data from handle submit', formData)
-    try {
-      const newQuestion = await fetchHandleQuestion(formData);
-      // console.log('new question***', newQuestion)
-      if (newQuestion && formType === "Create") {
-        onQuestionAdded(newQuestion); // Use the callback
+        closeModal();
+      } else {
+        // Handle errors
+        console.error("Failed to post question:", response.status);
       }
     } catch (error) {
-      console.error("Error processing question:", error.message);
+      console.error("Error posting question:", error);
     }
   };
-
-
-// console.log("onQuestionAdded prop:", onQuestionAdded);
-
 
   return (
-    <div style={modalStyles} onClick={handleCloseModal}>
+    <div style={modalStyles} onClick={() => closeModal()}>
       <div style={modalContentStyles} onClick={(e) => e.stopPropagation()}>
         <label style={labelStyles}>Title</label>
         <input
@@ -224,26 +154,26 @@ export default function AddQuestionForm({ formType = "Create", questionId, onQue
         <label style={labelStyles}>Question</label>
         <textarea
           placeholder="Start your question with 'What', 'How', 'Why', etc."
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
           style={inputStyles}
         />
-        {/* Add an input for the user to provide the topic */}
         <label style={labelStyles}>Topic</label>
-        <input
-          type="text"
-          placeholder="Enter the topic"
-          value={userProvidedTopic}
-          onChange={(e) => setUserProvidedTopic(e.target.value)}
+        <select
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
           style={inputStyles}
-        />
+        >
+          {/* Render options for topics */}
+          {Object.keys(topicsMap).map((topicName) => (
+            <option key={topicName} value={topicName}>
+              {topicName}
+            </option>
+          ))}
+        </select>
         <button onClick={handleSubmit} style={buttonStyles}>
           {formType === "Edit" ? "Update Question" : "Submit Question"}
         </button>
-        <button style={modalButtonStyles} onClick={handleCloseModal}>
-          Cancel
-        </button>
-        {/* {console.log('form type', formType)} */}
       </div>
     </div>
   );

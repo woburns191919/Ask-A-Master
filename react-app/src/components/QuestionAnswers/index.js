@@ -13,64 +13,15 @@ import blunders from "../../images/blunder.png";
 import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
-import ConfirmDelete from "../QuestionModal/ConfirmDelete";
 import { useHistory } from "react-router-dom";
 import Comments from "../Comments";
 import { useModal } from "../../context/Modal";
 
-export default function QuestionAnswers() {
-  const [allQuestions, setAllQuestions] = useState([]);
-  const [answersForQuestions, setAnswersForQuestions] = useState({});
+export default function QuestionAnswers({ allQuestions, answersForQuestions, onUpdateQuestion, openDeleteModal }) {
+
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
-  const { questionId } = useParams();
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
   const history = useHistory();
-  const { setModalContent } = useModal();
-
-  useEffect(() => {
-    (async function () {
-      const allQuestionsData = await fetchAllQuestions();
-      setAllQuestions(allQuestionsData);
-      // console.log("Sample Question:", allQuestionsData[0]);
-    })();
-  }, []);
-
-
-  useEffect(() => {
-    fetchAllQuestions().then((questions) => {
-      setAllQuestions(questions);
-    });
-  }, []);
-
-
-const handleUpdateQuestion = (updatedQuestion) => {
-  setAllQuestions((currentQuestions) =>
-    currentQuestions.map((question) =>
-      question.id === updatedQuestion.id ? updatedQuestion : question
-    )
-  );
-};
-
-
-  const onDeleteQuestion = (deletedQuestionId) => {
-    setAllQuestions((currentQuestions) =>
-      currentQuestions.filter((question) => question.id !== deletedQuestionId)
-    );
-  };
-
-
-  const openDeleteModal = (questionId) => {
-    // console.log("Opening delete modal for questionId:", questionId); 
-    setModalContent(
-      <ConfirmDelete
-        itemType="question"
-        questionId={questionId}
-        onDeletionSuccess={() => onDeleteQuestion(questionId)}
-      />
-    );
-  };
 
   const users = Object.values(
     useSelector((state) =>
@@ -80,54 +31,6 @@ const handleUpdateQuestion = (updatedQuestion) => {
 
   const sessionUser = useSelector((state) => state.session.user);
 
-  const fetchAllQuestions = async () => {
-    try {
-      const res = await fetch("/api/questions");
-      if (res.ok) {
-        const data = await res.json();
-        return data.questions;
-      } else {
-        console.error("Failed to fetch questions. Status:", res.status);
-        return [];
-      }
-    } catch (error) {
-      console.error("Failed to fetch questions:", error);
-      return [];
-    }
-  };
-
-  const fetchAnswersForQuestion = async (questionId) => {
-    try {
-      const res = await fetch(`/api/questions/${questionId}/answers`);
-      if (res.ok) {
-        const data = await res.json();
-        return data.answers;
-      } else {
-        console.error(
-          "Failed to fetch answers for the question. Status:",
-          res.status
-        );
-        return [];
-      }
-    } catch (error) {
-      console.error("Failed to fetch answers for the question:", error);
-      return [];
-    }
-  };
-
-  useEffect(() => {
-    (async function () {
-      const allQuestionsData = await fetchAllQuestions();
-      setAllQuestions(allQuestionsData);
-
-      const answersData = {};
-      for (const question of allQuestionsData) {
-        const answers = await fetchAnswersForQuestion(question.id);
-        answersData[question.id] = answers;
-      }
-      setAnswersForQuestions(answersData);
-    })();
-  }, []);
 
   useEffect(() => {
     dispatch(thunkGetAllUsers());
@@ -153,6 +56,9 @@ const handleUpdateQuestion = (updatedQuestion) => {
     history.push(`/questions/${questionId}`);
   };
 
+
+
+
   // console.log('questionId from question answers', questionId)
 
   return (
@@ -176,7 +82,7 @@ const handleUpdateQuestion = (updatedQuestion) => {
               <h4>{question.body}</h4>
             </div>
             <div className="answer-box">
-              {answersForQuestions[question.id]?.map((answer, i) => (
+              {answersForQuestions && answersForQuestions[question.id]?.map((answer, i) => (
                 <p key={i}>{answer.content}</p>
               ))}
 
@@ -262,7 +168,7 @@ const handleUpdateQuestion = (updatedQuestion) => {
                           <AddQuestionForm
                             formType="Edit"
                             questionId={question.id}
-                            onQuestionUpdated={handleUpdateQuestion}
+                            onQuestionUpdated={onUpdateQuestion}
                             closeModal={closeDropdown}
                           />
                         }
@@ -270,15 +176,9 @@ const handleUpdateQuestion = (updatedQuestion) => {
                       <button onClick={() => openDeleteModal(question.id)}>
                         Delete question
                       </button>
-
-
-
-
                     </>
                   )}
 
-
-                  {/* <Comments questionId={question.id} /> */}
                 </div>
               )}
             </div>

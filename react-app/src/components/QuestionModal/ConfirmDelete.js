@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useModal } from "../../context/Modal";
 
 const modalContainerStyles = {
@@ -54,19 +54,51 @@ const cancelButtonStyles = {
 };
 
 export default function ConfirmDelete({
-  questionId,
+
   onDeletionSuccess,
   itemType,
   itemId,
 }) {
+  const { closeModal, setOnCloseCallback } = useModal();
+  const [questionId, setQuestionId] = useState(null);
+  const [allQuestions, setAllQuestions] = useState([]);
+
+  useEffect(() => {
+    (async function () {
+      const allQuestionsData = await fetchAllQuestions();
+      const questionObj = {}
+      for (let question of allQuestions) {
+        questionObj.id = question.id
+      }
+      setAllQuestions(allQuestionsData);
+      setQuestionId(questionObj.id)
+    })();
+  }, [questionId]);
+
+
+
+  const fetchAllQuestions = async () => {
+    try {
+      const res = await fetch("/api/questions");
+      if (res.ok) {
+        const data = await res.json();
+        return data.questions;
+      } else {
+        console.error("Failed to fetch questions. Status:", res.status);
+        return [];
+      }
+    } catch (error) {
+      console.error("Failed to fetch questions:", error);
+      return [];
+    }
+  };
+
   console.log(
     "ConfirmDelete rendered with questionId:",
     questionId,
     "and itemId:",
     itemId
   );
-  const [allQuestions, setAllQuestions] = useState([]);
-  const { closeModal, setOnCloseCallback } = useModal();
 
   // console.log("itemId:", itemId);
   // console.log("itemType:", itemType);
@@ -103,7 +135,7 @@ export default function ConfirmDelete({
     <div style={modalContainerStyles} onClick={closeModal}>
       <div style={modalContentStyles} onClick={(e) => e.stopPropagation()}>
         <p style={confirmDeleteTextStyles}>
-          Are you sure you want to delete this question?
+          {`Are you sure you want to delete this ${itemType}?`}
         </p>
         <div style={buttonContainerStyles}>
           <button style={deleteButtonStyles} onClick={handleDelete}>
