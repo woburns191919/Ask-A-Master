@@ -38,9 +38,14 @@ function App() {
   useEffect(() => {
     (async function () {
       const allQuestionsData = await fetchAllQuestions();
+      const questionObj = {}
+      for (let question of allQuestions) {
+        questionObj.id = question.id
+      }
       setAllQuestions(allQuestionsData);
+      setQuestionId(questionObj.id)
     })();
-  }, []);
+  }, [questionId]);
 
 
 
@@ -59,38 +64,10 @@ function App() {
       return [];
     }
   };
-  const fetchQuestion = async (id) => {
-    try {
-      const res = await fetch(`/api/questions/${id}`);
-      console.log('res')
-      if (res.ok) {
-        const data = await res.json();
-        return data.question;
-      } else {
-        console.error("Failed to fetch question. Status:", res.status);
-        return [];
-      }
-    } catch (error) {
-      console.error("Failed to fetch questions:", error);
-      return [];
-    }
-  };
-
-  useEffect(() => {
-    if (questionId !== null) {
-      (async function () {
-        const questionData = await fetchQuestion(questionId);
-        if (questionData) {
-          // Update the state with the fetched question data
-          setQuestionId(questionData);
-        }
-      })();
-    }
-  }, [questionId]);
 
 
 
-  console.log('question****', questionId);
+  console.log('question from App.js****', questionId);
   const fetchAnswersForQuestion = async (questionId) => {
     try {
       const res = await fetch(`/api/questions/${questionId}/answers`);
@@ -150,13 +127,13 @@ function App() {
   };
 
 
-// console.log('ids from app.js', questionId, itemId)
+
   return (
     <>
       <Navigation
         isLoaded={isLoaded}
         onAddQuestion={handleAddQuestion}
-        // questionId={questionId}
+        questionId={questionId}
       />
       {isLoaded && (
         <Switch>
@@ -179,6 +156,7 @@ function App() {
               onUpdateQuestion={handleUpdateQuestion}
               onDeleteQuestion={onDeleteQuestion}
               openDeleteModal={openDeleteModal}
+              questionId={questionId}
 
             />
           </ProtectedRoute>

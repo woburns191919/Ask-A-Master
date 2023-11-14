@@ -9,6 +9,8 @@ questions_routes = Blueprint('questions', __name__)
 @questions_routes.route("/<int:question_id>", methods=['DELETE'])
 @login_required
 def delete_question(question_id):
+    print(f"Current User: {current_user}, User ID: {current_user.id}")
+    print(f"Requested Question ID for Deletion: {question_id}")
     try:
         # Check if the user is authenticated
         if not current_user.is_authenticated:
@@ -21,8 +23,10 @@ def delete_question(question_id):
         if not question_to_delete:
             return jsonify(message="Question not found"), 404
 
-        # Check if the logged-in user is the owner of the question
-        if question_to_delete.user_id != current_user.id:
+
+        if str(question_to_delete.user_id) != str(current_user.id):
+            print("User is not the owner of the question")
+            print('question to del id, cur user id', question_to_delete.user_id, current_user.id)
             return jsonify(message="You cannot delete this question"), 403
 
         # Delete the question from the database

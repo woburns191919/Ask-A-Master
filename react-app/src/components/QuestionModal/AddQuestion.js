@@ -62,12 +62,12 @@ export default function AddQuestionForm({ formType, questionId, questionData, on
     const sessionUser = useSelector((state) => state.session.user);
 
     useEffect(() => {
-        if (formType === 'Edit') {
-            setTitle(questionData?.title);
-            setBody(questionData?.body);
-            setTopic(questionData?.topic); // Assuming questionData contains a 'topic' field
+        if (formType === 'Edit' && questionData) {
+          setTitle(questionData.title || '');
+          setBody(questionData.body || '');
+        //   setTopic(questionData.topic || '')
         }
-    }, [formType, questionData]);
+      }, [formType, questionData]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
