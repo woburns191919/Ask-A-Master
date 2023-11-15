@@ -13,6 +13,7 @@ import QuestionAnswers from "./components/QuestionAnswers";
 import { useModal } from "./context/Modal";
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
 import GetTopics from "./components/GetTopics";
+import MainLayout from "./components/MainLayout";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function App() {
   };
 
 
-  const handleUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid
+  const onUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid
     setAllQuestions((currentQuestions) =>
       currentQuestions.map((question) =>
         question.id === updatedQuestion.id ? updatedQuestion : question
@@ -105,7 +106,6 @@ function App() {
       <Navigation
         isLoaded={isLoaded}
         onAddQuestion={handleAddQuestion}
-        // questionId={questionId}
         user={sessionUser}
       />
       {isLoaded && (
@@ -123,13 +123,12 @@ function App() {
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
-            <GetTopics />
-            <QuestionAnswers
-              allQuestions={allQuestions}
-              onUpdateQuestion={handleUpdateQuestion}
-              onDeleteQuestion={onDeleteQuestion}
-              openDeleteModal={openDeleteModal}
-              questionId={questionId}
+            <MainLayout
+            onUpdatequestion={onUpdateQuestion}
+            onDeleteQuestion={onDeleteQuestion}
+            openDeleteModal={openDeleteModal}
+            allQuestions={allQuestions}
+            questionId={questionId}
             />
           </ProtectedRoute>
         </Switch>
