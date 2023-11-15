@@ -6,6 +6,7 @@
 
 
 // const MainLayout = ({ allQuestions, answersForQuestions, questionId }) => {
+ 
 //     return (
 //         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
 //             <div style={{ flex: 1 }}>

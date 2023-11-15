@@ -21,87 +21,12 @@ function App() {
   const [questionId, setQuestionId] = useState(null);
 
   const [allQuestions, setAllQuestions] = useState([]);
-  const [answersForQuestions, setAnswersForQuestions] = useState({});
   const { setModalContent } = useModal();
 
   const handleAddQuestion = (newQuestion) => { // stays here, passed handleAddQuestions as prop to navigation
     setAllQuestions([...allQuestions, newQuestion]);
   };
 
-  useEffect(() => {
-    dispatch(authenticate()).then(() => setIsLoaded(true));
-  }, [dispatch]);
-
-  useEffect(() => {
-    // get all questions. move allQuestions to QuestionAnswers
-    (async function () {
-      const allQuestionsData = await fetchAllQuestions();
-      setAllQuestions(allQuestionsData);
-    })();
-  }, []);
-
-  useEffect(() => {
-    // gets questionId, use in App.js, stays here. questionId passed as prop to navigation, MainLoyout -->  QuestionAnswers
-    (async function () {
-      const questionObj = {};
-      for (let question of allQuestions) {
-        questionObj.id = question.id;
-      }
-      setQuestionId(questionObj.id);
-    })();
-  }, []);
-
-  const fetchAllQuestions = async () => {
-    //fetch for all questions, use in QuestionAnswers, Comments
-    try {
-      const res = await fetch("/api/questions");
-      if (res.ok) {
-        const data = await res.json();
-        return data.questions;
-      } else {
-        console.error("Failed to fetch questions. Status:", res.status);
-        return [];
-      }
-    } catch (error) {
-      console.error("Failed to fetch questions:", error);
-      return [];
-    }
-  };
-
-  console.log("question from App.js****", questionId);
-  const fetchAnswersForQuestion = async (questionId) => {
-    //fetch for answers to questions, Comments
-    try {
-      const res = await fetch(`/api/questions/${questionId}/answers`);
-      if (res.ok) {
-        const data = await res.json();
-        return data.answers;
-      } else {
-        console.error(
-          "Failed to fetch answers for the question. Status:",
-          res.status
-        );
-        return [];
-      }
-    } catch (error) {
-      console.error("Failed to fetch answers for the question:", error);
-      return [];
-    }
-  };
-
-  useEffect(() => { // gets answers for questions, use in Comments
-    (async function () {
-      const allQuestionsData = await fetchAllQuestions();
-      setAllQuestions(allQuestionsData);
-
-      const answersData = {};
-      for (const question of allQuestionsData) {
-        const answers = await fetchAnswersForQuestion(question.id);
-        answersData[question.id] = answers;
-      }
-      setAnswersForQuestions(answersData);
-    })();
-  }, []);
 
   const handleUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid
     setAllQuestions((currentQuestions) =>
@@ -127,6 +52,53 @@ function App() {
       />
     );
   };
+
+  useEffect(() => {
+    dispatch(authenticate()).then(() => setIsLoaded(true));
+  }, [dispatch]);
+
+
+
+  useEffect(() => {
+    // get all questions. stays here. pass allQuestions prop Mainlayout -->  QuestionAnswers
+    //uses fetchAllQuestions
+    (async function () {
+      const allQuestionsData = await fetchAllQuestions();
+      setAllQuestions(allQuestionsData);
+    })();
+  }, []);
+
+  useEffect(() => {
+    // gets questionId, use in App.js, stays here. questionId passed as prop to navigation,
+    // uses local state, no extra fetch needed
+    // MainLoyout -->  QuestionAnswers
+    (async function () {
+      const questionObj = {};
+      for (let question of allQuestions) {
+        questionObj.id = question.id;
+      }
+      setQuestionId(questionObj.id);
+    })();
+  }, []);
+
+  const fetchAllQuestions = async () => {
+    //fetch for all questions, used for allQuestions
+    try {
+      const res = await fetch("/api/questions");
+      if (res.ok) {
+        const data = await res.json();
+        return data.questions;
+      } else {
+        console.error("Failed to fetch questions. Status:", res.status);
+        return [];
+      }
+    } catch (error) {
+      console.error("Failed to fetch questions:", error);
+      return [];
+    }
+  };
+
+  console.log("question from App.js****", questionId);
 
   return (
     <>
