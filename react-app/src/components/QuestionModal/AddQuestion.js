@@ -45,6 +45,7 @@ const buttonStyles = {
   padding: "10px 20px",
   cursor: "pointer",
   transition: "background-color 0.3s",
+
 };
 
 // Define your topics map

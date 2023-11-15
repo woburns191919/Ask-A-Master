@@ -18,6 +18,8 @@
   z-index: 2;
   min-width: 180px;
   text-decoration: none;
+  list-style: none;
+
 }
 
 .hidden {

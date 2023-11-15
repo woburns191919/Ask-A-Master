@@ -71,7 +71,7 @@
 }
 
 
-.navRight button:nth-child(2) {
+.navRight button:nth-child(1) {
   background-color: #b92b27;
   color: white;
   border: none;
@@ -82,9 +82,22 @@
   margin-right: 10px;
   transition: background-color 0.3s;
 }
+.navRight button:nth-child(1) > .user-initial {
+  width: 36px;
+  height: 36px;
+  background-color: #0073e6;
+  color: white;
+  font-size: 18px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border:none;
+  transition: background-color 0.3s;
+}
+
+
 
 .navRight button:nth-child(2):hover {
   background-color: #8c1d19;
 }
-
-
