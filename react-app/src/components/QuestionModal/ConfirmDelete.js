@@ -104,6 +104,10 @@ export default function ConfirmDelete({
   // console.log("itemType:", itemType);
   // console.log("questionId:", questionId);
 
+  useEffect(() => {
+    console.log("ConfirmDelete: questionId =", questionId);
+  }, [questionId]);
+
   const handleDelete = async () => {
     const url =
       itemType === "comment"
@@ -111,6 +115,7 @@ export default function ConfirmDelete({
         : `/api/questions/${questionId}`;
 
     // console.log("Delete URL:", url);
+    console.log("Attempting to delete question with ID:", questionId);
 
     try {
       const response = await fetch(url, {

@@ -14,8 +14,8 @@ import spaces from "../../images/spaces.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 
-function Navigation({ onAddQuestion, questionId }) {
-  console.log('question id??', questionId)
+function Navigation({ onAddQuestion }) {
+  // console.log('question id??', questionId)
   const sessionUser = useSelector((state) => state.session.user);
 
   if (!sessionUser) {
