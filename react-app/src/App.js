@@ -10,17 +10,15 @@ import SignupFormPage from "./components/SignupFormPage";
 import TopicQuestionsPage from "./components/TopicQuestionsPage";
 import Comments from "./components/Comments";
 import QuestionAnswers from "./components/QuestionAnswers";
-import { useModal } from "./context/Modal"
+import { useModal } from "./context/Modal";
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
-import ProfileButton from "./components/Navigation/ProfileButton";
+import GetTopics from "./components/GetTopics";
 
 function App() {
-
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
   const [questionId, setQuestionId] = useState(null);
-
 
   const [allQuestions, setAllQuestions] = useState([]);
   const [answersForQuestions, setAnswersForQuestions] = useState({});
@@ -34,21 +32,17 @@ function App() {
     dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
-
-
   useEffect(() => {
     (async function () {
       const allQuestionsData = await fetchAllQuestions();
-      const questionObj = {}
+      const questionObj = {};
       for (let question of allQuestions) {
-        questionObj.id = question.id
+        questionObj.id = question.id;
       }
       setAllQuestions(allQuestionsData);
-      setQuestionId(questionObj.id)
+      setQuestionId(questionObj.id);
     })();
   }, []);
-
-
 
   const fetchAllQuestions = async () => {
     try {
@@ -66,9 +60,7 @@ function App() {
     }
   };
 
-
-
-  console.log('question from App.js****', questionId);
+  console.log("question from App.js****", questionId);
   const fetchAnswersForQuestion = async (questionId) => {
     try {
       const res = await fetch(`/api/questions/${questionId}/answers`);
@@ -110,11 +102,11 @@ function App() {
     );
   };
 
-    const onDeleteQuestion = (deletedQuestionId) => {
-      setAllQuestions((currentQuestions) =>
-        currentQuestions.filter((question) => question.id !== deletedQuestionId)
-      );
-    };
+  const onDeleteQuestion = (deletedQuestionId) => {
+    setAllQuestions((currentQuestions) =>
+      currentQuestions.filter((question) => question.id !== deletedQuestionId)
+    );
+  };
 
   const openDeleteModal = (questionId) => {
     console.log("Opening delete modal for question ID:", questionId);
@@ -127,14 +119,13 @@ function App() {
     );
   };
 
-
-
   return (
     <>
       <Navigation
         isLoaded={isLoaded}
         onAddQuestion={handleAddQuestion}
         questionId={questionId}
+        user={sessionUser}
       />
       {isLoaded && (
         <Switch>
@@ -151,15 +142,14 @@ function App() {
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
-          <ProfileButton user={sessionUser} />
-            <LandingPage />
+
+            <GetTopics />
             <QuestionAnswers
               allQuestions={allQuestions}
               onUpdateQuestion={handleUpdateQuestion}
               onDeleteQuestion={onDeleteQuestion}
               openDeleteModal={openDeleteModal}
               questionId={questionId}
-
             />
           </ProtectedRoute>
         </Switch>

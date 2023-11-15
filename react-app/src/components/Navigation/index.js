@@ -14,7 +14,8 @@ import spaces from "../../images/spaces.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 
-function Navigation({ onAddQuestion }) {
+
+function Navigation({ onAddQuestion, questionId, user }) {
   // console.log('question id??', questionId)
   const sessionUser = useSelector((state) => state.session.user);
 
@@ -43,7 +44,6 @@ function Navigation({ onAddQuestion }) {
         <input type="search"></input>
       </div>
       <div className="navRight">
-        <ProfileButton />
 
         <OpenModalButton
         buttonText="Ask a question"
@@ -55,6 +55,7 @@ function Navigation({ onAddQuestion }) {
           />
         }
       />
+      {user && <ProfileButton user={user} />}
 
         <button>Try Quora</button>
         <img className="languages" src={languages} alt="languages" />
