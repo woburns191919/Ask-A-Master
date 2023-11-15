@@ -9,8 +9,8 @@ questions_routes = Blueprint('questions', __name__)
 @questions_routes.route("/<int:question_id>", methods=['DELETE'])
 @login_required
 def delete_question(question_id):
-    print(f"Current User: {current_user}, User ID: {current_user.id}")
-    print(f"Requested Question ID for Deletion: {question_id}")
+    print(f"Backend received delete request for question ID: {question_id}")
+    print(f"Current User ID: {current_user.id}")
     try:
         # Check if the user is authenticated
         if not current_user.is_authenticated:

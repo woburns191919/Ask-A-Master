@@ -54,28 +54,21 @@ const cancelButtonStyles = {
 };
 
 export default function ConfirmDelete({
-
   onDeletionSuccess,
   itemType,
   itemId,
+  questionId,
 }) {
   const { closeModal, setOnCloseCallback } = useModal();
-  const [questionId, setQuestionId] = useState(null);
   const [allQuestions, setAllQuestions] = useState([]);
 
   useEffect(() => {
     (async function () {
       const allQuestionsData = await fetchAllQuestions();
-      const questionObj = {}
-      for (let question of allQuestions) {
-        questionObj.id = question.id
-      }
+
       setAllQuestions(allQuestionsData);
-      setQuestionId(questionObj.id)
     })();
-  }, [questionId]);
-
-
+  }, []);
 
   const fetchAllQuestions = async () => {
     try {
@@ -104,6 +97,10 @@ export default function ConfirmDelete({
   // console.log("itemType:", itemType);
   // console.log("questionId:", questionId);
 
+  useEffect(() => {
+    console.log("ConfirmDelete: questionId =", questionId);
+  }, [questionId]);
+
   const handleDelete = async () => {
     const url =
       itemType === "comment"
@@ -111,6 +108,7 @@ export default function ConfirmDelete({
         : `/api/questions/${questionId}`;
 
     // console.log("Delete URL:", url);
+    console.log("Attempting to delete question with ID:", questionId);
 
     try {
       const response = await fetch(url, {
