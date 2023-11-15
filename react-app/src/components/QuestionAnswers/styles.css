@@ -1,42 +1,73 @@
-
-.question-answer-box{
+/* styles.css */
+.question-answer-box {
   padding: 12px 12px 0px;
-  border: 1px solid gray;
-  background-color:white;
+  border: 1px solid #e6e6e6;
+  background-color: white;
   font-size: 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
-
 
 .photos {
-  max-width: 100%;
+  width: 100%;
   height: auto;
-  display: block;
   margin-top: 20px;
 }
-
 
 .question-box, .answer-box {
   margin-top: 10px;
 }
 
-
 .user-name {
   font-weight: 600;
-  color: #161718; /* Quora blue */
-}
-
-.question-answer-box {
-  background-color: #fff; /* White background */
-  margin: 20px 0;
-  padding: 20px;
-  border: 1px solid #e1e1e1;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-  font-size: 16px;
+  color: #2b6dad;
 }
 
 .main-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+.question-answers-container {
+  width: 80%;
+
 }
 
+
+.ellipsis-container {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.dropdown {
+  position: absolute;
+  right: 5;
+  top: 100%;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  z-index: 100;
+  display: none;
+}
+
+.ellipsis-container:hover .dropdown {
+  display: block;
+}
+
+.dropdown button {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  text-align: left;
+  width: 100%;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+}
+
+.dropdown button:hover {
+  background-color: #f2f2f2;
+}

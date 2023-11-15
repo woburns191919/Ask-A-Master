@@ -103,3 +103,35 @@ body {
   font-size: 18px;
   cursor: pointer;
 }
+
+
+
+.error-list {
+  list-style: none;
+  padding: 0;
+  color: #d93025;
+}
+
+.error-item {
+  margin-bottom: 10px;
+}
+
+/* 
+.form-button, .continue-google, .continue-facebook {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+} */
+
+.form-button {
+  background-color: #b92b27;
+  color: white;
+}
+
+/* .form-button:hover {
+  background-color: #9b1f20;
+} */
