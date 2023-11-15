@@ -21,6 +21,12 @@ function LoginFormPage() {
     }
   };
 
+  const handleDemoUserLogin = () => {
+    setEmail("hikaru@email.com");
+    setPassword("password9");
+  };
+
+
   return (
     <div className="login-container">
       <div className="login-left">
@@ -53,6 +59,7 @@ function LoginFormPage() {
             />
           </label>
           <button type="submit" className="form-button">Log In</button>
+          <button type="button" onClick={handleDemoUserLogin}>Demo User</button>
         </form>
       </div>
       <div className="login-right">
