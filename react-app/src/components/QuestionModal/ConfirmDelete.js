@@ -54,28 +54,21 @@ const cancelButtonStyles = {
 };
 
 export default function ConfirmDelete({
-
   onDeletionSuccess,
   itemType,
   itemId,
+  questionId,
 }) {
   const { closeModal, setOnCloseCallback } = useModal();
-  const [questionId, setQuestionId] = useState(null);
   const [allQuestions, setAllQuestions] = useState([]);
 
   useEffect(() => {
     (async function () {
       const allQuestionsData = await fetchAllQuestions();
-      const questionObj = {}
-      for (let question of allQuestions) {
-        questionObj.id = question.id
-      }
+
       setAllQuestions(allQuestionsData);
-      setQuestionId(questionObj.id)
     })();
-  }, [questionId]);
-
-
+  }, []);
 
   const fetchAllQuestions = async () => {
     try {
