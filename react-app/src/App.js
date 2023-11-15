@@ -24,7 +24,7 @@ function App() {
   const [answersForQuestions, setAnswersForQuestions] = useState({});
   const { setModalContent } = useModal();
 
-  const handleAddQuestion = (newQuestion) => {
+  const handleAddQuestion = (newQuestion) => { // stays here, passed handleAddQuestions as prop to navigation
     setAllQuestions([...allQuestions, newQuestion]);
   };
 
@@ -33,18 +33,26 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
+    // get all questions. move allQuestions to QuestionAnswers
     (async function () {
       const allQuestionsData = await fetchAllQuestions();
+      setAllQuestions(allQuestionsData);
+    })();
+  }, []);
+
+  useEffect(() => {
+    // gets questionId, use in App.js, stays here. questionId passed as prop to navigation, MainLoyout -->  QuestionAnswers
+    (async function () {
       const questionObj = {};
       for (let question of allQuestions) {
         questionObj.id = question.id;
       }
-      setAllQuestions(allQuestionsData);
       setQuestionId(questionObj.id);
     })();
   }, []);
 
   const fetchAllQuestions = async () => {
+    //fetch for all questions, use in QuestionAnswers, Comments
     try {
       const res = await fetch("/api/questions");
       if (res.ok) {
@@ -62,6 +70,7 @@ function App() {
 
   console.log("question from App.js****", questionId);
   const fetchAnswersForQuestion = async (questionId) => {
+    //fetch for answers to questions, Comments
     try {
       const res = await fetch(`/api/questions/${questionId}/answers`);
       if (res.ok) {
@@ -80,7 +89,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
+  useEffect(() => { // gets answers for questions, use in Comments
     (async function () {
       const allQuestionsData = await fetchAllQuestions();
       setAllQuestions(allQuestionsData);
@@ -94,7 +103,7 @@ function App() {
     })();
   }, []);
 
-  const handleUpdateQuestion = (updatedQuestion) => {
+  const handleUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid
     setAllQuestions((currentQuestions) =>
       currentQuestions.map((question) =>
         question.id === updatedQuestion.id ? updatedQuestion : question
@@ -102,14 +111,14 @@ function App() {
     );
   };
 
-  const onDeleteQuestion = (deletedQuestionId) => {
+  const onDeleteQuestion = (deletedQuestionId) => {// pass as prop to QuestionAnswer qid
     setAllQuestions((currentQuestions) =>
       currentQuestions.filter((question) => question.id !== deletedQuestionId)
     );
   };
 
   const openDeleteModal = (questionId) => {
-    console.log("Opening delete modal for question ID:", questionId);
+    console.log("Opening delete modal for question ID:", questionId); //pass as prop to QuestionAnswer qid
     setModalContent(
       <ConfirmDelete
         itemType="question"
@@ -124,7 +133,7 @@ function App() {
       <Navigation
         isLoaded={isLoaded}
         onAddQuestion={handleAddQuestion}
-        questionId={questionId}
+        // questionId={questionId}
         user={sessionUser}
       />
       {isLoaded && (
@@ -142,7 +151,6 @@ function App() {
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
-
             <GetTopics />
             <QuestionAnswers
               allQuestions={allQuestions}
