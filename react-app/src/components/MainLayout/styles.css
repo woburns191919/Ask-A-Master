@@ -1,0 +1,17 @@
+.main-layout {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.sidebar {
+  flex: 1;
+  /* Additional styling for sidebar */
+}
+
+.content {
+  flex: 2;
+  /* Additional styling for content */
+}
