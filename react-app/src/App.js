@@ -12,6 +12,7 @@ import Comments from "./components/Comments";
 import QuestionAnswers from "./components/QuestionAnswers";
 import { useModal } from "./context/Modal"
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
+import ProfileButton from "./components/Navigation/ProfileButton";
 
 function App() {
 
@@ -150,6 +151,7 @@ function App() {
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
+          <ProfileButton user={sessionUser} />
             <LandingPage />
             <QuestionAnswers
               allQuestions={allQuestions}

@@ -73,7 +73,7 @@ const TopicQuestionsPage = () => {
           </div>
           <div className="answer-box">
             <h3>{selectedTopic ? selectedTopic.name : ""}</h3>
-            <ul>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {questions.map((question, index) => (
                 <li key={index}>
                   <h4>{question.body}</h4>

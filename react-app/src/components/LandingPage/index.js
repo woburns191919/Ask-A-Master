@@ -1,6 +1,7 @@
 
 import GetTopics from "../GetTopics";
 import QuestionAnswers from "../QuestionAnswers";
+
 import "./styles.css"
 
 export default function LandingPage() {
