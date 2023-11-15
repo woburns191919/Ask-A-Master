@@ -46,7 +46,7 @@ function App() {
       setAllQuestions(allQuestionsData);
       setQuestionId(questionObj.id)
     })();
-  }, [questionId]);
+  }, []);
 
 
 
