@@ -4,9 +4,11 @@
   width:36%
 }
 
+/* access to topics sidebar */
 .topics-main-container a {
-  
+  color: grey
 }
+
 
 .topics-box {
   padding: 10px;
