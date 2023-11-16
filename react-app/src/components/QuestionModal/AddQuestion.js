@@ -63,13 +63,14 @@ export default function AddQuestionForm({
   formType,
   questionId,
   onQuestionAdded,
-  onQuestionUpdated,
+  onUpdateQuestion,
 }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [topic, setTopic] = useState("");
   const { closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
+
   useEffect(() => {
     const fetchQuestionData = async () => {
       try {
@@ -126,8 +127,10 @@ export default function AddQuestionForm({
 
       if (response.ok) {
         const data = await response.json();
+        // console.log('data from AddQuestion', data)
         if (formType === "Edit") {
-          onQuestionUpdated(data.question); // Update the question
+          onUpdateQuestion(data.question); // Update the question
+          // console.log('data.question from add question form', data.question)
         } else {
           onQuestionAdded(data.question); // Add the new question
         }

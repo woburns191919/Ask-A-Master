@@ -1,19 +1,25 @@
 """empty message
 
-Revision ID: 6994cfeba794
-Revises: 
-Create Date: 2023-11-15 17:47:35.704529
+Revision ID: 2855a93283ef
+Revises:
+Create Date: 2023-11-16 09:03:09.714009
 
 """
 from alembic import op
 import sqlalchemy as sa
 
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
+
+
 
 # revision identifiers, used by Alembic.
-revision = '6994cfeba794'
+revision = '2855a93283ef'
 down_revision = None
 branch_labels = None
 depends_on = None
+
 
 
 def upgrade():
@@ -23,6 +29,10 @@ def upgrade():
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE topics SET SCHEMA {SCHEMA};")
+
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=40), nullable=False),
@@ -36,6 +46,10 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+
     op.create_table('questions',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=255), nullable=False),
@@ -48,6 +62,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE questions SET SCHEMA {SCHEMA};")
+
     op.create_table('answers',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -59,14 +76,11 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('question_topic_association',
-    sa.Column('question_id', sa.Integer(), nullable=False),
-    sa.Column('topic_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
-    sa.ForeignKeyConstraint(['topic_id'], ['topics.id'], ),
-    sa.PrimaryKeyConstraint('question_id', 'topic_id')
-    )
-    # ### end Alembic commands ###
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE answers SET SCHEMA {SCHEMA};")
+
+
 
 
 def downgrade():

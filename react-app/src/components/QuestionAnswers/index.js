@@ -18,6 +18,7 @@ import Comments from "../Comments";
 import { useModal } from "../../context/Modal";
 
 export default function QuestionAnswers({ allQuestions, answersForQuestions, onUpdateQuestion, openDeleteModal }) {
+  // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)
 
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
@@ -72,14 +73,14 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
             key={index}
             onClick={(e) => handleBoxClick(question.id, e)}
           >
-            <div className="question-box">
-              <h5 className="user-name">
+            <div className="question-box comment-text">
+              <p className="user-name">
                 {question.user_id === sessionUser?.id
                   ? sessionUser?.first_name
                   : users[0]?.find((user) => user.id === question.user_id)
                       ?.first_name}
-              </h5>
-              <h4>{question.body}</h4>
+              </p>
+              <p>{question.body}</p>
             </div>
             <div className="answer-box">
               {answersForQuestions && answersForQuestions[question.id]?.map((answer, i) => (
@@ -168,7 +169,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                           <AddQuestionForm
                             formType="Edit"
                             questionId={question.id}
-                            onQuestionUpdated={onUpdateQuestion}
+                            onUpdateQuestion={onUpdateQuestion}
                             closeModal={closeDropdown}
                           />
                         }

@@ -8,11 +8,12 @@
 .get-topics-container {
   width: 20%;
   min-width: 200px;
-  /* Add more styles as needed */
+
 }
 
 
 .topic-question-container {
+  /* background-color: #f6f7f8; */
   display: flex;
   justify-content: space-between;
 }
@@ -43,6 +44,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+
 }
 
 .topic-list li {
@@ -50,6 +52,7 @@
   border-bottom: 1px solid #e1e1e1;
   transition: background-color 0.2s;
   list-style: none;
+  
 }
 
 .topic-list li:hover {

@@ -29,7 +29,8 @@ function App() {
   };
 
 
-  const onUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid
+  const onUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid, (now defining in QA)
+    
     setAllQuestions((currentQuestions) =>
       currentQuestions.map((question) =>
         question.id === updatedQuestion.id ? updatedQuestion : question
@@ -74,6 +75,7 @@ function App() {
     // uses local state, no extra fetch needed
     // MainLoyout -->  QuestionAnswers
     (async function () {
+      // const allQuestionsData = await fetchAllQuestions();
       const questionObj = {};
       for (let question of allQuestions) {
         questionObj.id = question.id;
@@ -99,7 +101,8 @@ function App() {
     }
   };
 
-  console.log("question from App.js****", questionId);
+  // console.log("question from App.js****", questionId);
+  // console.log("onUpdateQuestion in App", onUpdateQuestion);
 
   return (
     <>
@@ -124,7 +127,7 @@ function App() {
           </Route>
           <ProtectedRoute path="/" exact>
             <MainLayout
-            onUpdatequestion={onUpdateQuestion}
+            onUpdateQuestion={onUpdateQuestion}// MainLayout --> QuestionAnswers --> AddQuestion
             onDeleteQuestion={onDeleteQuestion}
             openDeleteModal={openDeleteModal}
             allQuestions={allQuestions}

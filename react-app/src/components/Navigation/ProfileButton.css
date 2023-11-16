@@ -3,6 +3,19 @@
   /* border:none; */
   /* width:fit-content; */
 }
+.profileButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
 
 .profile-dropdown {
   position: absolute;
