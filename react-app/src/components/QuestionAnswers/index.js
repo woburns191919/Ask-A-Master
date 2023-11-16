@@ -18,6 +18,7 @@ import Comments from "../Comments";
 import { useModal } from "../../context/Modal";
 
 export default function QuestionAnswers({ allQuestions, answersForQuestions, onUpdateQuestion, openDeleteModal }) {
+  console.log('onUpdateQuestion prop in QA', onUpdateQuestion)
 
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
@@ -168,7 +169,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                           <AddQuestionForm
                             formType="Edit"
                             questionId={question.id}
-                            onQuestionUpdated={onUpdateQuestion}
+                            onUpdateQuestion={onUpdateQuestion}
                             closeModal={closeDropdown}
                           />
                         }

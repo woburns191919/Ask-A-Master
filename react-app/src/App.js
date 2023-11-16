@@ -29,7 +29,8 @@ function App() {
   };
 
 
-  const onUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid
+  const onUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid, (now defining in QA)
+    console.log('onUpdateQuestion called in App', updatedQuestion)
     setAllQuestions((currentQuestions) =>
       currentQuestions.map((question) =>
         question.id === updatedQuestion.id ? updatedQuestion : question
@@ -100,6 +101,7 @@ function App() {
   };
 
   console.log("question from App.js****", questionId);
+  console.log("onUpdateQuestion in App", onUpdateQuestion);
 
   return (
     <>
@@ -124,7 +126,7 @@ function App() {
           </Route>
           <ProtectedRoute path="/" exact>
             <MainLayout
-            onUpdatequestion={onUpdateQuestion}
+            onUpdateQuestion={onUpdateQuestion}// MainLayout --> QuestionAnswers --> AddQuestion
             onDeleteQuestion={onDeleteQuestion}
             openDeleteModal={openDeleteModal}
             allQuestions={allQuestions}
