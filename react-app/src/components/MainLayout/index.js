@@ -6,10 +6,10 @@ import './styles.css';
 const MainLayout = ({ allQuestions, questionId, onUpdateQuestion, onDeleteQuestion, openDeleteModal }) => {
     return (
         <div className="main-layout">
-            <div className="sidebar">
+            <div className="sidebar sidebar-menu">
                 <GetTopics />
             </div>
-            <div className="content">
+            <div className="content main-layout">
                 <QuestionAnswers
                     allQuestions={allQuestions}
                     onUpdateQuestion={onUpdateQuestion}
