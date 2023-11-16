@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useParams } from "react-router-dom";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
@@ -23,6 +23,9 @@ function App() {
 
   const [allQuestions, setAllQuestions] = useState([]);
   const { setModalContent } = useModal();
+
+
+
 
   const handleAddQuestion = (newQuestion) => { // stays here, passed handleAddQuestions as prop to navigation
     setAllQuestions([...allQuestions, newQuestion]);
@@ -101,8 +104,41 @@ function App() {
     }
   };
 
-  // console.log("question from App.js****", questionId);
-  // console.log("onUpdateQuestion in App", onUpdateQuestion);
+
+const TopicLayout = () => {
+  const { id: topicId } = useParams();
+  const [topicQuestions, setTopicQuestions] = useState([]);
+
+  useEffect(() => {
+    // Fetch questions specific to a topic
+    const fetchQuestionsByTopic = async () => {
+      try {
+        const res = await fetch(`/api/topics/${topicId}/questions`);
+        if (res.ok) {
+          const data = await res.json();
+          setTopicQuestions(data.questions);
+        }
+      } catch (error) {
+        console.error('Error fetching topic questions:', error);
+      }
+    };
+
+    fetchQuestionsByTopic();
+  }, [topicId]);
+
+  return (
+    <MainLayout
+      allQuestions={topicQuestions}
+      onUpdateQuestion={onUpdateQuestion}
+      onDeleteQuestion={onDeleteQuestion}
+      openDeleteModal={openDeleteModal}
+      questionId={questionId}
+   
+    />
+  );
+};
+
+
 
   return (
     <>
@@ -120,15 +156,14 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route exact path="/topics/:id">
-            <TopicQuestionsPage />
-            {/* MainTopicLayout --> TopicQuestionsPage */}
+          <TopicLayout />
           </Route>
           <Route exact path="/questions/:id">
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
             <MainLayout
-            onUpdateQuestion={onUpdateQuestion}// MainLayout --> QuestionAnswers --> AddQuestion
+            onUpdateQuestion={onUpdateQuestion}
             onDeleteQuestion={onDeleteQuestion}
             openDeleteModal={openDeleteModal}
             allQuestions={allQuestions}
