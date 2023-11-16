@@ -8,6 +8,12 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+.main-container .question-answer-box {
+  margin-right: 50%;
+  margin-left: -38%
+}
+
+
 .photos {
   width: 100%;
   height: auto;
@@ -36,6 +42,7 @@
   max-width: 800px;
   margin: 20px auto;
   padding: 0 15px;
+
 }
 .question-answers-container {
   width: 80%;
