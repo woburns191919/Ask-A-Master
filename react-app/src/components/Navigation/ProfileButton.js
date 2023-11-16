@@ -39,7 +39,7 @@ function ProfileButton({ user }) {
   const closeMenu = () => setShowMenu(false);
 
   return (
-    <div className="profile-button-container">
+    <div className="profile-button">
       <button onClick={openMenu}>
         {user ? (
           <span className="user-initial">{user.email[0]}</span>
