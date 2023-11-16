@@ -18,7 +18,7 @@ import Comments from "../Comments";
 import { useModal } from "../../context/Modal";
 
 export default function QuestionAnswers({ allQuestions, answersForQuestions, onUpdateQuestion, openDeleteModal }) {
-  console.log('onUpdateQuestion prop in QA', onUpdateQuestion)
+  // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)
 
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();

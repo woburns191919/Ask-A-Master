@@ -30,7 +30,7 @@ function App() {
 
 
   const onUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid, (now defining in QA)
-    console.log('onUpdateQuestion called in App', updatedQuestion)
+    
     setAllQuestions((currentQuestions) =>
       currentQuestions.map((question) =>
         question.id === updatedQuestion.id ? updatedQuestion : question
@@ -75,6 +75,7 @@ function App() {
     // uses local state, no extra fetch needed
     // MainLoyout -->  QuestionAnswers
     (async function () {
+      // const allQuestionsData = await fetchAllQuestions();
       const questionObj = {};
       for (let question of allQuestions) {
         questionObj.id = question.id;
@@ -100,8 +101,8 @@ function App() {
     }
   };
 
-  console.log("question from App.js****", questionId);
-  console.log("onUpdateQuestion in App", onUpdateQuestion);
+  // console.log("question from App.js****", questionId);
+  // console.log("onUpdateQuestion in App", onUpdateQuestion);
 
   return (
     <>
