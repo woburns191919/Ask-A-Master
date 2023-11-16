@@ -30,7 +30,7 @@ function App() {
 
 
   const onUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid, (now defining in QA)
-    
+
     setAllQuestions((currentQuestions) =>
       currentQuestions.map((question) =>
         question.id === updatedQuestion.id ? updatedQuestion : question
@@ -121,6 +121,7 @@ function App() {
           </Route>
           <Route exact path="/topics/:id">
             <TopicQuestionsPage />
+            {/* MainTopicLayout --> TopicQuestionsPage */}
           </Route>
           <Route exact path="/questions/:id">
             <Comments />

@@ -17,6 +17,19 @@ const TopicQuestionsPage = () => {
   const [allTopics, setAllTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState(null);
 
+  const getTopicIcon = (topicName) => {
+    switch (topicName) {
+      case "middleGameImage":
+        return middleGameImage;
+      case "fischer":
+        return fischer;
+
+      default:
+        return blunders;
+    }
+  };
+
+
   const fetchQuestionsByTopic = async () => {
     try {
       const res = await fetch(`/api/topics/${id}/questions`);
@@ -66,6 +79,7 @@ const TopicQuestionsPage = () => {
               {/* Adding a new class for the topics */}
               {allTopics.map((topic) => (
                 <li key={topic.id}>
+                  {/* <img src={getTopicIcon(topic.name)} alt={topic.name} className="topic-icon" /> */}
                   <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
                 </li>
               ))}

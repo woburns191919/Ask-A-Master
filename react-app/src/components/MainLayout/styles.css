@@ -3,7 +3,7 @@
   justify-content: center;
   gap: 20px;
   max-width: 1200px;
- 
+
 
   background-color: #f6f7f8;
   padding: 20px;
@@ -40,3 +40,4 @@
   background-color: #e8e8e8; /* Light grey on hover */
   color: #0073e6; /* Quora blue on hover */
 }
+

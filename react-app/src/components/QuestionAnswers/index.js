@@ -73,13 +73,14 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
             key={index}
             onClick={(e) => handleBoxClick(question.id, e)}
           >
+                  <h5>{question.title}</h5>
             <div className="question-box comment-text">
-              <p className="user-name">
+              Posted by <span className="user-name">
                 {question.user_id === sessionUser?.id
                   ? sessionUser?.first_name
                   : users[0]?.find((user) => user.id === question.user_id)
                       ?.first_name}
-              </p>
+              </span>
               <p>{question.body}</p>
             </div>
             <div className="answer-box">
