@@ -1,7 +1,7 @@
 import React from 'react';
 import GetTopics from '../GetTopics';
 import QuestionAnswers from '../QuestionAnswers';
-import { useParams } from "react-router-dom";
+
 import './styles.css';
 
 const MainLayout = ({ topicId, allQuestions, questionId, onUpdateQuestion, onDeleteQuestion, openDeleteModal }) => {
