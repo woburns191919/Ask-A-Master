@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { thunkGetAllUsers } from "../../store/session";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles.css";
 import middleGameImage from "../../images/images.png";
@@ -14,8 +13,7 @@ import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
-import Comments from "../Comments";
-import { useModal } from "../../context/Modal";
+
 
 export default function QuestionAnswers({ allQuestions, answersForQuestions, onUpdateQuestion, openDeleteModal }) {
   // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)

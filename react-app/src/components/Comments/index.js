@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import ConfirmDelete from "../QuestionModal/ConfirmDelete";
 import { useModal } from "../../context/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { thunkGetAllUsers } from "../../store/session";
 import "./styles.css";
-
 
 const Comments = () => {
   const { id } = useParams();
@@ -15,12 +15,23 @@ const Comments = () => {
   const sessionUser = useSelector((state) => state.session.user);
   const { setModalContent } = useModal();
 
+  const dispatch = useDispatch();
+
+  const users = Object.values(
+    useSelector((state) =>
+      state.session.allUsers ? state.session.allUsers : []
+    )
+  );
+
+  useEffect(() => {
+    dispatch(thunkGetAllUsers());
+  }, [dispatch]);
+
   const onDeleteComment = (deletedCommentId) => {
     setAnswers((currentAnswers) =>
       currentAnswers.filter((answer) => answer.id !== deletedCommentId)
     );
   };
-
 
   const openDeleteModal = (commentId) => {
     setModalContent(
@@ -125,18 +136,25 @@ const Comments = () => {
     }
   };
 
+  // console.log('user find', users[0]?.find(user => user.id === answers[0].user_id).first_name)
+  // users[0]?.map((user) => console.log("user obj id", user.id));
+  // answers?.map((answer) => console.log("answer obj id", answer.id));
 
   return (
     <div className="question-comments-container">
       <div className="question-body">{question}</div>
       <div className="answers-container">
-        <div className="answer-header">{answers.length === 1 ?  "1 Answer" : `${answers.length} Answers`} </div>
+        <div className="answer-header">
+          {answers.length === 1 ? "1 Answer" : `${answers.length} Answers`}{" "}
+        </div>
         {answers.map((answer) => (
           <div className="comment-container" key={answer.id}>
             <div className="comment-content">{answer.content}</div>
             <div className="comment-info">
-              Answered by {answer.user_id} on{" "}
-              {new Date(answer.created_at).toLocaleDateString()}
+              Answered by{" "}
+              {users.length &&
+                users[0].find((user) => user.id == answer.user_id)?.first_name}{" "}
+              on {new Date(answer.created_at).toLocaleDateString()}
               {sessionUser && answer.user_id === sessionUser.id && (
                 <>
                   <button
