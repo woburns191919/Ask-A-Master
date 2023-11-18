@@ -6,15 +6,20 @@ import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkGetAllUsers } from "../../store/session";
 import RelatedTopics from "../RelatedTopics";
+import { useParams } from 'react-router-dom';
+import TopicInfo from "../TopicInfo";
+
 
 const MainLayout = ({
-  topicId,
+
   allQuestions,
   questionId,
   onUpdateQuestion,
   onDeleteQuestion,
   openDeleteModal,
 }) => {
+  const { id: topicId } = useParams(); // This will be undefined on the main page
+
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
 
@@ -32,10 +37,10 @@ const MainLayout = ({
         </div>
         <div className="content">
         {sessionUser && (
-          <div className="ask-share-container">
-            <AskShareComponent />
-          </div>
-        )}
+      <div className="ask-share-container">
+        {topicId ? <TopicInfo topicId={topicId} /> : <AskShareComponent />}
+      </div>
+    )}
           <QuestionAnswers
             allQuestions={allQuestions}
             onUpdateQuestion={onUpdateQuestion}

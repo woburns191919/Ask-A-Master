@@ -37,10 +37,15 @@
 
 .related-topics {
   flex-grow: 1; /* Take less space than main content */
-  max-width: 35%; /* Adjust based on your layout */
+  max-width: 35%;
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height:fit-content;
+  padding: 51px;
+}
+.followers {
+  color: #aaa; 
+  font-weight: 400;
 }

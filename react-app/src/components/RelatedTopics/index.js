@@ -32,10 +32,13 @@ export default function RelatedTopics() {
 
   return (
     <main className="related-topics-main-container">
+      <p className="topic-header">Related Topics</p>
+
       {allTopics.map((topic, i) => (
-        <div className="topics-box" key={i}>
+        <div className="related-topics-box" key={i}>
           <div className="topics">
             <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
+            <p className="followers">{Math.floor(Math.random() * 1000)} k followers</p>
           </div>
         </div>
       ))}
