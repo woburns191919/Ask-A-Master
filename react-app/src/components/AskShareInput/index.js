@@ -22,7 +22,7 @@ export default function AskShareComponent() {
   const [topic, setTopic] = useState("");
 
   const askShareInputStyle = {
-   
+
     padding: '10px',
     margin: '20px 0', // Add margin to separate it from navigation
     backgroundColor: '#fff',
@@ -32,7 +32,7 @@ export default function AskShareComponent() {
     justifyContent: 'center',
     flexDirection: 'column', // Stack inputs vertically
     gap: '10px', // Space between elements
-    width:'20%'
+  
   };
 
   const inputStyle = {
@@ -86,13 +86,13 @@ export default function AskShareComponent() {
 
   return (
     <div style={askShareInputStyle}>
-      <input
+      {/* <input
         type="text"
         placeholder="Title of your question"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         style={inputStyle}
-      />
+      /> */}
       <textarea
         placeholder="What do you want to ask or share?"
         value={body}

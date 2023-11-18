@@ -100,7 +100,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={middleGameImage}
                   alt="middle-game"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px"}}
                 />
               )}
               {question.body.includes("books") && (
@@ -108,7 +108,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={fischer}
                   alt="fischer"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px"}}
                 />
               )}
               {question.body.includes("endgame") && (
@@ -116,7 +116,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={endGame}
                   alt="endgame"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px"}}
                 />
               )}
               {question.body.includes("platforms") && (
@@ -124,7 +124,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={platforms}
                   alt="platforms"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "150px"}}
                 />
               )}
               {question.body.includes("analysis") && (
@@ -132,7 +132,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={analysis}
                   alt="analysis"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px"}}
                 />
               )}
               {question.body.includes("blunders") && (
@@ -140,7 +140,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={blunders}
                   alt="analysis"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px" }}
                 />
               )}
               {question.body.includes("structure") && (
@@ -148,7 +148,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={structure}
                   alt="structure"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px"}}
                 />
               )}
             </div>

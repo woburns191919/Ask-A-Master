@@ -10,7 +10,8 @@
 
 .main-container .question-answer-box {
   margin-right: 50%;
-  margin-left: -38%
+  margin-left: -34%;
+  width: 132%;
 }
 
 
@@ -39,9 +40,7 @@
 
 
 .main-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 0 15px;
+width:fit-content;
 
 }
 .question-answers-container {

@@ -5,6 +5,7 @@ import AskShareComponent from "../AskShareInput";
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkGetAllUsers } from "../../store/session";
+import RelatedTopics from "../RelatedTopics";
 
 const MainLayout = ({
   topicId,
@@ -21,19 +22,20 @@ const MainLayout = ({
     dispatch(thunkGetAllUsers());
   }, [dispatch]);
 
-
   return (
     <div className="main-layout">
-      {sessionUser && (
-        <div className="ask-share-container">
-          <AskShareComponent />
-        </div>
-      )}
-      <div className="content-sidebar-wrapper">
+      <div className="upper-layout">
+      </div>
+      <div className="content-wrapper">
         <div className="sidebar sidebar-menu">
           <GetTopics />
         </div>
         <div className="content">
+        {sessionUser && (
+          <div className="ask-share-container">
+            <AskShareComponent />
+          </div>
+        )}
           <QuestionAnswers
             allQuestions={allQuestions}
             onUpdateQuestion={onUpdateQuestion}
@@ -42,8 +44,17 @@ const MainLayout = ({
             questionId={questionId}
           />
         </div>
+        <div className="related-topics">
+          <RelatedTopics />
+        </div>
       </div>
     </div>
   );
 };
-export default MainLayout;
+export default MainLayout
+
+// allQuestions={allQuestions}
+// onUpdateQuestion={onUpdateQuestion}
+// onDeleteQuestion={onDeleteQuestion}
+// openDeleteModal={openDeleteModal}
+// questionId={questionId}
