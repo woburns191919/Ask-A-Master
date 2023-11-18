@@ -153,7 +153,8 @@ const Comments = () => {
             <div className="comment-info">
               Answered by{" "}
               {users.length &&
-                users[0].find((user) => user.id === answer.user_id)?.first_name}{" "}
+                users[0].find((user) => user.id === answer.user_id)?.first_name}
+                {" "}
               on {new Date(answer.created_at).toLocaleDateString()}
               {sessionUser && answer.user_id === sessionUser.id && (
                 <>

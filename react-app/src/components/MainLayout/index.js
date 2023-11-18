@@ -1,26 +1,49 @@
-import React from 'react';
-import GetTopics from '../GetTopics';
-import QuestionAnswers from '../QuestionAnswers';
+import React, { useEffect } from "react";
+import GetTopics from "../GetTopics";
+import QuestionAnswers from "../QuestionAnswers";
+import AskShareComponent from "../AskShareInput";
+import "./styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import { thunkGetAllUsers } from "../../store/session";
 
-import './styles.css';
+const MainLayout = ({
+  topicId,
+  allQuestions,
+  questionId,
+  onUpdateQuestion,
+  onDeleteQuestion,
+  openDeleteModal,
+}) => {
+  const dispatch = useDispatch();
+  const sessionUser = useSelector((state) => state.session.user);
 
-const MainLayout = ({ topicId, allQuestions, questionId, onUpdateQuestion, onDeleteQuestion, openDeleteModal }) => {
-    // console.log('on update question from MainLayout', onUpdateQuestion)
-    return (
-        <div className="main-layout">
-            <div className="sidebar sidebar-menu">
-                <GetTopics />
-            </div>
-            <div className="content main-layout">
-                <QuestionAnswers
-                    allQuestions={allQuestions}
-                    onUpdateQuestion={onUpdateQuestion}
-                    onDeleteQuestion={onDeleteQuestion}
-                    openDeleteModal={openDeleteModal}
-                    questionId={questionId} />
-            </div>
+  useEffect(() => {
+    dispatch(thunkGetAllUsers());
+  }, [dispatch]);
+
+
+  return (
+    <div className="main-layout">
+      {sessionUser && (
+        <div className="ask-share-container">
+          <AskShareComponent />
         </div>
-    );
+      )}
+      <div className="content-sidebar-wrapper">
+        <div className="sidebar sidebar-menu">
+          <GetTopics />
+        </div>
+        <div className="content">
+          <QuestionAnswers
+            allQuestions={allQuestions}
+            onUpdateQuestion={onUpdateQuestion}
+            onDeleteQuestion={onDeleteQuestion}
+            openDeleteModal={openDeleteModal}
+            questionId={questionId}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
-
 export default MainLayout;

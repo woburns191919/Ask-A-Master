@@ -48,7 +48,7 @@ const buttonStyles = {
 
 };
 
-// Define your topics map
+
 const topicsMap = {
   "Opening Theory": 1,
   "Middle Game Strategy": 2,

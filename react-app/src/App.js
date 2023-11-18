@@ -12,6 +12,7 @@ import Comments from "./components/Comments";
 
 import { useModal } from "./context/Modal";
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
+import AskShareComponent from "./components/AskShareInput";
 
 import MainLayout from "./components/MainLayout";
 
@@ -155,6 +156,7 @@ function App() {
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
+         
             <MainLayout
               onUpdateQuestion={onUpdateQuestion}
               onDeleteQuestion={onDeleteQuestion}
