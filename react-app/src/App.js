@@ -156,13 +156,15 @@ function App() {
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
-         
+
             <MainLayout
               onUpdateQuestion={onUpdateQuestion}
               onDeleteQuestion={onDeleteQuestion}
               openDeleteModal={openDeleteModal}
               allQuestions={allQuestions}
               questionId={questionId}
+              handleAddQuestion={handleAddQuestion}
+
             />
           </ProtectedRoute>
         </Switch>

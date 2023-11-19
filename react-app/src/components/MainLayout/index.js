@@ -11,14 +11,14 @@ import TopicInfo from "../TopicInfo";
 
 
 const MainLayout = ({
-
   allQuestions,
   questionId,
   onUpdateQuestion,
   onDeleteQuestion,
   openDeleteModal,
+  handleAddQuestion
 }) => {
-  const { id: topicId } = useParams(); // This will be undefined on the main page
+  const { id: topicId } = useParams(); //  undefined on main page
 
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
@@ -38,7 +38,7 @@ const MainLayout = ({
         <div className="content">
         {sessionUser && (
       <div className="ask-share-container">
-        {topicId ? <TopicInfo topicId={topicId} /> : <AskShareComponent />}
+        {topicId ? <TopicInfo topicId={topicId} /> : <AskShareComponent handleAddQuestion={handleAddQuestion}/>}
       </div>
     )}
           <QuestionAnswers
