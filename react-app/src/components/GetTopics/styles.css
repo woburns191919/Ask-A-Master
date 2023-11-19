@@ -1,17 +1,24 @@
 .topics-main-container {
-  background-color: white;
+  background-color: #f6f7f8;
   padding: 20px;
+  width:56%
 }
+
+/* access to topics sidebar */
+.topics-main-container a {
+  color: grey
+}
+
 
 .topics-box {
   padding: 10px;
-  border: 1px solid #e1e1e1;
+  /* border: 1px solid #e1e1e1; */
   transition: background 0.3s, border 0.3s;
 }
 
 .topics-box:hover {
   background-color: #f5f5f5;
-  border: 1px solid #242525;
+  /* border: 1px solid #242525; */
   cursor: pointer;
 }
 

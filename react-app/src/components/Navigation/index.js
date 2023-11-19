@@ -30,8 +30,8 @@ function Navigation({ onAddQuestion, user }) {
         </div>
         <div className="navItems">
           <img className="navIcon" src={home} alt="home" />
-          <img className="navIcon" src={answer} alt="answer" />
           <img className="navIcon" src={following} alt="following" />
+          <img className="navIcon" src={answer} alt="answer" />
           <img className="navIcon" src={spaces} alt="spaces" />
           <img className="navIcon" src={notifications} alt="notifications" />
           <div className="searchBar">
@@ -42,7 +42,8 @@ function Navigation({ onAddQuestion, user }) {
             {user && <ProfileButton user={user} style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#0073e6', color: 'white', border: 'none' }}/>}
             <img className="languagesIcon" src={languages} alt="languages" />
             <OpenModalButton
-              buttonText="Ask a Question"
+            
+              buttonText="Add Question"
               modalComponent={<AddQuestionForm formType="Create" onQuestionAdded={onAddQuestion}
               style={{ backgroundColor: '#b92b27', color: 'white', border: 'none', borderRadius: '20px', padding: '8px 15px', cursor: 'pointer' }}/>}
             />

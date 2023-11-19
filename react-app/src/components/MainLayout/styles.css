@@ -1,42 +1,51 @@
 .main-layout {
+  display:flex;
+  flex-direction:column;
+  background-color: #f6f7f8;
+  width: 100%;
+}
+
+
+.content-sidebar-wrapper {
+ display:flex;
+ gap:20%
+}
+
+.ask-share-container {
+  margin-right: 50%;
+  margin-left: -34%;
+  width: 132%;
+  max-width: 800px; /* Adjust based on your design */
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content-wrapper {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  max-width: 1200px;
-  /* width: 650px; */
-  margin: 20px auto;
-  background-color: #f6f7f8;
-  padding: 20px;
+  justify-content: space-between;
+  gap: 20px; /* Adjust as needed */
+  padding: 20px 0; /* Vertical padding */
+  padding-top:4%;
 }
-
-.sidebar {
-  background-color: #f6f7f8;
-  flex: 1;
-
-}
-
 
 .content {
-  background-color: #f6f7f8;
-  flex: 2;
+  flex-grow: 2; /* Take more space */
+  max-width: 40%;
+  width: 35%;
 
 }
 
-.sidebar-menu  {
-  list-style-type: none; /* Removes default bullet points */
-  padding: 0;
-  margin: 0;
+.related-topics {
+  flex-grow: 1; /* Take less space than main content */
+  max-width: 35%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height:fit-content;
+  padding: 51px;
 }
-
-.sidebar-menu  {
-  padding: 8px 0;
-  font-size: 16px;
-  color: #333; /* Dark grey for text */
-  cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.sidebar-menu li:hover {
-  background-color: #e8e8e8; /* Light grey on hover */
-  color: #0073e6; /* Quora blue on hover */
+.followers {
+  color: #aaa; 
+  font-weight: 400;
 }

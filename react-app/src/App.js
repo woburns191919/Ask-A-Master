@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useParams } from "react-router-dom";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
-import LandingPage from "./components/LandingPage";
+
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
-import TopicQuestionsPage from "./components/TopicQuestionsPage";
+
 import Comments from "./components/Comments";
-import QuestionAnswers from "./components/QuestionAnswers";
+
 import { useModal } from "./context/Modal";
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
-import GetTopics from "./components/GetTopics";
+import AskShareComponent from "./components/AskShareInput";
+
 import MainLayout from "./components/MainLayout";
 
 function App() {
@@ -24,13 +25,14 @@ function App() {
   const [allQuestions, setAllQuestions] = useState([]);
   const { setModalContent } = useModal();
 
-  const handleAddQuestion = (newQuestion) => { // stays here, passed handleAddQuestions as prop to navigation
+  const handleAddQuestion = (newQuestion) => {
+    // stays here, passed handleAddQuestions as prop to navigation
     setAllQuestions([...allQuestions, newQuestion]);
   };
 
+  const onUpdateQuestion = (updatedQuestion) => {
+    // pass as prop to QuestionAnswer qid, (now defining in QA)
 
-  const onUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid, (now defining in QA)
-    
     setAllQuestions((currentQuestions) =>
       currentQuestions.map((question) =>
         question.id === updatedQuestion.id ? updatedQuestion : question
@@ -38,7 +40,8 @@ function App() {
     );
   };
 
-  const onDeleteQuestion = (deletedQuestionId) => {// pass as prop to QuestionAnswer qid
+  const onDeleteQuestion = (deletedQuestionId) => {
+    // pass as prop to QuestionAnswer qid
     setAllQuestions((currentQuestions) =>
       currentQuestions.filter((question) => question.id !== deletedQuestionId)
     );
@@ -58,8 +61,6 @@ function App() {
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
-
-
 
   useEffect(() => {
     // get all questions. stays here. pass allQuestions prop Mainlayout -->  QuestionAnswers
@@ -101,8 +102,37 @@ function App() {
     }
   };
 
-  // console.log("question from App.js****", questionId);
-  // console.log("onUpdateQuestion in App", onUpdateQuestion);
+  const TopicLayout = () => {
+    const { id: topicId } = useParams();
+    const [topicQuestions, setTopicQuestions] = useState([]);
+
+    useEffect(() => {
+      // Fetch questions specific to a topic
+      const fetchQuestionsByTopic = async () => {
+        try {
+          const res = await fetch(`/api/topics/${topicId}/questions`);
+          if (res.ok) {
+            const data = await res.json();
+            setTopicQuestions(data.questions);
+          }
+        } catch (error) {
+          console.error("Error fetching topic questions:", error);
+        }
+      };
+
+      fetchQuestionsByTopic();
+    }, [topicId]);
+
+    return (
+      <MainLayout
+        allQuestions={topicQuestions}
+        onUpdateQuestion={onUpdateQuestion}
+        onDeleteQuestion={onDeleteQuestion}
+        openDeleteModal={openDeleteModal}
+        questionId={questionId}
+      />
+    );
+  };
 
   return (
     <>
@@ -120,18 +150,19 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route exact path="/topics/:id">
-            <TopicQuestionsPage />
+            <TopicLayout />
           </Route>
           <Route exact path="/questions/:id">
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
+         
             <MainLayout
-            onUpdateQuestion={onUpdateQuestion}// MainLayout --> QuestionAnswers --> AddQuestion
-            onDeleteQuestion={onDeleteQuestion}
-            openDeleteModal={openDeleteModal}
-            allQuestions={allQuestions}
-            questionId={questionId}
+              onUpdateQuestion={onUpdateQuestion}
+              onDeleteQuestion={onDeleteQuestion}
+              openDeleteModal={openDeleteModal}
+              allQuestions={allQuestions}
+              questionId={questionId}
             />
           </ProtectedRoute>
         </Switch>

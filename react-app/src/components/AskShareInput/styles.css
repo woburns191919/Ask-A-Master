@@ -1,0 +1,25 @@
+
+
+.ask-share-input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.ask-share-input input {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.ask-share-input button {
+  padding: 8px 15px;
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

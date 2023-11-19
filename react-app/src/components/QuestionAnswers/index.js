@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { thunkGetAllUsers } from "../../store/session";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles.css";
 import middleGameImage from "../../images/images.png";
@@ -14,8 +13,7 @@ import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
-import Comments from "../Comments";
-import { useModal } from "../../context/Modal";
+
 
 export default function QuestionAnswers({ allQuestions, answersForQuestions, onUpdateQuestion, openDeleteModal }) {
   // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)
@@ -73,13 +71,14 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
             key={index}
             onClick={(e) => handleBoxClick(question.id, e)}
           >
+                  <h5>{question.title}</h5>
             <div className="question-box comment-text">
-              <p className="user-name">
+              Posted by <span className="user-name">
                 {question.user_id === sessionUser?.id
                   ? sessionUser?.first_name
                   : users[0]?.find((user) => user.id === question.user_id)
                       ?.first_name}
-              </p>
+              </span>
               <p>{question.body}</p>
             </div>
             <div className="answer-box">
@@ -101,7 +100,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={middleGameImage}
                   alt="middle-game"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px"}}
                 />
               )}
               {question.body.includes("books") && (
@@ -109,7 +108,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={fischer}
                   alt="fischer"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px"}}
                 />
               )}
               {question.body.includes("endgame") && (
@@ -117,7 +116,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={endGame}
                   alt="endgame"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px"}}
                 />
               )}
               {question.body.includes("platforms") && (
@@ -125,7 +124,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={platforms}
                   alt="platforms"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "150px"}}
                 />
               )}
               {question.body.includes("analysis") && (
@@ -133,7 +132,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={analysis}
                   alt="analysis"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px"}}
                 />
               )}
               {question.body.includes("blunders") && (
@@ -141,7 +140,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={blunders}
                   alt="analysis"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px" }}
                 />
               )}
               {question.body.includes("structure") && (
@@ -149,7 +148,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                   className="photos"
                   src={structure}
                   alt="structure"
-                  style={{ height: "150px", width: "250px" }}
+                  style={{ height: "170px"}}
                 />
               )}
             </div>
