@@ -8,8 +8,13 @@ from sqlalchemy import func, distinct, or_, desc
 
 topics_routes = Blueprint('topics', __name__)
 
+
+
+
+
+
 @topics_routes.route('/<int:topic_id>/questions')
-def get_questions_by_topic(topic_id):
+def get_topic_info(topic_id):
     """
     returns questions by specific topic
     """
@@ -22,9 +27,24 @@ def get_questions_by_topic(topic_id):
 
 
 
+@topics_routes.route('/<int:topic_id>')
+def get_questions_by_topic(topic_id):
+    """
+    returns topic info
+    """
+    topic = Topic.query.get(topic_id)
+
+    if not topic:
+        return jsonify({'error': 'No info found for this topic'}), 404
+
+    return jsonify({'topic': topic.to_dict()})
+
+
+
 @topics_routes.route("/")
 def get_all_topics():
   """returns a dictionary of all topics"""
   topics = db.session.query(Topic).all()
   all_topics = {'topics': [topic.to_dict() for topic in topics]}
   return jsonify(all_topics)
+

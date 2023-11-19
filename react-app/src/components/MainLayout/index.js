@@ -16,7 +16,8 @@ const MainLayout = ({
   onUpdateQuestion,
   onDeleteQuestion,
   openDeleteModal,
-  handleAddQuestion
+  handleAddQuestion,
+  handleTopicCreated
 }) => {
   const { id: topicId } = useParams(); //  undefined on main page
 
@@ -33,7 +34,7 @@ const MainLayout = ({
       </div>
       <div className="content-wrapper">
         <div className="sidebar sidebar-menu">
-          <GetTopics />
+          <GetTopics handleTopicCreated={handleTopicCreated}/>
         </div>
         <div className="content">
         {sessionUser && (
@@ -47,6 +48,8 @@ const MainLayout = ({
             onDeleteQuestion={onDeleteQuestion}
             openDeleteModal={openDeleteModal}
             questionId={questionId}
+            handleTopicCreated={handleTopicCreated}
+
           />
         </div>
         <div className="related-topics">

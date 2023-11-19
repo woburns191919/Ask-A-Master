@@ -10,9 +10,12 @@ function TopicInfo() {
     const fetchTopicInfo = async () => {
       try {
         const response = await fetch(`/api/topics/${topicId}`);
+
         if (response.ok) {
+
           const data = await response.json();
           setTopicInfo(data.topic);
+          console.log('data from TopicInfo**', data)
         } else {
           console.error("Failed to fetch topic info. Status:", response.status);
         }
@@ -33,7 +36,7 @@ function TopicInfo() {
   return (
     <div className="topic-info-container">
       <h2>{topicInfo.name}</h2>
-      <p className="followers">Followers: {topicInfo.followerCount}</p>
+      {/* <p className="followers">Followers: {topicInfo.followerCount}</p> */}
       {/* Implement ellipsis dropdown here */}
     </div>
   );

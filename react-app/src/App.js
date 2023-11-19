@@ -25,6 +25,13 @@ function App() {
   const [allQuestions, setAllQuestions] = useState([]);
   const { setModalContent } = useModal();
 
+  const [topics, setTopics] = useState([]);
+
+const handleTopicCreated = (newTopic) => {
+  setTopics([...topics, newTopic]);
+};
+
+
   const handleAddQuestion = (newQuestion) => {
     // stays here, passed handleAddQuestions as prop to navigation
     setAllQuestions([...allQuestions, newQuestion]);
@@ -164,6 +171,7 @@ function App() {
               allQuestions={allQuestions}
               questionId={questionId}
               handleAddQuestion={handleAddQuestion}
+              handleTopicCreated={handleTopicCreated}
 
             />
           </ProtectedRoute>
