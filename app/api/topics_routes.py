@@ -10,6 +10,28 @@ topics_routes = Blueprint('topics', __name__)
 
 
 
+@topics_routes.route("/new", methods=["POST"])
+#  @login_required
+def create_topic():
+    """
+    Create a new topic.
+    """
+    data = request.json
+
+    # Check if the 'name' key is in the request data
+    if 'name' not in data:
+        return jsonify({'error': 'Name is required'}), 400
+
+    # Check if a topic with this name already exists
+    existing_topic = Topic.query.filter_by(name=data['name']).first()
+    if existing_topic:
+        return jsonify({'error': 'A topic with this name already exists'}), 400
+
+    new_topic = Topic(name=data['name'])
+    db.session.add(new_topic)
+    db.session.commit()
+
+    return jsonify(new_topic.to_dict()), 201
 
 
 
@@ -47,4 +69,3 @@ def get_all_topics():
   topics = db.session.query(Topic).all()
   all_topics = {'topics': [topic.to_dict() for topic in topics]}
   return jsonify(all_topics)
-
