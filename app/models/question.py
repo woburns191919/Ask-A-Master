@@ -2,6 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
+from ..models.user import saved_questions_association
 
 def add_prefix_for_prod(attr):
     if environment == "production":
@@ -14,6 +15,8 @@ question_topic_association = db.Table(
     db.Column('question_id', db.Integer, db.ForeignKey(add_prefix_for_prod('questions.id')), primary_key=True),
     db.Column('topic_id', db.Integer, db.ForeignKey(add_prefix_for_prod('topics.id')), primary_key=True)
 )
+
+
 
 if environment == "production":
     question_topic_association.schema=SCHEMA
@@ -36,6 +39,7 @@ class Question(db.Model):
     user = db.relationship('User', back_populates='questions')
     topics = db.relationship('Topic', secondary=question_topic_association, back_populates='questions')
     answers = db.relationship('Answer', back_populates='question', cascade='all, delete-orphan')
+    saved_by = db.relationship('User', secondary=saved_questions_association, back_populates='saved_questions')
 
     def to_dict(self):
         return {

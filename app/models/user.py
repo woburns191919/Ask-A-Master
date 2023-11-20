@@ -8,6 +8,15 @@ from sqlalchemy.orm import relationship
 from app.models import db
 from flask_login import UserMixin
 
+saved_questions_association = db.Table(
+    'saved_questions',
+    db.Column('user_id', db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), primary_key=True),
+    db.Column('question_id', db.Integer, db.ForeignKey(add_prefix_for_prod('questions.id')), primary_key=True)
+)
+
+if environment == "production":
+    saved_questions_association.schema = SCHEMA
+
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -25,6 +34,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(40), nullable=True)
 
     questions = db.relationship("Question", back_populates="user")
+    saved_questions = db.relationship('Question', secondary=saved_questions_association, back_populates='saved_by')
     answers = db.relationship("Answer", back_populates="user")
 
     @property
