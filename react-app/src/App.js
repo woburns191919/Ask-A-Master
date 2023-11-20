@@ -28,11 +28,16 @@ function App() {
   const { setModalContent } = useModal();
 
   const [topics, setTopics] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+
 
   // const handleTopicCreated = (newTopic) => {
   //   console.log('handleTopicCreated called with:', newTopic);
   //   setTopics([...topics, newTopic]);
   // };
+  const updateSearchResults = (newResults) => {
+    setSearchResults(newResults);
+  };
 
 
   const handleAddQuestion = (newQuestion) => {
@@ -150,6 +155,7 @@ function App() {
         isLoaded={isLoaded}
         onAddQuestion={handleAddQuestion}
         user={sessionUser}
+        updateSearchResults={updateSearchResults}
       />
       {isLoaded && (
         <Switch>
@@ -180,6 +186,9 @@ function App() {
           </ProtectedRoute>
           <Route path="/saved-questions">
             <SavedQuestions userId={sessionUser?.id} />
+          </Route>
+          <Route exact path="/search-results">
+            <SearchResults searchResults={searchResults}/>
           </Route>
         </Switch>
       )}

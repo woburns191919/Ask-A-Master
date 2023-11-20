@@ -13,10 +13,14 @@ import searchIcon from "../../images/searchIcon.png";
 import languages from "../../images/languages.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
+import { useHistory } from "react-router-dom";
+import SearchResultsComponent from "../SearchResults";
 
-function Navigation({ onAddQuestion, user }) {
+function Navigation({ onAddQuestion, user, updateSearchResults }) {
   const [searchTerm, setSearchTerm] = useState("");
+
   const sessionUser = useSelector((state) => state.session.user);
+  const history = useHistory()
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -30,7 +34,9 @@ function Navigation({ onAddQuestion, user }) {
       if (response.ok) {
         const data = await response.json();
         // Handle search results
-        console.log(data); // For now, just logging it
+        updateSearchResults(data)
+        history.push('/search-results')
+
       } else {
         console.error("Search failed");
       }
@@ -38,6 +44,7 @@ function Navigation({ onAddQuestion, user }) {
       console.error("Error during search:", error);
     }
   };
+  // console.log('results?', searchResults)
 
 
     if (!sessionUser) {
@@ -62,8 +69,9 @@ function Navigation({ onAddQuestion, user }) {
             placeholder="Search Quora"
             value={searchTerm}
             onChange={handleSearchChange}
+
             />
-             <button onClick={() => performSearch()}>Search</button> 
+             <button onClick={() => performSearch()}>Search</button>
           </div>
             <button className="tryQuoraButton">Try Quora+</button>
           <div className="navActions" style={{ display: 'flex', alignItems: 'center', gap: '10px' }} >
