@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useModal } from "../../context/Modal";
+import { useHistory } from "react-router-dom";
+
 
 export default function CreateTopicForm({ addNewTopic }) {
   console.log("Rendering CreateTopicForm");
@@ -56,11 +58,9 @@ export default function CreateTopicForm({ addNewTopic }) {
 
   };
 
-  const handleTopicCreated = (newTopic) => {
-    console.log('handleTopicCreated called with:', newTopic);
-    setTopics([...topics, newTopic]);
-  };
+  const history = useHistory()
 
+ 
 
   const handleSubmit = async (e) => {
     console.log('inside handle submit')
@@ -83,7 +83,9 @@ export default function CreateTopicForm({ addNewTopic }) {
       const newTopic = await response.json();
       console.log('New topic created:', newTopic);
       addNewTopic(newTopic);
+
       closeModal();
+      history.push(`/topics/${newTopic.id}`);
     } else {
       console.error("Failed to create topic");
     }
@@ -109,9 +111,13 @@ export default function CreateTopicForm({ addNewTopic }) {
             onChange={(e) => setDescription(e.target.value)}
             style={inputStyles}
           /> */}
-          <button type="submit" style={buttonStyles}>
+
+
+          <button type="submit" style={buttonStyles}
+          >
             Create Topic
           </button>
+
         </form>
       </div>
     </div>

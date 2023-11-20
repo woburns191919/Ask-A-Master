@@ -53,12 +53,15 @@ export default function GetTopics() {
         <OpenModalButton
           buttonText="Create Space"
           modalComponent={
-            <CreateTopicForm addNewTopic={addNewTopic} />
+            <CreateTopicForm addNewTopic={addNewTopic}
+            />
           }
           onButtonClick={handleOpenModalClick}
         />
       </div>
-      {allTopics.map((topic, i) => (
+      {allTopics ?.concat()
+        .reverse()
+        .map((topic, i) => (
         <div className="topics-box" key={topic.id}>
           <div className="topics">
             <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
