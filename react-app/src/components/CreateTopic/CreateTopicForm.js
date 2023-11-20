@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useModal } from "../../context/Modal";
 
-export default function CreateTopicForm({ handleTopicCreated }) {
+export default function CreateTopicForm({ addNewTopic }) {
   console.log("Rendering CreateTopicForm");
   const [topicName, setTopicName] = useState("");
   const [description, setDescription] = useState("");
   const { closeModal } = useModal();
+  const [topics, setTopics] = useState([]);
 
 
 
@@ -55,6 +56,12 @@ export default function CreateTopicForm({ handleTopicCreated }) {
 
   };
 
+  const handleTopicCreated = (newTopic) => {
+    console.log('handleTopicCreated called with:', newTopic);
+    setTopics([...topics, newTopic]);
+  };
+
+
   const handleSubmit = async (e) => {
     console.log('inside handle submit')
     e.preventDefault();
@@ -72,12 +79,11 @@ export default function CreateTopicForm({ handleTopicCreated }) {
         description,
       }),
     });
-
     if (response.ok) {
       const newTopic = await response.json();
-      handleTopicCreated(newTopic.topic);
-      setTopicName("");
-      // setDescription("");
+      console.log('New topic created:', newTopic);
+      addNewTopic(newTopic);
+      closeModal();
     } else {
       console.error("Failed to create topic");
     }

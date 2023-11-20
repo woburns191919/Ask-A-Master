@@ -27,9 +27,10 @@ function App() {
 
   const [topics, setTopics] = useState([]);
 
-const handleTopicCreated = (newTopic) => {
-  setTopics([...topics, newTopic]);
-};
+  // const handleTopicCreated = (newTopic) => {
+  //   console.log('handleTopicCreated called with:', newTopic);
+  //   setTopics([...topics, newTopic]);
+  // };
 
 
   const handleAddQuestion = (newQuestion) => {
@@ -171,7 +172,7 @@ const handleTopicCreated = (newTopic) => {
               allQuestions={allQuestions}
               questionId={questionId}
               handleAddQuestion={handleAddQuestion}
-              handleTopicCreated={handleTopicCreated}
+              // handleTopicCreated={handleTopicCreated}
 
             />
           </ProtectedRoute>

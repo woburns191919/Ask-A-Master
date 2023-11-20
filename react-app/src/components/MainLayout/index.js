@@ -48,7 +48,7 @@ const MainLayout = ({
             onDeleteQuestion={onDeleteQuestion}
             openDeleteModal={openDeleteModal}
             questionId={questionId}
-         
+
 
           />
         </div>

@@ -5,10 +5,8 @@ import CreateTopicForm from "../CreateTopic/CreateTopicForm";
 
 import "./styles.css";
 
-export default function GetTopics({ handleTopicCreated }) {
+export default function GetTopics() {
   const [allTopics, setAllTopics] = useState([]);
-
-
 
   const fetchAllTopics = async () => {
     try {
@@ -24,7 +22,11 @@ export default function GetTopics({ handleTopicCreated }) {
       console.error("Failed to fetch topics:", error);
       return [];
     }
-  }
+  };
+
+  const addNewTopic = (newTopic) => {
+    setAllTopics((prevTopics) => [...prevTopics, newTopic]);
+  };
 
   useEffect(() => {
     (async function () {
@@ -35,30 +37,29 @@ export default function GetTopics({ handleTopicCreated }) {
     })();
   }, []);
 
+  useEffect(() => {
+    console.log("Updated topics list in GetTopics:", allTopics);
+  }, [allTopics]);
+
   const handleOpenModalClick = () => {
     console.log("OpenModalButton clicked");
-
   };
-
 
   return (
     <main className="topics-main-container">
-    {/* Add Create Space option */}
-    <div className="create-topic-option">
-      {/* <FaPlus className="create-topic-icon" /> */}
-      <OpenModalButton
-
-            buttonText="Create Space"
-            modalComponent={<CreateTopicForm
-            handleTopicCreated={handleTopicCreated}
-
-            />
+      {/* Add Create Space option */}
+      <div className="create-topic-option">
+        {/* <FaPlus className="create-topic-icon" /> */}
+        <OpenModalButton
+          buttonText="Create Space"
+          modalComponent={
+            <CreateTopicForm addNewTopic={addNewTopic} />
           }
           onButtonClick={handleOpenModalClick}
-          />
-    </div>
+        />
+      </div>
       {allTopics.map((topic, i) => (
-        <div className="topics-box" key={i}>
+        <div className="topics-box" key={topic.id}>
           <div className="topics">
             <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
           </div>
