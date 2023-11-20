@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
+import SavedQuestions from "./components/SavedQuestions";
 
 import Comments from "./components/Comments";
 
@@ -176,6 +177,9 @@ function App() {
 
             />
           </ProtectedRoute>
+          <Route path="/saved-questions">
+            <SavedQuestions userId={sessionUser.id} />
+          </Route>
         </Switch>
       )}
     </>

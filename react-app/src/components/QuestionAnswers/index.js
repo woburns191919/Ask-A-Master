@@ -22,6 +22,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
   const dispatch = useDispatch();
   const history = useHistory();
 
+
   const users = Object.values(
     useSelector((state) =>
       state.session.allUsers ? state.session.allUsers : []
@@ -60,6 +61,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
       const response = await fetch(`/api/questions/${questionId}/save`, {
         method: 'POST',
       });
+      history.push('/saved-questions')
       if (!response.ok) throw new Error('Failed to save the question');
 
     } catch (error) {
