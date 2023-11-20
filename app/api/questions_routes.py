@@ -6,6 +6,46 @@ from app.forms import question_form
 
 questions_routes = Blueprint('questions', __name__)
 
+@questions_routes.route("/<int:question_id>/save", methods=['POST'])
+@login_required
+def save_question(question_id):
+    try:
+        # Find the question
+        question = Question.query.get(question_id)
+        if not question:
+            return jsonify(message="Question not found"), 404
+
+        # Add the question to the user's saved questions
+        current_user.saved_questions.append(question)
+        db.session.commit()
+
+        return jsonify(message="Question saved successfully"), 200
+
+    except Exception as e:
+        print("Error saving question:", str(e))
+        return jsonify(message="Internal Server Error"), 500
+
+@questions_routes.route("/<int:question_id>/unsave", methods=['DELETE'])
+@login_required
+def unsave_question(question_id):
+    try:
+        # Find the question
+        question = Question.query.get(question_id)
+        if not question:
+            return jsonify(message="Question not found"), 404
+
+        # Remove the question from the user's saved questions
+        current_user.saved_questions.remove(question)
+        db.session.commit()
+
+        return jsonify(message="Question unsaved successfully"), 200
+
+    except Exception as e:
+        print("Error unsaving question:", str(e))
+        return jsonify(message="Internal Server Error"), 500
+
+
+
 @questions_routes.route("/<int:question_id>", methods=['DELETE'])
 @login_required
 def delete_question(question_id):

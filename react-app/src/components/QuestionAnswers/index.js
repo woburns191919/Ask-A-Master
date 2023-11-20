@@ -55,6 +55,19 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
     history.push(`/questions/${questionId}`);
   };
 
+  const handleSaveQuestion = async (questionId) => {
+    try {
+      const response = await fetch(`/api/questions/${questionId}/save`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to save the question');
+
+    } catch (error) {
+      console.error('Error saving question:', error);
+    }
+  };
+
+
 
 
 
@@ -178,6 +191,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                       </button>
                     </>
                   )}
+                   <button onClick={() => handleSaveQuestion(question.id)}>Bookmark</button>
 
                 </div>
               )}
