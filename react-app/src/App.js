@@ -14,6 +14,7 @@ import Comments from "./components/Comments";
 import { useModal } from "./context/Modal";
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
 import AskShareComponent from "./components/AskShareInput";
+import SearchResults from "./components/SearchResults";
 
 import MainLayout from "./components/MainLayout";
 

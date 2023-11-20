@@ -16,7 +16,7 @@ def search():
 
     questions = Question.query.filter(Question.title.ilike(f'%{query}%')).all()
 
-    body = Question.body.ilike(f'%{query}%').all()
+    # body = Question.body.ilike(f'%{query}%').all()
 
 
     answers = Answer.query.filter(Answer.content.ilike(f'%{query}%')).all()
