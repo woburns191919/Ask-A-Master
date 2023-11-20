@@ -5,8 +5,10 @@ import CreateTopicForm from "../CreateTopic/CreateTopicForm";
 
 import "./styles.css";
 
-export default function GetTopics({ onTopicCreated }) {
+export default function GetTopics({ handleTopicCreated }) {
   const [allTopics, setAllTopics] = useState([]);
+
+
 
   const fetchAllTopics = async () => {
     try {
@@ -26,12 +28,18 @@ export default function GetTopics({ onTopicCreated }) {
 
   useEffect(() => {
     (async function () {
-      // console.log("Fetching topics...");
+      console.log("Fetching topics...");
       const topicsData = await fetchAllTopics();
-      // console.log("Fetched topics:", topicsData);
+      console.log("Fetched topics:", topicsData);
       setAllTopics(topicsData);
     })();
   }, []);
+
+  const handleOpenModalClick = () => {
+    console.log("OpenModalButton clicked");
+
+  };
+
 
   return (
     <main className="topics-main-container">
@@ -42,8 +50,11 @@ export default function GetTopics({ onTopicCreated }) {
 
             buttonText="Create Space"
             modalComponent={<CreateTopicForm
-            onTopicCreated={onTopicCreated}
-            style={{ backgroundColor: '#b92b27', color: 'white', border: 'none', borderRadius: '20px', padding: '8px 15px', cursor: 'pointer' }}/>}
+            handleTopicCreated={handleTopicCreated}
+
+            />
+          }
+          onButtonClick={handleOpenModalClick}
           />
     </div>
       {allTopics.map((topic, i) => (
