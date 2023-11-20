@@ -21,6 +21,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [savedQuestions, setSavedQuestions] = useState([])
 
 
   const users = Object.values(
@@ -68,6 +69,31 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
       console.error('Error saving question:', error);
     }
   };
+
+  const handleUnsavedQuestion = async (questionId) => {
+
+    const updatedQuestions = savedQuestions.filter(q => q.id !== questionId);
+    setSavedQuestions(updatedQuestions);
+
+    try {
+      const response = await fetch(`/api/questions/${questionId}/unsave`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        // If the request fails, revert the change in the local state and show an error
+        setSavedQuestions(savedQuestions);
+        console.error('Failed to unsave the question');
+
+      }
+    } catch (error) {
+      console.error('Error unsaving question:', error);
+
+      setSavedQuestions(savedQuestions);
+
+    }
+  };
+
 
 
 
@@ -194,6 +220,7 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                     </>
                   )}
                    <button onClick={() => handleSaveQuestion(question.id)}>Bookmark</button>
+                   <button onClick={() => handleUnsavedQuestion(question.id)}>Remove bookmark</button>
 
                 </div>
               )}
