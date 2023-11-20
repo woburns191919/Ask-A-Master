@@ -178,7 +178,7 @@ function App() {
             />
           </ProtectedRoute>
           <Route path="/saved-questions">
-            <SavedQuestions userId={sessionUser.id} />
+            <SavedQuestions userId={sessionUser?.id} />
           </Route>
         </Switch>
       )}

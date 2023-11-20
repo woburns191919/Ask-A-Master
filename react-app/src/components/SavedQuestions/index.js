@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom"
 import "./styles.css";
 
 const SavedQuestions = ({ userId }) => {
   console.log("user id from sq", userId);
   const [savedQuestions, setSavedQuestions] = useState([]);
+  const history= useHistory()
 
   useEffect(() => {
     const fetchSavedQuestions = async () => {
+      if (!userId) {
+        history.push('/login')
+      }
       try {
         const response = await fetch(`/api/users/${userId}/saved_questions`);
         console.log("response from sq", response);
