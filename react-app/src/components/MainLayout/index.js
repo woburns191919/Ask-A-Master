@@ -8,6 +8,8 @@ import { thunkGetAllUsers } from "../../store/session";
 import RelatedTopics from "../RelatedTopics";
 import { useParams } from 'react-router-dom';
 import TopicInfo from "../TopicInfo";
+import { useLocation } from 'react-router-dom';
+
 
 
 const MainLayout = ({
@@ -23,6 +25,8 @@ const MainLayout = ({
 
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
+  const location = useLocation();
+  const isMainPage = location.pathname === '/';
 
   useEffect(() => {
     dispatch(thunkGetAllUsers());
@@ -52,9 +56,17 @@ const MainLayout = ({
 
           />
         </div>
-        <div className="related-topics">
-          <RelatedTopics />
-        </div>
+        {isMainPage ? (
+            // Render fake advertisements on the main page
+            <div className="related-topics">
+              <p>Ad 1</p>
+              <p>Ad 2</p>
+              {/* Add more fake ads or ad components here */}
+            </div>
+          ) : (
+            // Otherwise, render the regular related topics
+            <RelatedTopics />
+          )}
       </div>
     </div>
   );

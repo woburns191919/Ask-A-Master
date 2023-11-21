@@ -44,7 +44,13 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
       console.error("Error during search:", error);
     }
   };
-  // console.log('results?', searchResults)
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
+  };
+
 
 
     if (!sessionUser) {
@@ -69,9 +75,9 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
             placeholder="Search Quora"
             value={searchTerm}
             onChange={handleSearchChange}
-
+            onKeyDown={handleKeyPress}
             />
-             <button onClick={() => performSearch()}>Search</button>
+
           </div>
             <button className="tryQuoraButton">Try Quora+</button>
           <div className="navActions" style={{ display: 'flex', alignItems: 'center', gap: '10px' }} >

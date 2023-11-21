@@ -29,6 +29,7 @@ function App() {
 
   const [topics, setTopics] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  
 
 
   // const handleTopicCreated = (newTopic) => {
