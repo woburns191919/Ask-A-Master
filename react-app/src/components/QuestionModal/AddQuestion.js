@@ -132,7 +132,7 @@ export default function AddQuestionForm({
           onUpdateQuestion(data.question); // Update the question
           // console.log('data.question from add question form', data.question)
         } else {
-          onQuestionAdded(data.question); // Add the new question
+          onQuestionAdded(data.question); // Add the new question to state
         }
         closeModal();
       } else {

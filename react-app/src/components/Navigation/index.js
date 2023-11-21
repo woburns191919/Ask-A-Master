@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
@@ -13,9 +13,45 @@ import searchIcon from "../../images/searchIcon.png";
 import languages from "../../images/languages.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
+import { useHistory } from "react-router-dom";
+import SearchResultsComponent from "../SearchResults";
 
-function Navigation({ onAddQuestion, user }) {
-    const sessionUser = useSelector((state) => state.session.user);
+function Navigation({ onAddQuestion, user, updateSearchResults }) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const sessionUser = useSelector((state) => state.session.user);
+  const history = useHistory()
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const performSearch = async () => {
+    if (!searchTerm.trim()) return; // Prevent searching with empty string
+
+    try {
+      const response = await fetch(`/api/search?query=${encodeURIComponent(searchTerm)}`);
+      if (response.ok) {
+        const data = await response.json();
+        // Handle search results
+        updateSearchResults(data)
+        history.push('/search-results')
+
+      } else {
+        console.error("Search failed");
+      }
+    } catch (error) {
+      console.error("Error during search:", error);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
+  };
+
+
 
     if (!sessionUser) {
         return null;
@@ -35,14 +71,20 @@ function Navigation({ onAddQuestion, user }) {
           <img className="navIcon" src={spaces} alt="spaces" />
           <img className="navIcon" src={notifications} alt="notifications" />
           <div className="searchBar">
-            <input type="search" placeholder="Search Quora" />
+            <input type="search"
+            placeholder="Search Quora"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyPress}
+            />
+
           </div>
             <button className="tryQuoraButton">Try Quora+</button>
           <div className="navActions" style={{ display: 'flex', alignItems: 'center', gap: '10px' }} >
             {user && <ProfileButton user={user} style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#0073e6', color: 'white', border: 'none' }}/>}
             <img className="languagesIcon" src={languages} alt="languages" />
             <OpenModalButton
-            
+
               buttonText="Add Question"
               modalComponent={<AddQuestionForm formType="Create" onQuestionAdded={onAddQuestion}
               style={{ backgroundColor: '#b92b27', color: 'white', border: 'none', borderRadius: '20px', padding: '8px 15px', cursor: 'pointer' }}/>}

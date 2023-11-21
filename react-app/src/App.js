@@ -7,12 +7,14 @@ import Navigation from "./components/Navigation";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
+import SavedQuestions from "./components/SavedQuestions";
 
 import Comments from "./components/Comments";
 
 import { useModal } from "./context/Modal";
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
 import AskShareComponent from "./components/AskShareInput";
+import SearchResults from "./components/SearchResults";
 
 import MainLayout from "./components/MainLayout";
 
@@ -24,6 +26,20 @@ function App() {
 
   const [allQuestions, setAllQuestions] = useState([]);
   const { setModalContent } = useModal();
+
+  const [topics, setTopics] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  
+
+
+  // const handleTopicCreated = (newTopic) => {
+  //   console.log('handleTopicCreated called with:', newTopic);
+  //   setTopics([...topics, newTopic]);
+  // };
+  const updateSearchResults = (newResults) => {
+    setSearchResults(newResults);
+  };
+
 
   const handleAddQuestion = (newQuestion) => {
     // stays here, passed handleAddQuestions as prop to navigation
@@ -140,6 +156,7 @@ function App() {
         isLoaded={isLoaded}
         onAddQuestion={handleAddQuestion}
         user={sessionUser}
+        updateSearchResults={updateSearchResults}
       />
       {isLoaded && (
         <Switch>
@@ -156,15 +173,24 @@ function App() {
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
-         
+
             <MainLayout
               onUpdateQuestion={onUpdateQuestion}
               onDeleteQuestion={onDeleteQuestion}
               openDeleteModal={openDeleteModal}
               allQuestions={allQuestions}
               questionId={questionId}
+              handleAddQuestion={handleAddQuestion}
+              // handleTopicCreated={handleTopicCreated}
+
             />
           </ProtectedRoute>
+          <Route path="/saved-questions">
+            <SavedQuestions userId={sessionUser?.id} />
+          </Route>
+          <Route exact path="/search-results">
+            <SearchResults searchResults={searchResults}/>
+          </Route>
         </Switch>
       )}
     </>

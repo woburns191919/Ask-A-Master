@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.models import User
 from app.models.answer import Answer
 
@@ -14,6 +14,8 @@ def users():
     """
     users = User.query.all()
     return {'users': [user.to_dict() for user in users]}
+
+
 
 @user_routes.route("/<int:id>/answers")
 def get_answers_by_user(user_id):
@@ -32,3 +34,15 @@ def user(id):
     """
     user = User.query.get(id)
     return user.to_dict()
+
+
+@user_routes.route('/<int:user_id>/saved_questions')
+@login_required
+def get_saved_questions(user_id):
+    print(f"Fetching saved questions for user ID: {user_id}")
+    if current_user.id != user_id:
+        return jsonify({"message": "Unauthorized"}), 403
+
+    saved_questions = current_user.saved_questions
+    print(f"Saved Questions: {saved_questions}") 
+    return jsonify([question.to_dict() for question in saved_questions])
