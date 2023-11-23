@@ -2,27 +2,32 @@ import { useEffect, useState } from "react";
 import { thunkGetAllUsers } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles.css";
-import middleGameImage from "../../images/images.png";
-import fischer from "../../images/fischer.png";
-import endGame from "../../images/endGame.png";
-import platforms from "../../images/platforms.jpg";
-import analysis from "../../images/analysis.png";
-import structure from "../../images/structure.jpg";
-import blunders from "../../images/blunder.png";
+// import middleGameImage from "../../images/images.png";
+// import fischer from "../../images/fischer.png";
+// import endGame from "../../images/endGame.png";
+// import platforms from "../../images/platforms.jpg";
+// import analysis from "../../images/analysis.png";
+// import structure from "../../images/structure.jpg";
+// import blunders from "../../images/blunder.png";
 import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
 
-
-export default function QuestionAnswers({ allQuestions, answersForQuestions, onUpdateQuestion, openDeleteModal }) {
+export default function QuestionAnswers({
+  allQuestions,
+  answersForQuestions,
+  onUpdateQuestion,
+  openDeleteModal,
+  images,
+}) {
   // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)
+  console.log("images in qa", images);
 
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [savedQuestions, setSavedQuestions] = useState([])
-
+  const [savedQuestions, setSavedQuestions] = useState([]);
 
   const users = Object.values(
     useSelector((state) =>
@@ -31,7 +36,6 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
   );
 
   const sessionUser = useSelector((state) => state.session.user);
-
 
   useEffect(() => {
     dispatch(thunkGetAllUsers());
@@ -60,46 +64,42 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
   const handleSaveQuestion = async (questionId) => {
     try {
       const response = await fetch(`/api/questions/${questionId}/save`, {
-        method: 'POST',
+        method: "POST",
       });
-      history.push('/saved-questions')
-      if (!response.ok) throw new Error('Failed to save the question');
-
+      history.push("/saved-questions");
+      if (!response.ok) throw new Error("Failed to save the question");
     } catch (error) {
-      console.error('Error saving question:', error);
+      console.error("Error saving question:", error);
     }
   };
 
   const handleUnsavedQuestion = async (questionId) => {
-
-    const updatedQuestions = savedQuestions.filter(q => q.id !== questionId);
+    const updatedQuestions = savedQuestions.filter((q) => q.id !== questionId);
     setSavedQuestions(updatedQuestions);
 
     try {
       const response = await fetch(`/api/questions/${questionId}/unsave`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (!response.ok) {
         // If the request fails, revert the change in the local state and show an error
         setSavedQuestions(savedQuestions);
-        console.error('Failed to unsave the question');
-
+        console.error("Failed to unsave the question");
       }
     } catch (error) {
-      console.error('Error unsaving question:', error);
+      console.error("Error unsaving question:", error);
 
       setSavedQuestions(savedQuestions);
-
     }
   };
 
-
-
-
-
-
   // console.log('questionId from question answers', questionId)
+  console.log('user arr', users)
+  console.log('session user', sessionUser)
+  console.log('question arr****', allQuestions)
+
+
 
   return (
     <main className="main-container">
@@ -112,13 +112,11 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
             key={index}
             onClick={(e) => handleBoxClick(question.id, e)}
           >
-                  <h5>{question.title}</h5>
+            <h5>{question.title}</h5>
             <div className="question-box comment-text">
               Posted by <span className="user-name">
-                {question.user_id === sessionUser?.id
-                  ? sessionUser?.first_name
-                  : users[0]?.find((user) => user.id === question.user_id)
-                      ?.first_name}
+                {users.find((user) => user.id === parseInt(question.user_id))
+                      ?.first_name }
               </span>
               <p>{question.body}</p>
             </div>
@@ -127,106 +125,55 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                 <p key={i}>{answer.content}</p>
               ))}
 
-              {/* {randomChessImage && (
+              {/* Display the image if available */}
+              {console.log('filename', question.image_filename)}
+              {question.image_filename && (
                 <img
                   className="photos"
-                  src={randomChessImage}
-                  alt="random-chess-image"
-                  style={{ height: "150px", width: "250px" }}
+                  src={`/${question.image_filename}`}
+                  alt="Related"
+                  style={{ height: "400px", backgroundSize: "cover" }}
                 />
-              )} */}
+              )}
 
-              {question.body.includes("Defense") && (
-                <img
-                  className="photos"
-                  src={middleGameImage}
-                  alt="middle-game"
-                  style={{ height: "170px"}}
-                />
-              )}
-              {question.body.includes("books") && (
-                <img
-                  className="photos"
-                  src={fischer}
-                  alt="fischer"
-                  style={{ height: "170px"}}
-                />
-              )}
-              {question.body.includes("endgame") && (
-                <img
-                  className="photos"
-                  src={endGame}
-                  alt="endgame"
-                  style={{ height: "170px"}}
-                />
-              )}
-              {question.body.includes("platforms") && (
-                <img
-                  className="photos"
-                  src={platforms}
-                  alt="platforms"
-                  style={{ height: "150px"}}
-                />
-              )}
-              {question.body.includes("analysis") && (
-                <img
-                  className="photos"
-                  src={analysis}
-                  alt="analysis"
-                  style={{ height: "170px"}}
-                />
-              )}
-              {question.body.includes("blunders") && (
-                <img
-                  className="photos"
-                  src={blunders}
-                  alt="analysis"
-                  style={{ height: "170px" }}
-                />
-              )}
-              {question.body.includes("structure") && (
-                <img
-                  className="photos"
-                  src={structure}
-                  alt="structure"
-                  style={{ height: "170px"}}
-                />
-              )}
             </div>
-            <div className="ellipsis-container">
-              <img
-                className="ellipsis"
-                src={ellipsis}
-                onClick={() => toggleDropdown(question.id)}
-              />
-              {showDropdown === question.id && (
-                <div className="dropdown">
-                  {isCurrentUserAuthor(question) && (
-                    <>
-                      <OpenModalButton
-                        buttonText="Edit question"
-                        modalComponent={
-                          <AddQuestionForm
-                            formType="Edit"
-                            questionId={question.id}
-                            onUpdateQuestion={onUpdateQuestion}
-                            closeModal={closeDropdown}
-                          />
-                        }
-                      />
-                      <button onClick={() => openDeleteModal(question.id)}>
-                        Delete question
-                      </button>
-                    </>
-                  )}
-                   <button onClick={() => handleSaveQuestion(question.id)}>Bookmark</button>
-                   <button onClick={() => handleUnsavedQuestion(question.id)}>Remove bookmark</button>
-
-                </div>
-              )}
+              <div className="ellipsis-container">
+                <img
+                  className="ellipsis"
+                  src={ellipsis}
+                  onClick={() => toggleDropdown(question.id)}
+                />
+                {showDropdown === question.id && (
+                  <div className="dropdown">
+                    {isCurrentUserAuthor(question) && (
+                      <>
+                        <OpenModalButton
+                          buttonText="Edit question"
+                          modalComponent={
+                            <AddQuestionForm
+                              formType="Edit"
+                              questionId={question.id}
+                              onUpdateQuestion={onUpdateQuestion}
+                              closeModal={closeDropdown}
+                            />
+                          }
+                        />
+                        <button onClick={() => openDeleteModal(question.id)}>
+                          Delete question
+                        </button>
+                      </>
+                    )}
+                    <button onClick={() => handleSaveQuestion(question.id)}>
+                      Bookmark
+                    </button>
+                    <button onClick={() => handleUnsavedQuestion(question.id)}>
+                      Remove bookmark
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
     </main>
   );
 }
