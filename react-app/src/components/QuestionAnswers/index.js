@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import { thunkGetAllUsers } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles.css";
-// import middleGameImage from "../../images/images.png";
-// import fischer from "../../images/fischer.png";
-// import endGame from "../../images/endGame.png";
-// import platforms from "../../images/platforms.jpg";
-// import analysis from "../../images/analysis.png";
-// import structure from "../../images/structure.jpg";
-// import blunders from "../../images/blunder.png";
+
 import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
@@ -22,7 +16,7 @@ export default function QuestionAnswers({
   images,
 }) {
   // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)
-  console.log("images in qa", images);
+  // console.log("images in qa", images);
 
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
@@ -95,11 +89,9 @@ export default function QuestionAnswers({
   };
 
   // console.log('questionId from question answers', questionId)
-  console.log('user arr', users)
-  console.log('session user', sessionUser)
-  console.log('question arr****', allQuestions)
-
-
+  console.log("user arr", users);
+  // console.log('session user', sessionUser)
+  console.log("question arr****", allQuestions);
 
   return (
     <main className="main-container">
@@ -114,66 +106,70 @@ export default function QuestionAnswers({
           >
             <h5>{question.title}</h5>
             <div className="question-box comment-text">
-              Posted by <span className="user-name">
-                {users.find((user) => user.id === parseInt(question.user_id))
-                      ?.first_name }
+              Posted by{" "}
+              <span className="user-name">
+                {
+                  users[0]?.find(
+                    (user) => user.id === parseInt(question.user_id)
+                  )?.first_name
+                }
               </span>
               <p>{question.body}</p>
             </div>
             <div className="answer-box">
-              {answersForQuestions && answersForQuestions[question.id]?.map((answer, i) => (
-                <p key={i}>{answer.content}</p>
-              ))}
+              {answersForQuestions &&
+                answersForQuestions[question.id]?.map((answer, i) => (
+                  <p key={i}>{answer.content}</p>
+                ))}
 
               {/* Display the image if available */}
-              {console.log('filename', question.image_filename)}
+              {/* {console.log('filename', question.image_filename)} */}
               {question.image_filename && (
                 <img
                   className="photos"
                   src={`/${question.image_filename}`}
                   alt="Related"
-                  style={{ height: "400px", backgroundSize: "cover" }}
+                  style={{ height: "400px" }}
                 />
               )}
-
             </div>
-              <div className="ellipsis-container">
-                <img
-                  className="ellipsis"
-                  src={ellipsis}
-                  onClick={() => toggleDropdown(question.id)}
-                />
-                {showDropdown === question.id && (
-                  <div className="dropdown">
-                    {isCurrentUserAuthor(question) && (
-                      <>
-                        <OpenModalButton
-                          buttonText="Edit question"
-                          modalComponent={
-                            <AddQuestionForm
-                              formType="Edit"
-                              questionId={question.id}
-                              onUpdateQuestion={onUpdateQuestion}
-                              closeModal={closeDropdown}
-                            />
-                          }
-                        />
-                        <button onClick={() => openDeleteModal(question.id)}>
-                          Delete question
-                        </button>
-                      </>
-                    )}
-                    <button onClick={() => handleSaveQuestion(question.id)}>
-                      Bookmark
-                    </button>
-                    <button onClick={() => handleUnsavedQuestion(question.id)}>
-                      Remove bookmark
-                    </button>
-                  </div>
-                )}
-              </div>
+            <div className="ellipsis-container">
+              <img
+                className="ellipsis"
+                src={ellipsis}
+                onClick={() => toggleDropdown(question.id)}
+              />
+              {showDropdown === question.id && (
+                <div className="dropdown">
+                  {isCurrentUserAuthor(question) && (
+                    <>
+                      <OpenModalButton
+                        buttonText="Edit question"
+                        modalComponent={
+                          <AddQuestionForm
+                            formType="Edit"
+                            questionId={question.id}
+                            onUpdateQuestion={onUpdateQuestion}
+                            closeModal={closeDropdown}
+                          />
+                        }
+                      />
+                      <button onClick={() => openDeleteModal(question.id)}>
+                        Delete question
+                      </button>
+                    </>
+                  )}
+                  <button onClick={() => handleSaveQuestion(question.id)}>
+                    Bookmark
+                  </button>
+                  <button onClick={() => handleUnsavedQuestion(question.id)}>
+                    Remove bookmark
+                  </button>
+                </div>
+              )}
             </div>
-          ))}
+          </div>
+        ))}
     </main>
   );
 }

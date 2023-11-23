@@ -93,7 +93,6 @@ function App() {
       // const allQuestionsData = await fetchAllQuestions();
       const questionObj = {};
       for (let question of allQuestions) {
-
         questionObj.id = question.id;
       }
       setQuestionId(questionObj.id);
@@ -137,6 +136,7 @@ function App() {
   };
 
   const TopicLayout = () => {
+    console.log('topic layout mounting**')
     const { id: topicId } = useParams();
     const [topicQuestions, setTopicQuestions] = useState([]);
 
@@ -169,8 +169,8 @@ function App() {
     );
   };
 
-  console.log('images***', images)
-  console.log('question array?**', allQuestions)
+  console.log("images***", images);
+  console.log("question array?**", allQuestions);
 
   return (
     <>
@@ -189,7 +189,7 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route exact path="/topics/:id">
-            <TopicLayout />
+            <TopicLayout images={images} />
           </Route>
           <Route exact path="/questions/:id">
             <Comments />

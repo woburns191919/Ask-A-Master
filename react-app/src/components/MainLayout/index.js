@@ -23,6 +23,7 @@ const MainLayout = ({
   handleTopicCreated
 }) => {
   const { id: topicId } = useParams(); //  undefined on main page
+ 
 
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);

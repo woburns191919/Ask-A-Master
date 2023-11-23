@@ -3,15 +3,8 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./styles.css"; // Import the same stylesheet
 
-import middleGameImage from "../../images/images.png";
-import fischer from "../../images/fischer.png";
-import endGame from "../../images/endGame.png";
-import platforms from "../../images/platforms.jpg";
-import analysis from "../../images/analysis.png";
-import structure from "../../images/structure.jpg";
-import blunders from "../../images/blunder.png";
-
-const TopicQuestionsPage = () => {
+const TopicQuestionsPage = ({ topicQuestions }) => {
+  console.log('topic questions prop', topicQuestions)
   const { id } = useParams();
   const [questions, setQuestions] = useState([]);
   const [allTopics, setAllTopics] = useState([]);
@@ -28,7 +21,6 @@ const TopicQuestionsPage = () => {
         return blunders;
     }
   };
-
 
   const fetchQuestionsByTopic = async () => {
     try {
@@ -79,7 +71,11 @@ const TopicQuestionsPage = () => {
               {/* Adding a new class for the topics */}
               {allTopics.map((topic) => (
                 <li key={topic.id}>
-                  <img src={getTopicIcon(topic.name)} alt={topic.name} className="topic-icon" />
+                  <img
+                    src={getTopicIcon(topic.name)}
+                    alt={topic.name}
+                    className="topic-icon"
+                  />
                   <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
                 </li>
               ))}
@@ -87,7 +83,7 @@ const TopicQuestionsPage = () => {
           </div>
           <div className="answer-box">
             <h3>{selectedTopic ? selectedTopic.name : ""}</h3>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
               {questions.map((question, index) => (
                 <li key={index}>
                   <h4>{question.body}</h4>
@@ -96,45 +92,13 @@ const TopicQuestionsPage = () => {
                       <li key={i}>{answer.content}</li>
                     ))}
                   </ul>
-                  {question.body.includes("Defense") && (
+                  {console.log('image filename', question.image_filename)}
+                  {question.image_filename && (
                     <img
-                      src={middleGameImage}
-                      alt="middle game"
                       className="photos"
-                    />
-                  )}
-                  {question.body.includes("books") && (
-                    <img src={fischer} alt="fischer" className="photos" />
-                  )}
-                  {question.body.includes("endgame") && (
-                    <img src={endGame} alt="endgame" className="photos" />
-                  )}
-                  {question.body.includes("platforms") && (
-                    <img
-                      src={platforms}
-                      alt="platforms"
-                      className="photos"
-                    />
-                  )}
-                  {question.body.includes("analysis") && (
-                    <img
-                      src={analysis}
-                      alt="analysis"
-                      className="photos"
-                    />
-                  )}
-                  {question.body.includes("blunders") && (
-                    <img
-                      src={blunders}
-                      alt="blunders"
-                      className="photos"
-                    />
-                  )}
-                  {question.body.includes("structure") && (
-                    <img
-                      src={structure}
-                      alt="structure"
-                      className="photos"
+                      src={`/${question.image_filename}`}
+                      alt="Related"
+                      style={{ height: "400px" }}
                     />
                   )}
                 </li>
