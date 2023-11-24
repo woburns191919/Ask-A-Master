@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
 from app.models import User
 from app.models.answer import Answer
+from app.models.image import Image
 
 user_routes = Blueprint('users', __name__)
 
@@ -44,5 +45,19 @@ def get_saved_questions(user_id):
         return jsonify({"message": "Unauthorized"}), 403
 
     saved_questions = current_user.saved_questions
-    print(f"Saved Questions: {saved_questions}") 
-    return jsonify([question.to_dict() for question in saved_questions])
+
+    saved_questions_data = []
+    for question in saved_questions:
+        question_data = question.to_dict()
+
+        # Fetch associated image for each saved question
+        image = Image.query.filter_by(question_id=question.id).first()
+        if image:
+            question_data["image_filename"] = image.filename
+
+        saved_questions_data.append(question_data)
+
+    print(f"Saved Questions: {saved_questions_data}")
+    return jsonify(saved_questions_data)
+
+

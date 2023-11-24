@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom"
 import "./styles.css";
 
 const SavedQuestions = ({ userId }) => {
+  console.log('saved q mounting')
   console.log("user id from sq", userId);
   const [savedQuestions, setSavedQuestions] = useState([]);
   const history= useHistory()
@@ -14,9 +15,10 @@ const SavedQuestions = ({ userId }) => {
       }
       try {
         const response = await fetch(`/api/users/${userId}/saved_questions`);
-        console.log("response from sq", response);
+        // console.log("response from sq", response);
         if (!response.ok) throw new Error("Failed to fetch saved questions");
         const data = await response.json();
+        console.log('data from saved questions', data)
         setSavedQuestions(data);
       } catch (error) {
         console.error("Error fetching saved questions:", error);
@@ -26,6 +28,8 @@ const SavedQuestions = ({ userId }) => {
     fetchSavedQuestions();
   }, [userId]);
 
+
+  console.log('saved questions', savedQuestions)
 
   return (
     <div className="main-layout">
@@ -46,6 +50,15 @@ const SavedQuestions = ({ userId }) => {
                   <h5>{question.title}</h5>
                   <div className="question-box comment-text">
                     <p>{question.body}</p>
+                    {console.log('image filename', question.image_filename)}
+                    {question.image_filename && (
+                    <img
+                      className="photos"
+                      src={`/${question.image_filename}`}
+                      alt="Related"
+                      style={{ height: "400px" }}
+                    />
+                  )}
                   </div>
                 </div>
               ))}
