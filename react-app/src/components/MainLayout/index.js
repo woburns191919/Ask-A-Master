@@ -14,6 +14,7 @@ import { useLocation } from 'react-router-dom';
 
 const MainLayout = ({
   allQuestions,
+  images,
   questionId,
   onUpdateQuestion,
   onDeleteQuestion,
@@ -22,6 +23,7 @@ const MainLayout = ({
   handleTopicCreated
 }) => {
   const { id: topicId } = useParams(); //  undefined on main page
+ 
 
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
@@ -31,6 +33,7 @@ const MainLayout = ({
   useEffect(() => {
     dispatch(thunkGetAllUsers());
   }, [dispatch]);
+  console.log('images from main', images)
 
   return (
     <div className="main-layout">
@@ -52,6 +55,7 @@ const MainLayout = ({
             onDeleteQuestion={onDeleteQuestion}
             openDeleteModal={openDeleteModal}
             questionId={questionId}
+            images={images}
 
 
           />

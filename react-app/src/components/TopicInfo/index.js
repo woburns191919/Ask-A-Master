@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "./styles.css";
 
 function TopicInfo() {
+
   const { id: topicId } = useParams();
   const [topicInfo, setTopicInfo] = useState(null);
 
@@ -32,6 +33,8 @@ function TopicInfo() {
   if (!topicInfo) {
     return <div>Loading...</div>;
   }
+
+  console.log('topic info***', topicInfo)
 
   return (
     <div className="topic-info-container">

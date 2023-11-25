@@ -40,6 +40,8 @@ class Question(db.Model):
     topics = db.relationship('Topic', secondary=question_topic_association, back_populates='questions')
     answers = db.relationship('Answer', back_populates='question', cascade='all, delete-orphan')
     saved_by = db.relationship('User', secondary=saved_questions_association, back_populates='saved_questions')
+    image = db.relationship('Image', back_populates='question', uselist=False, cascade='all, delete-orphan')
+
 
     def to_dict(self):
         return {

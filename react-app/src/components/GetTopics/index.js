@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import CreateTopicForm from "../CreateTopic/CreateTopicForm";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 import "./styles.css";
 
@@ -49,6 +52,7 @@ export default function GetTopics() {
     <main className="topics-main-container">
       {/* Add Create Space option */}
       <div className="create-topic-option">
+      <FontAwesomeIcon icon={faPlus} className="create-topic-icon" />
         {/* <FaPlus className="create-topic-icon" /> */}
         <OpenModalButton
           buttonText="Create Space"
@@ -58,6 +62,7 @@ export default function GetTopics() {
           }
           onButtonClick={handleOpenModalClick}
         />
+
       </div>
       {allTopics ?.concat()
         .reverse()

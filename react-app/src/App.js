@@ -25,21 +25,16 @@ function App() {
   const [questionId, setQuestionId] = useState(null);
 
   const [allQuestions, setAllQuestions] = useState([]);
+  const [images, setImages] = useState([]);
   const { setModalContent } = useModal();
 
   const [topics, setTopics] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  
 
 
-  // const handleTopicCreated = (newTopic) => {
-  //   console.log('handleTopicCreated called with:', newTopic);
-  //   setTopics([...topics, newTopic]);
-  // };
   const updateSearchResults = (newResults) => {
     setSearchResults(newResults);
   };
-
 
   const handleAddQuestion = (newQuestion) => {
     // stays here, passed handleAddQuestions as prop to navigation
@@ -47,6 +42,7 @@ function App() {
   };
 
   const onUpdateQuestion = (updatedQuestion) => {
+    console.log("Updated question data:", updatedQuestion); 
     // pass as prop to QuestionAnswer qid, (now defining in QA)
 
     setAllQuestions((currentQuestions) =>
@@ -83,7 +79,7 @@ function App() {
     //uses fetchAllQuestions
     (async function () {
       const allQuestionsData = await fetchAllQuestions();
-      setAllQuestions(allQuestionsData);
+      setAllQuestions(allQuestionsData.questions);
     })();
   }, []);
 
@@ -101,13 +97,32 @@ function App() {
     })();
   }, []);
 
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const fetchImages = async () => {
+    try {
+      const response = await fetch("/api/questions/images");
+      if (response.ok) {
+        const data = await response.json();
+        setImages(data);
+      } else {
+        console.error("Failed to fetch images.");
+      }
+    } catch (error) {
+      console.error("Error fetching images:", error);
+    }
+  };
+
   const fetchAllQuestions = async () => {
     //fetch for all questions, used for allQuestions
     try {
       const res = await fetch("/api/questions");
       if (res.ok) {
         const data = await res.json();
-        return data.questions;
+        console.log("data from app", data);
+        return data;
       } else {
         console.error("Failed to fetch questions. Status:", res.status);
         return [];
@@ -119,6 +134,7 @@ function App() {
   };
 
   const TopicLayout = () => {
+    console.log('topic layout mounting**')
     const { id: topicId } = useParams();
     const [topicQuestions, setTopicQuestions] = useState([]);
 
@@ -146,9 +162,13 @@ function App() {
         onDeleteQuestion={onDeleteQuestion}
         openDeleteModal={openDeleteModal}
         questionId={questionId}
+        images={images}
       />
     );
   };
+
+  console.log("images***", images);
+  console.log("question array?**", allQuestions);
 
   return (
     <>
@@ -167,13 +187,12 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route exact path="/topics/:id">
-            <TopicLayout />
+            <TopicLayout images={images} />
           </Route>
           <Route exact path="/questions/:id">
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
-
             <MainLayout
               onUpdateQuestion={onUpdateQuestion}
               onDeleteQuestion={onDeleteQuestion}
@@ -181,15 +200,14 @@ function App() {
               allQuestions={allQuestions}
               questionId={questionId}
               handleAddQuestion={handleAddQuestion}
-              // handleTopicCreated={handleTopicCreated}
-
+              images={images}
             />
           </ProtectedRoute>
           <Route path="/saved-questions">
-            <SavedQuestions userId={sessionUser?.id} />
+            <SavedQuestions userId={sessionUser?.id} images={images} />
           </Route>
           <Route exact path="/search-results">
-            <SearchResults searchResults={searchResults}/>
+            <SearchResults searchResults={searchResults} />
           </Route>
         </Switch>
       )}
