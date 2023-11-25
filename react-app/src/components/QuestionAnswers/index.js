@@ -1,28 +1,49 @@
 import { useEffect, useState } from "react";
 import { thunkGetAllUsers } from "../../store/session";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles.css";
-import middleGameImage from "../../images/images.png";
-import fischer from "../../images/fischer.png";
-import endGame from "../../images/endGame.png";
-import platforms from "../../images/platforms.jpg";
-import analysis from "../../images/analysis.png";
-import structure from "../../images/structure.jpg";
-import blunders from "../../images/blunder.png";
+
 import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
-import Comments from "../Comments";
-import { useModal } from "../../context/Modal";
+import { useBookmarkContext } from "../../context/BookmarkContext";
 
-export default function QuestionAnswers({ allQuestions, answersForQuestions, onUpdateQuestion, openDeleteModal }) {
+export default function QuestionAnswers({
+  allQuestions,
+  answersForQuestions,
+  onUpdateQuestion,
+  openDeleteModal,
+
+}) {
   // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)
+  // console.log("images in qa", images);
 
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [images, setImages] = useState([])
+  // const [savedQuestions, setSavedQuestions] = useState([]);
+  const { addBookmark, isBookmarked, removeBookmark } = useBookmarkContext();
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const fetchImages = async () => {
+    try {
+      const response = await fetch("/api/questions/images");
+      if (response.ok) {
+        const data = await response.json();
+        setImages(data);
+      } else {
+        console.error("Failed to fetch images.");
+      }
+    } catch (error) {
+      console.error("Error fetching images:", error);
+    }
+  };
+
 
   const users = Object.values(
     useSelector((state) =>
@@ -31,7 +52,6 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
   );
 
   const sessionUser = useSelector((state) => state.session.user);
-
 
   useEffect(() => {
     dispatch(thunkGetAllUsers());
@@ -57,10 +77,38 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
     history.push(`/questions/${questionId}`);
   };
 
+  const handleSaveQuestion = async (questionId) => {
+    try {
+      const response = await fetch(`/api/questions/${questionId}/save`, {
+        method: "POST",
+      });
+      addBookmark(questionId);
+      isBookmarked(questionId);
+      history.push("/saved-questions");
+      if (!response.ok) throw new Error("Failed to save the question");
+    } catch (error) {
+      console.error("Error saving question:", error);
+    }
+  };
 
-
+  const handleUnsavedQuestion = async (questionId) => {
+    try {
+      const response = await fetch(`/api/questions/${questionId}/unsave`, {
+        method: "DELETE",
+      });
+      removeBookmark(questionId);
+      if (!response.ok) {
+        throw new Error("Failed to save the question");
+      }
+    } catch (error) {
+      console.error("Error unsaving question:", error);
+    }
+  };
 
   // console.log('questionId from question answers', questionId)
+  console.log("user arr", users);
+  // console.log('session user', sessionUser)
+  console.log("question arr****", allQuestions);
 
   return (
     <main className="main-container">
@@ -73,83 +121,32 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
             key={index}
             onClick={(e) => handleBoxClick(question.id, e)}
           >
+            <h5>{question.title}</h5>
             <div className="question-box comment-text">
-              <p className="user-name">
-                {question.user_id === sessionUser?.id
-                  ? sessionUser?.first_name
-                  : users[0]?.find((user) => user.id === question.user_id)
-                      ?.first_name}
-              </p>
+              Posted by{" "}
+              <span className="user-name">
+                {
+                  users[0]?.find(
+                    (user) => user.id === parseInt(question.user_id)
+                  )?.first_name
+                }
+              </span>
               <p>{question.body}</p>
             </div>
             <div className="answer-box">
-              {answersForQuestions && answersForQuestions[question.id]?.map((answer, i) => (
-                <p key={i}>{answer.content}</p>
-              ))}
+              {answersForQuestions &&
+                answersForQuestions[question.id]?.map((answer, i) => (
+                  <p key={i}>{answer.content}</p>
+                ))}
 
-              {/* {randomChessImage && (
+              {/* Display the image if available */}
+              {/* {console.log('filename', question.image_filename)} */}
+              {question.image_filename && (
                 <img
                   className="photos"
-                  src={randomChessImage}
-                  alt="random-chess-image"
-                  style={{ height: "150px", width: "250px" }}
-                />
-              )} */}
-
-              {question.body.includes("Defense") && (
-                <img
-                  className="photos"
-                  src={middleGameImage}
-                  alt="middle-game"
-                  style={{ height: "150px", width: "250px" }}
-                />
-              )}
-              {question.body.includes("books") && (
-                <img
-                  className="photos"
-                  src={fischer}
-                  alt="fischer"
-                  style={{ height: "150px", width: "250px" }}
-                />
-              )}
-              {question.body.includes("endgame") && (
-                <img
-                  className="photos"
-                  src={endGame}
-                  alt="endgame"
-                  style={{ height: "150px", width: "250px" }}
-                />
-              )}
-              {question.body.includes("platforms") && (
-                <img
-                  className="photos"
-                  src={platforms}
-                  alt="platforms"
-                  style={{ height: "150px", width: "250px" }}
-                />
-              )}
-              {question.body.includes("analysis") && (
-                <img
-                  className="photos"
-                  src={analysis}
-                  alt="analysis"
-                  style={{ height: "150px", width: "250px" }}
-                />
-              )}
-              {question.body.includes("blunders") && (
-                <img
-                  className="photos"
-                  src={blunders}
-                  alt="analysis"
-                  style={{ height: "150px", width: "250px" }}
-                />
-              )}
-              {question.body.includes("structure") && (
-                <img
-                  className="photos"
-                  src={structure}
-                  alt="structure"
-                  style={{ height: "150px", width: "250px" }}
+                  src={`/${question.image_filename}`}
+                  alt="Related"
+                  style={{ height: "400px" }}
                 />
               )}
             </div>
@@ -179,7 +176,16 @@ export default function QuestionAnswers({ allQuestions, answersForQuestions, onU
                       </button>
                     </>
                   )}
-
+                  {!isBookmarked(question.id) && (
+                    <button onClick={() => handleSaveQuestion(question.id)}>
+                      Bookmark
+                    </button>
+                  )}
+                  {isBookmarked(question.id) && (
+                      <button onClick={() => handleUnsavedQuestion(question.id)}>
+                      Remove Bookmark
+                    </button>
+                  )}
                 </div>
               )}
             </div>

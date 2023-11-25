@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useParams } from "react-router-dom";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
-import LandingPage from "./components/LandingPage";
+
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
-import TopicQuestionsPage from "./components/TopicQuestionsPage";
+import SavedQuestions from "./components/SavedQuestions";
+
 import Comments from "./components/Comments";
-import QuestionAnswers from "./components/QuestionAnswers";
+
 import { useModal } from "./context/Modal";
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
-import GetTopics from "./components/GetTopics";
+import AskShareComponent from "./components/AskShareInput";
+import SearchResults from "./components/SearchResults";
+
 import MainLayout from "./components/MainLayout";
 
 function App() {
@@ -22,15 +25,26 @@ function App() {
   const [questionId, setQuestionId] = useState(null);
 
   const [allQuestions, setAllQuestions] = useState([]);
+  const [images, setImages] = useState([]);
   const { setModalContent } = useModal();
 
-  const handleAddQuestion = (newQuestion) => { // stays here, passed handleAddQuestions as prop to navigation
+  const [topics, setTopics] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+
+
+  const updateSearchResults = (newResults) => {
+    setSearchResults(newResults);
+  };
+
+  const handleAddQuestion = (newQuestion) => {
+    // stays here, passed handleAddQuestions as prop to navigation
     setAllQuestions([...allQuestions, newQuestion]);
   };
 
+  const onUpdateQuestion = (updatedQuestion) => {
+    console.log("Updated question data:", updatedQuestion); 
+    // pass as prop to QuestionAnswer qid, (now defining in QA)
 
-  const onUpdateQuestion = (updatedQuestion) => { // pass as prop to QuestionAnswer qid, (now defining in QA)
-    
     setAllQuestions((currentQuestions) =>
       currentQuestions.map((question) =>
         question.id === updatedQuestion.id ? updatedQuestion : question
@@ -38,7 +52,8 @@ function App() {
     );
   };
 
-  const onDeleteQuestion = (deletedQuestionId) => {// pass as prop to QuestionAnswer qid
+  const onDeleteQuestion = (deletedQuestionId) => {
+    // pass as prop to QuestionAnswer qid
     setAllQuestions((currentQuestions) =>
       currentQuestions.filter((question) => question.id !== deletedQuestionId)
     );
@@ -59,14 +74,12 @@ function App() {
     dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
-
-
   useEffect(() => {
     // get all questions. stays here. pass allQuestions prop Mainlayout -->  QuestionAnswers
     //uses fetchAllQuestions
     (async function () {
       const allQuestionsData = await fetchAllQuestions();
-      setAllQuestions(allQuestionsData);
+      setAllQuestions(allQuestionsData.questions);
     })();
   }, []);
 
@@ -84,13 +97,32 @@ function App() {
     })();
   }, []);
 
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const fetchImages = async () => {
+    try {
+      const response = await fetch("/api/questions/images");
+      if (response.ok) {
+        const data = await response.json();
+        setImages(data);
+      } else {
+        console.error("Failed to fetch images.");
+      }
+    } catch (error) {
+      console.error("Error fetching images:", error);
+    }
+  };
+
   const fetchAllQuestions = async () => {
     //fetch for all questions, used for allQuestions
     try {
       const res = await fetch("/api/questions");
       if (res.ok) {
         const data = await res.json();
-        return data.questions;
+        console.log("data from app", data);
+        return data;
       } else {
         console.error("Failed to fetch questions. Status:", res.status);
         return [];
@@ -101,8 +133,42 @@ function App() {
     }
   };
 
-  // console.log("question from App.js****", questionId);
-  // console.log("onUpdateQuestion in App", onUpdateQuestion);
+  const TopicLayout = () => {
+    console.log('topic layout mounting**')
+    const { id: topicId } = useParams();
+    const [topicQuestions, setTopicQuestions] = useState([]);
+
+    useEffect(() => {
+      // Fetch questions specific to a topic
+      const fetchQuestionsByTopic = async () => {
+        try {
+          const res = await fetch(`/api/topics/${topicId}/questions`);
+          if (res.ok) {
+            const data = await res.json();
+            setTopicQuestions(data.questions);
+          }
+        } catch (error) {
+          console.error("Error fetching topic questions:", error);
+        }
+      };
+
+      fetchQuestionsByTopic();
+    }, [topicId]);
+
+    return (
+      <MainLayout
+        allQuestions={topicQuestions}
+        onUpdateQuestion={onUpdateQuestion}
+        onDeleteQuestion={onDeleteQuestion}
+        openDeleteModal={openDeleteModal}
+        questionId={questionId}
+        images={images}
+      />
+    );
+  };
+
+  console.log("images***", images);
+  console.log("question array?**", allQuestions);
 
   return (
     <>
@@ -110,6 +176,7 @@ function App() {
         isLoaded={isLoaded}
         onAddQuestion={handleAddQuestion}
         user={sessionUser}
+        updateSearchResults={updateSearchResults}
       />
       {isLoaded && (
         <Switch>
@@ -120,20 +187,28 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route exact path="/topics/:id">
-            <TopicQuestionsPage />
+            <TopicLayout images={images} />
           </Route>
           <Route exact path="/questions/:id">
             <Comments />
           </Route>
           <ProtectedRoute path="/" exact>
             <MainLayout
-            onUpdateQuestion={onUpdateQuestion}// MainLayout --> QuestionAnswers --> AddQuestion
-            onDeleteQuestion={onDeleteQuestion}
-            openDeleteModal={openDeleteModal}
-            allQuestions={allQuestions}
-            questionId={questionId}
+              onUpdateQuestion={onUpdateQuestion}
+              onDeleteQuestion={onDeleteQuestion}
+              openDeleteModal={openDeleteModal}
+              allQuestions={allQuestions}
+              questionId={questionId}
+              handleAddQuestion={handleAddQuestion}
+              images={images}
             />
           </ProtectedRoute>
+          <Route path="/saved-questions">
+            <SavedQuestions userId={sessionUser?.id} images={images} />
+          </Route>
+          <Route exact path="/search-results">
+            <SearchResults searchResults={searchResults} />
+          </Route>
         </Switch>
       )}
     </>

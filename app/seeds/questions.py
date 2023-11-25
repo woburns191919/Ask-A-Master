@@ -4,8 +4,6 @@ from sqlalchemy.sql import text
 
 
 
-from app.models import db, Question
-
 def seed_questions():
     questions = [
         { #1

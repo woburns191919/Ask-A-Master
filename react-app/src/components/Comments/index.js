@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import ConfirmDelete from "../QuestionModal/ConfirmDelete";
 import { useModal } from "../../context/Modal";
-
+import { useDispatch, useSelector } from "react-redux";
+import { thunkGetAllUsers } from "../../store/session";
 import "./styles.css";
-import OpenModalButton from "../OpenModalButton";
 
 const Comments = () => {
   const { id } = useParams();
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([]);
-  const [allComments, setAllComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const sessionUser = useSelector((state) => state.session.user);
-  const { openModalWithComponent, setModalContent } = useModal();
+  const { setModalContent } = useModal();
+
+  const dispatch = useDispatch();
+
+  const users = Object.values(
+    useSelector((state) =>
+      state.session.allUsers ? state.session.allUsers : []
+    )
+  );
+
+  useEffect(() => {
+    dispatch(thunkGetAllUsers());
+  }, [dispatch]);
 
   const onDeleteComment = (deletedCommentId) => {
     setAnswers((currentAnswers) =>
@@ -23,13 +33,12 @@ const Comments = () => {
     );
   };
 
-
   const openDeleteModal = (commentId) => {
     setModalContent(
       <ConfirmDelete
         itemType="comment"
         itemId={commentId}
-        questionId={id} // Assuming 'id' is the question ID
+        questionId={id}
         onDeletionSuccess={() => onDeleteComment(commentId)}
       />
     );
@@ -127,42 +136,26 @@ const Comments = () => {
     }
   };
 
-  const handleCommentDeletion = async (commentId) => {
-    try {
-      const response = await fetch(
-        `/api/questions/${id}/comments/${commentId}`,
-        {
-          method: "DELETE",
-        }
-      );
+  // console.log('user find', users[0]?.find(user => user.id === answers[0].user_id).first_name)
+  // users[0]?.map((user) => console.log("user obj id", user.id));
+  // answers?.map((answer) => console.log("answer obj id", answer.id));
 
-      if (response.ok) {
-        setAnswers(answers.filter((answer) => answer.id !== commentId));
-      } else {
-        console.error("Failed to delete comment:", response.status);
-      }
-    } catch (error) {
-      console.error("Error deleting comment:", error);
-    }
-  };
-  // useEffect(() => {
-  //   console.log("Updated editingCommentId:", editingCommentId);
-  // }, [editingCommentId]);
-
-  // answers.find(answer => console.log(answer.id))
-  // console.log("question id from Comments?", id);
-  // console.log("editing comment id", editingCommentId);
   return (
     <div className="question-comments-container">
       <div className="question-body">{question}</div>
       <div className="answers-container">
-        <div className="answer-header">Answers</div>
+        <div className="answer-header">
+          {answers.length === 1 ? "1 Answer" : `${answers.length} Answers`}{" "}
+        </div>
         {answers.map((answer) => (
           <div className="comment-container" key={answer.id}>
             <div className="comment-content">{answer.content}</div>
             <div className="comment-info">
-              Answered by {answer.user_id} on{" "}
-              {new Date(answer.created_at).toLocaleDateString()}
+              Answered by{" "}
+              {users.length &&
+                users[0].find((user) => user.id === answer.user_id)?.first_name}
+                {" "}
+              on {new Date(answer.created_at).toLocaleDateString()}
               {sessionUser && answer.user_id === sessionUser.id && (
                 <>
                   <button

@@ -45,10 +45,8 @@ const buttonStyles = {
   padding: "10px 20px",
   cursor: "pointer",
   transition: "background-color 0.3s",
-
 };
 
-// Define your topics map
 const topicsMap = {
   "Opening Theory": 1,
   "Middle Game Strategy": 2,
@@ -70,6 +68,7 @@ export default function AddQuestionForm({
   const [topic, setTopic] = useState("");
   const { closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     const fetchQuestionData = async () => {
@@ -93,6 +92,10 @@ export default function AddQuestionForm({
     }
   }, [formType, questionId]);
 
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]); // Set the uploaded file
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -101,6 +104,9 @@ export default function AddQuestionForm({
       body,
       user_id: sessionUser.id,
       topic_id: topicsMap[topic] || 1,
+      if(image) {
+        formData.append("image", image); // Add image if available
+      },
     };
 
     try {
@@ -132,7 +138,7 @@ export default function AddQuestionForm({
           onUpdateQuestion(data.question); // Update the question
           // console.log('data.question from add question form', data.question)
         } else {
-          onQuestionAdded(data.question); // Add the new question
+          onQuestionAdded(data.question); // Add the new question to state
         }
         closeModal();
       } else {
@@ -175,6 +181,8 @@ export default function AddQuestionForm({
             </option>
           ))}
         </select>
+        <label style={labelStyles}>Image</label>
+        <input type="file" onChange={handleImageChange} style={inputStyles} />
         <button onClick={handleSubmit} style={buttonStyles}>
           {formType === "Edit" ? "Update Question" : "Submit Question"}
         </button>

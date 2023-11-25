@@ -8,6 +8,13 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+.main-container .question-answer-box {
+  margin-right: 50%;
+  margin-left: -34%;
+  width: 132%;
+}
+
+
 .photos {
   width: 100%;
   height: auto;
@@ -20,7 +27,7 @@
 
 .user-name {
   font-weight: 600;
-  color: #2b6dad;
+  color:grey;
 }
 .comment-text {
   font-family: Arial, Helvetica, sans-serif;
@@ -33,9 +40,8 @@
 
 
 .main-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 0 15px;
+width:fit-content;
+
 }
 .question-answers-container {
   width: 80%;

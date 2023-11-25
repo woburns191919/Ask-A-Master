@@ -8,12 +8,22 @@ body {
 }
 
 .login-container {
+
+  background-image: url('../../images/quora-background-signup.webp');
+  background-size: cover;
   display: flex;
+  flex-direction:column;
+
+}
+
+.outer-wrap {
+  display: flex;
+  flex-direction:column;
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background-image: url('../../images/quora-background-signup.webp');
-  background-size: cover;
+  padding-right:22%;
+  padding-left:22%;
 }
 
 /* Left side styles */
@@ -75,6 +85,11 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: white;
+  padding: 20px;
+  width: 50%;
+  text-align: center;
+  border-right: 1px solid #ccc;
 }
 
 .login-right h2 {
@@ -116,7 +131,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* 
+/*
 .form-button, .continue-google, .continue-facebook {
   width: 100%;
   padding: 12px;

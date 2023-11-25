@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
 
@@ -18,6 +18,9 @@ export function ModalProvider({ children }) {
     }
     setOnCloseCallback(null); // Reset the callback
   };
+  useEffect(() => {
+    console.log("Modal content updated:", modalContent);
+  }, [modalContent]);
 
   // Updated context value to include setOnCloseCallback
   const contextValue = {
