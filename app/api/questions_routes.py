@@ -201,36 +201,31 @@ def get_all_questions():
 
 @questions_routes.route('/edit/<int:question_id>', methods=['GET', 'PUT'])
 @login_required
+
 def edit_question(question_id):
-    # Check if the user is authenticated
     if not current_user.is_authenticated:
         return jsonify(message="You need to be logged in"), 401
 
-    # Retrieve the question to be edited
     question_to_edit = Question.query.get(question_id)
+    # Query the associated image
+    image = Image.query.filter_by(question_id=question_id).first()
 
-    # Check if the question exists
     if not question_to_edit:
         return jsonify(message="Question not found"), 404
 
-    # Check if the logged-in user is the owner of the question
     if question_to_edit.user_id != current_user.id:
         return jsonify(message="You cannot edit this question"), 403
 
-    if request.method == 'GET':
-        # Return the current question details
-        return jsonify(question=question_to_edit.to_dict()), 200
+    data = request.get_json()
+    question_to_edit.title = data.get('title', question_to_edit.title)
+    question_to_edit.body = data.get('body', question_to_edit.body)
+    question_to_edit.topic_id = data.get('topic_id', question_to_edit.topic_id)
 
-    elif request.method == 'PUT':
-        # Parse the JSON data from the request
-        data = request.get_json()
+    db.session.commit()
 
-        # Update the question fields with the new data
-        question_to_edit.title = data.get('title', question_to_edit.title)
-        question_to_edit.body = data.get('body', question_to_edit.body)
-        question_to_edit.topic_id = data.get('topic_id', question_to_edit.topic_id)
+    # Return the updated question data, including the image filename
+    question_dict = question_to_edit.to_dict()
+    if image:
+        question_dict["image_filename"] = image.filename
 
-        # Commit the changes to the database
-        db.session.commit()
-
-        return jsonify(message="Question edited successfully", question=question_to_edit.to_dict()), 200
+    return jsonify(question=question_dict), 200

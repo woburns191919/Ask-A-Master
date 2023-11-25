@@ -14,7 +14,7 @@ export default function QuestionAnswers({
   answersForQuestions,
   onUpdateQuestion,
   openDeleteModal,
-  images,
+
 }) {
   // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)
   // console.log("images in qa", images);
@@ -22,8 +22,28 @@ export default function QuestionAnswers({
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [images, setImages] = useState([])
   // const [savedQuestions, setSavedQuestions] = useState([]);
   const { addBookmark, isBookmarked, removeBookmark } = useBookmarkContext();
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const fetchImages = async () => {
+    try {
+      const response = await fetch("/api/questions/images");
+      if (response.ok) {
+        const data = await response.json();
+        setImages(data);
+      } else {
+        console.error("Failed to fetch images.");
+      }
+    } catch (error) {
+      console.error("Error fetching images:", error);
+    }
+  };
+
 
   const users = Object.values(
     useSelector((state) =>

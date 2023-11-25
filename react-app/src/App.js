@@ -31,10 +31,7 @@ function App() {
   const [topics, setTopics] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
 
-  // const handleTopicCreated = (newTopic) => {
-  //   console.log('handleTopicCreated called with:', newTopic);
-  //   setTopics([...topics, newTopic]);
-  // };
+
   const updateSearchResults = (newResults) => {
     setSearchResults(newResults);
   };
@@ -45,6 +42,7 @@ function App() {
   };
 
   const onUpdateQuestion = (updatedQuestion) => {
+    console.log("Updated question data:", updatedQuestion); 
     // pass as prop to QuestionAnswer qid, (now defining in QA)
 
     setAllQuestions((currentQuestions) =>
