@@ -7,6 +7,7 @@ import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
+import { useBookmarkContext } from "../../context/BookmarkContext";
 
 export default function QuestionAnswers({
   allQuestions,
@@ -21,7 +22,8 @@ export default function QuestionAnswers({
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [savedQuestions, setSavedQuestions] = useState([]);
+  // const [savedQuestions, setSavedQuestions] = useState([]);
+  const { addBookmark, isBookmarked, removeBookmark } = useBookmarkContext();
 
   const users = Object.values(
     useSelector((state) =>
@@ -60,6 +62,8 @@ export default function QuestionAnswers({
       const response = await fetch(`/api/questions/${questionId}/save`, {
         method: "POST",
       });
+      addBookmark(questionId);
+      isBookmarked(questionId);
       history.push("/saved-questions");
       if (!response.ok) throw new Error("Failed to save the question");
     } catch (error) {
@@ -68,23 +72,16 @@ export default function QuestionAnswers({
   };
 
   const handleUnsavedQuestion = async (questionId) => {
-    const updatedQuestions = savedQuestions.filter((q) => q.id !== questionId);
-    setSavedQuestions(updatedQuestions);
-
     try {
       const response = await fetch(`/api/questions/${questionId}/unsave`, {
         method: "DELETE",
       });
-
+      removeBookmark(questionId);
       if (!response.ok) {
-        // If the request fails, revert the change in the local state and show an error
-        setSavedQuestions(savedQuestions);
-        console.error("Failed to unsave the question");
+        throw new Error("Failed to save the question");
       }
     } catch (error) {
       console.error("Error unsaving question:", error);
-
-      setSavedQuestions(savedQuestions);
     }
   };
 
@@ -159,12 +156,16 @@ export default function QuestionAnswers({
                       </button>
                     </>
                   )}
-                  <button onClick={() => handleSaveQuestion(question.id)}>
-                    Bookmark
-                  </button>
-                  <button onClick={() => handleUnsavedQuestion(question.id)}>
-                    Remove bookmark
-                  </button>
+                  {!isBookmarked(question.id) && (
+                    <button onClick={() => handleSaveQuestion(question.id)}>
+                      Bookmark
+                    </button>
+                  )}
+                  {isBookmarked(question.id) && (
+                      <button onClick={() => handleUnsavedQuestion(question.id)}>
+                      Remove Bookmark
+                    </button>
+                  )}
                 </div>
               )}
             </div>
