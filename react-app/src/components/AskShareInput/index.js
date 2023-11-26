@@ -17,9 +17,7 @@ export default function AskShareComponent({ handleAddQuestion }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [topic, setTopic] = useState("");
-
-
-
+  const [imageFilename, setImageFilename] = useState("");
 
   const askShareInputStyle = {
     padding: "10px",
@@ -77,7 +75,8 @@ export default function AskShareComponent({ handleAddQuestion }) {
       setBody("");
       setTopic("");
       handleAddQuestion(newQuestion.question);
-      console.log('new question data', newQuestion)
+      setImageFilename(newQuestion.image_filename);
+      console.log("new question data", newQuestion);
     } else {
       console.error("Failed to post question");
     }
@@ -101,6 +100,11 @@ export default function AskShareComponent({ handleAddQuestion }) {
       <button onClick={handleSubmit} style={buttonStyle}>
         Post
       </button>
+      {/* {imageFilename && (
+        <div>
+          <img src={`/${imageFilename}`} alt="Question related" />
+        </div>
+      )} */}
     </div>
   );
 }

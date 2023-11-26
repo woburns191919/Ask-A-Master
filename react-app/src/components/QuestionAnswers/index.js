@@ -14,6 +14,7 @@ export default function QuestionAnswers({
   answersForQuestions,
   onUpdateQuestion,
   openDeleteModal,
+  handleQuestionsUpdate
 
 }) {
   // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)
@@ -108,7 +109,7 @@ export default function QuestionAnswers({
   // console.log('questionId from question answers', questionId)
   console.log("user arr", users);
   // console.log('session user', sessionUser)
-  console.log("question arr****", allQuestions);
+  console.log('all questions from QuestionAnswers', allQuestions)
 
   return (
     <main className="main-container">
@@ -168,6 +169,7 @@ export default function QuestionAnswers({
                             questionId={question.id}
                             onUpdateQuestion={onUpdateQuestion}
                             closeModal={closeDropdown}
+                            handleQuestionsUpdate={handleQuestionsUpdate}
                           />
                         }
                       />

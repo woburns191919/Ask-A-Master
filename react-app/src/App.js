@@ -37,12 +37,17 @@ function App() {
   };
 
   const handleAddQuestion = (newQuestion) => {
-    // stays here, passed handleAddQuestions as prop to navigation
-    setAllQuestions([...allQuestions, newQuestion]);
+    console.log("New question received*****:", newQuestion); // Check the structure here
+    setAllQuestions((prevQuestions) => [...prevQuestions, {
+      ...newQuestion,
+      image_filename: newQuestion.image_filename
+    }]);
   };
 
+
+
   const onUpdateQuestion = (updatedQuestion) => {
-    console.log("Updated question data:", updatedQuestion); 
+    console.log("Updated question data:", updatedQuestion);
     // pass as prop to QuestionAnswer qid, (now defining in QA)
 
     setAllQuestions((currentQuestions) =>
@@ -170,6 +175,19 @@ function App() {
   console.log("images***", images);
   console.log("question array?**", allQuestions);
 
+  const handleQuestionsUpdate = () => {
+    fetchAllQuestions();
+  };
+
+  useEffect(() => {
+    // This effect will run whenever `allQuestions` changes
+    console.log("Questions updated:", allQuestions);
+
+  }, [allQuestions]);
+
+
+  console.log('all questions from app.js', allQuestions)
+
   return (
     <>
       <Navigation
@@ -201,6 +219,7 @@ function App() {
               questionId={questionId}
               handleAddQuestion={handleAddQuestion}
               images={images}
+              handleQuestionsUpdate={handleQuestionsUpdate}
             />
           </ProtectedRoute>
           <Route path="/saved-questions">
