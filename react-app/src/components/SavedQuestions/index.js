@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import { useBookmarkContext } from "../../context/BookmarkContext";
 import ellipsis from "../../images/ellipsis.png";
+import GetTopics from "../GetTopics";
 import "./styles.css";
 
 const SavedQuestions = ({ userId }) => {
-  console.log('saved q mounting')
+  console.log("saved q mounting");
   console.log("user id from sq", userId);
   const [savedQuestions, setSavedQuestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(null);
-  const history= useHistory()
+  const history = useHistory();
   const { removeBookmark } = useBookmarkContext();
 
   const toggleDropdown = (questionId) => {
@@ -23,14 +24,14 @@ const SavedQuestions = ({ userId }) => {
   useEffect(() => {
     const fetchSavedQuestions = async () => {
       if (!userId) {
-        history.push('/login')
+        history.push("/login");
       }
       try {
         const response = await fetch(`/api/users/${userId}/saved_questions`);
         // console.log("response from sq", response);
         if (!response.ok) throw new Error("Failed to fetch saved questions");
         const data = await response.json();
-        console.log('data from saved questions', data)
+        console.log("data from saved questions", data);
         setSavedQuestions(data);
       } catch (error) {
         console.error("Error fetching saved questions:", error);
@@ -56,40 +57,35 @@ const SavedQuestions = ({ userId }) => {
     }
   };
 
-
-
-
-  console.log('saved questions', savedQuestions)
+  console.log("saved questions", savedQuestions);
 
   return (
     <div className="main-layout">
+      {" "}
       <div className="content-wrapper">
-        {/* Left Sidebar Placeholder */}
-        <div className="sidebar sidebar-menu">
-          {/* placeholder content */}
-        </div>
-
-        {/* Main Content */}
+        {" "}
+        {/* Same as MainLayout */}
+        <div className="sidebar sidebar-menu"></div>
         <div className="content">
-          <div className="ask-share-container">
+          {" "}
+          {/* Same as MainLayout */}
+         
             {/* Main content for saved questions */}
-            <h2>Saved Questions</h2>
-            <div className="question-answers-container">
+            <h2>Bookmarks</h2>
+            <div className="main-container">
               {savedQuestions.map((question, index) => (
                 <div className="question-answer-box" key={index}>
-                  <h5>{question.title}</h5>
-                  <div className="question-box comment-text">
-                    <p>{question.body}</p>
-                    {console.log('image filename', question.image_filename)}
-                    {question.image_filename && (
+                  <h5>{question.title}</h5> {/* Title in bold */}
+                  <div className="answer-box">
+                    <p>{question.body}</p> {/* Answer text */}
+                  </div>
+                  {question.image_filename && (
                     <img
                       className="photos"
                       src={`/${question.image_filename}`}
                       alt="Related"
-                      style={{ height: "400px" }}
                     />
                   )}
-                  </div>
                   <div className="ellipsis-container">
                     <img
                       className="ellipsis"
@@ -99,10 +95,12 @@ const SavedQuestions = ({ userId }) => {
                     />
                     {showDropdown === question.id && (
                       <div className="dropdown">
-                        <button onClick={() => {
-                          handleUnsavedQuestion(question.id);
-                          closeDropdown();
-                        }}>
+                        <button
+                          onClick={() => {
+                            handleUnsavedQuestion(question.id);
+                            closeDropdown();
+                          }}
+                        >
                           Remove Bookmark
                         </button>
                       </div>
@@ -111,10 +109,7 @@ const SavedQuestions = ({ userId }) => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-        <div className="related-topics">
-          {/* Right Sidebar Placeholder */}
+
         </div>
       </div>
     </div>
@@ -122,3 +117,8 @@ const SavedQuestions = ({ userId }) => {
 };
 
 export default SavedQuestions;
+
+//question-answer-box
+//     margin-right: 50%;
+//  margin-left: -73%;
+//  width: 150%;

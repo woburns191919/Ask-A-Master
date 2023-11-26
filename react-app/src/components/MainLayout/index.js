@@ -21,7 +21,8 @@ const MainLayout = ({
   openDeleteModal,
   handleAddQuestion,
   handleTopicCreated,
-  handleQuestionsUpdate
+  handleQuestionsUpdate,
+
 }) => {
   const { id: topicId } = useParams(); //  undefined on main page
 
@@ -42,7 +43,7 @@ const MainLayout = ({
       </div>
       <div className="content-wrapper">
         <div className="sidebar sidebar-menu">
-          <GetTopics handleTopicCreated={handleTopicCreated}/>
+          {/* <GetTopics handleTopicCreated={handleTopicCreated}/> */}
         </div>
         <div className="content">
         {sessionUser && (
