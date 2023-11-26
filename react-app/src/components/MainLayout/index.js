@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import GetTopics from "../GetTopics";
 import QuestionAnswers from "../QuestionAnswers";
 import AskShareComponent from "../AskShareInput";
-import "./styles.css";
+// import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkGetAllUsers } from "../../store/session";
 import RelatedTopics from "../RelatedTopics";
@@ -21,7 +21,8 @@ const MainLayout = ({
   openDeleteModal,
   handleAddQuestion,
   handleTopicCreated,
-  handleQuestionsUpdate
+  handleQuestionsUpdate,
+
 }) => {
   const { id: topicId } = useParams(); //  undefined on main page
 
@@ -42,7 +43,7 @@ const MainLayout = ({
       </div>
       <div className="content-wrapper">
         <div className="sidebar sidebar-menu">
-          <GetTopics handleTopicCreated={handleTopicCreated}/>
+          {/* <GetTopics handleTopicCreated={handleTopicCreated}/> */}
         </div>
         <div className="content">
         {sessionUser && (
@@ -72,6 +73,7 @@ const MainLayout = ({
           ) : (
             // Otherwise, render the regular related topics
             <RelatedTopics />
+
           )}
       </div>
     </div>

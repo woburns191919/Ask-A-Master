@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { thunkGetAllUsers } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import "./styles.css";
+import "./questionAnswerStyles.css";
 
 import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";

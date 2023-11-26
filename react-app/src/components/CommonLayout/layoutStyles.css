@@ -1,0 +1,60 @@
+/* Global Styles */
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  background-color: #f6f7f8;
+  width: 100%;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  justify-content:space-between;
+  padding: 20px;
+
+}
+
+.sidebar {
+  flex-basis: 15%;
+  /* Additional styles for sidebar */
+}
+
+.content {
+  flex-grow: 2;
+  max-width: 70%;
+  width: 138%;
+  margin-left: -50%;
+  /* Additional styles for content */
+}
+
+.related-topics {
+  flex-basis: 15%;
+  /* Additional styles for related topics */
+}
+
+/* Component Specific Styles */
+.ask-share-container, .question-answers-container {
+  width: 100%; /* Use full width of the content area */
+  /* Additional consistent styling for both components */
+}
+
+
+.ask-share-container, .question-answer-box {
+  width: 100%; /* Use full width available */
+  margin: auto; /* Center the components */
+}
+
+
+
+/* Adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+  .sidebar, .related-topics {
+    display: none;
+  }
+
+  .content {
+    max-width: 100%;
+  }
+
+
+}

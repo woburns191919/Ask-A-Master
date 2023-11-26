@@ -1,51 +1,16 @@
-.main-layout {
-  display:flex;
-  flex-direction:column;
-  background-color: #f6f7f8;
-  width: 100%;
-}
-
-
-.content-sidebar-wrapper {
- display:flex;
- gap:20%
-}
-
-.ask-share-container {
-  margin-right: 50%;
-  margin-left: -34%;
-  width: 132%;
-  max-width: 800px; /* Adjust based on your design */
+.saved-question-box {
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 10px;
+  padding: 12px;
 }
 
-.content-wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px; /* Adjust as needed */
-  padding: 20px 0; /* Vertical padding */
-  padding-top:4%;
+.saved-question-title {
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
-.content {
-  flex-grow: 2; /* Take more space */
-  max-width: 40%;
-  width: 35%;
-
-}
-
-.related-topics {
-  flex-grow: 1; /* Take less space than main content */
-  max-width: 35%;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height:fit-content;
-  padding: 51px;
-}
-.followers {
-  color: #aaa;
-  font-weight: 400;
+.saved-question-body {
+  margin-bottom: 8px;
 }
