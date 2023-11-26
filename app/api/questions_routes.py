@@ -5,6 +5,7 @@ from app.models.answer import Answer
 from app.forms import question_form
 from app.models.image import Image
 import spacy
+from random import randint
 
 
 questions_routes = Blueprint('questions', __name__)
@@ -16,6 +17,7 @@ def extract_keywords(text):
     doc = nlp(text)
     return [token.lemma_ for token in doc if token.pos_ in ["NOUN", "PROPN"]]
 
+default_images = ["analysis.png", "blunder.png", "fischer.png"]
 def map_keywords_to_image(keywords):
     print("Function map_keywords_to_image called with keywords:", keywords)
     keyword_to_image = {
@@ -27,6 +29,7 @@ def map_keywords_to_image(keywords):
         "pawn": ["pawn.jpg"],
         "magnus": ["magnus.jpg"]
     }
+
 
     image_scores = {image: 0 for images in keyword_to_image.values() for image in images}
 
@@ -45,8 +48,11 @@ def map_keywords_to_image(keywords):
     best_image = max(image_scores, key=image_scores.get)
 
     print("Best Image:", best_image)
-
-    return best_image if image_scores[best_image] > 0 else "default-image.png"
+    if image_scores[best_image] == 0:
+        random_index = randint(0, len(default_images) - 1)
+        return default_images[random_index]
+    else:
+        return best_image
 
 
 
@@ -160,7 +166,7 @@ def create_question():
     title = data.get('title', '')
     body = data.get('body', '')
     user_id = data.get('user_id')
-    topic_id = data.get('topic_id', 1)  
+    topic_id = data.get('topic_id', 1)
 
     # Extract keywords from the question body
     keywords = extract_keywords(body)
