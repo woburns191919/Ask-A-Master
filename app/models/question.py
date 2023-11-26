@@ -44,11 +44,12 @@ class Question(db.Model):
 
 
     def to_dict(self):
-        return {
+             return {
             'id': self.id,
             'title': self.title,
             'body': self.body,
             'user_id': self.user_id,
             'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'updated_at': self.updated_at,
+            'image_filename': self.image.filename if self.image else None
         }

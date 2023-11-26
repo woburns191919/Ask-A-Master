@@ -17,6 +17,7 @@ def extract_keywords(text):
     return [token.lemma_ for token in doc if token.pos_ in ["NOUN", "PROPN"]]
 
 def map_keywords_to_image(keywords):
+    print("Function map_keywords_to_image called with keywords:", keywords)
     keyword_to_image = {
         "blunder": ["blunder.png"],
         "analysis": ["analysis.png"],
@@ -27,18 +28,26 @@ def map_keywords_to_image(keywords):
         "magnus": ["magnus.jpg"]
     }
 
-
     image_scores = {image: 0 for images in keyword_to_image.values() for image in images}
+
+    print("Keywords:", keywords)
+    print("Keyword to Image Mapping:", keyword_to_image)
+    print("Initial Image Scores:", image_scores)
 
     # Score each image based on how many keywords it matches
     for keyword in keywords:
         for image in keyword_to_image.get(keyword, []):
             image_scores[image] += 1
 
+    print("Updated Image Scores:", image_scores)
+
     # Find the image with the highest score
     best_image = max(image_scores, key=image_scores.get)
 
+    print("Best Image:", best_image)
+
     return best_image if image_scores[best_image] > 0 else "default-image.png"
+
 
 
 @questions_routes.route("/images")
@@ -48,6 +57,8 @@ def get_question_images():
 
     for question in questions:
         keywords = extract_keywords(question.body)
+
+
         image_filename = map_keywords_to_image(keywords)
         if image_filename:
             question_images.append({
@@ -143,30 +154,41 @@ def get_answers_for_question(question_id):
 
 @questions_routes.route('/new', methods=['POST'])
 def create_question():
-
     data = request.get_json()
+    print("Received data for new question:", data)
 
-    title = data.get('title')
-    body = data.get('body')
+    title = data.get('title', '')
+    body = data.get('body', '')
     user_id = data.get('user_id')
-    topic_id = data.get('topic_id')
+    topic_id = data.get('topic_id', 1)  
 
+    # Extract keywords from the question body
+    keywords = extract_keywords(body)
+    # Get the best image filename based on the keywords
+    image_filename = map_keywords_to_image(keywords)
 
-    # if not title or not body or user_id is None or topic_id is None:
-    #     return jsonify({'error': 'Missing required fields'}), 400
-
-
+    # Create new question
     new_question = Question(
         title=title,
         body=body,
         user_id=user_id,
         topic_id=topic_id
     )
-
     db.session.add(new_question)
     db.session.commit()
 
-    return jsonify({'message': 'Question created successfully', 'question': new_question.to_dict()}), 201
+    # Associate image with the question
+    new_image = Image(filename=image_filename, question_id=new_question.id)
+    db.session.add(new_image)
+    db.session.commit()
+
+    # Return the new question data including image filename
+    return jsonify({
+        'message': 'Question created successfully',
+        'question': new_question.to_dict(),
+        'image_filename': image_filename
+    }), 201
+
 
 
 @questions_routes.route("<int:question_id>")
@@ -191,7 +213,7 @@ def get_all_questions():
         image = Image.query.filter_by(question_id=question.id).first()
         if image:
             question_dict["image_filename"] = image.filename
-
+        print('Question data:', question_dict)
         all_questions.append(question_dict)
 
     return jsonify({'questions': all_questions})
@@ -217,6 +239,7 @@ def edit_question(question_id):
         return jsonify(message="You cannot edit this question"), 403
 
     data = request.get_json()
+    print("Received data for editing question:", data)
     question_to_edit.title = data.get('title', question_to_edit.title)
     question_to_edit.body = data.get('body', question_to_edit.body)
     question_to_edit.topic_id = data.get('topic_id', question_to_edit.topic_id)

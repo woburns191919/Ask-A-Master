@@ -20,10 +20,11 @@ const MainLayout = ({
   onDeleteQuestion,
   openDeleteModal,
   handleAddQuestion,
-  handleTopicCreated
+  handleTopicCreated,
+  handleQuestionsUpdate
 }) => {
   const { id: topicId } = useParams(); //  undefined on main page
- 
+
 
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
@@ -56,6 +57,7 @@ const MainLayout = ({
             openDeleteModal={openDeleteModal}
             questionId={questionId}
             images={images}
+            handleQuestionsUpdate={handleQuestionsUpdate}
 
 
           />
