@@ -9,7 +9,9 @@
 .content-wrapper {
   display: flex;
   justify-content: center;
+  justify-content:space-between;
   padding: 20px;
+
 }
 
 .sidebar {
@@ -19,7 +21,9 @@
 
 .content {
   flex-grow: 2;
-  max-width: 70%; 
+  max-width: 70%;
+  width: 138%;
+  margin-left: -50%;
   /* Additional styles for content */
 }
 
