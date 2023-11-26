@@ -1,4 +1,4 @@
-/* styles.css */
+/* questionAnswersStyles.css */
 .question-answer-box {
   padding: 12px 12px 0px;
   border: 1px solid #e6e6e6;
@@ -7,13 +7,6 @@
   margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
-
-.main-container .question-answer-box {
-  margin-right: 50%;
-  margin-left: -34%;
-  width: 132%;
-}
-
 
 .photos {
   width: 100%;
@@ -27,8 +20,9 @@
 
 .user-name {
   font-weight: 600;
-  color:grey;
+  color: grey;
 }
+
 .comment-text {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
@@ -37,17 +31,6 @@
   color: #333; /* dark gray */
   text-align: left;
 }
-
-
-.main-container {
-width:fit-content;
-
-}
-.question-answers-container {
-  width: 80%;
-
-}
-
 
 .ellipsis-container {
   position: relative;

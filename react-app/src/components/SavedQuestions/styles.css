@@ -1,28 +1,16 @@
-/* .question-answer-box {
-  padding: 12px;
+.saved-question-box {
+  background-color: #fff;
   border: 1px solid #e6e6e6;
-  background-color: white;
-  margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  width:128%;
-}
-
-.content{
-  width: 0%;
-} */
-
-.question-answer-box h5 {
-  font-weight: bold;
   margin-bottom: 10px;
+  padding: 12px;
 }
 
-.answer-box {
-  margin-bottom: 10px; /* Space between answer and image */
+.saved-question-title {
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
-.photos {
-  width: 100%;
-  height: auto;
-  display: block; /* Ensure image takes its own line */
-  margin-bottom: 10px; /* Space after the image */
+.saved-question-body {
+  margin-bottom: 8px;
 }

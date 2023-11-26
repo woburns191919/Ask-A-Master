@@ -1,6 +1,6 @@
 import React from "react";
 import GetTopics from "../GetTopics";
-import "./styles.css";
+import "./layoutStyles.css";
 
 const CommonLayout = ({ children }) => {
   return (
@@ -11,9 +11,6 @@ const CommonLayout = ({ children }) => {
         </div>
         <div className="content">
           {children}
-        </div>
-        <div className="related-topics">
-          {/* Placeholder for right sidebar if needed */}
         </div>
       </div>
     </div>
