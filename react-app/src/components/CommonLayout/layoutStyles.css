@@ -28,8 +28,18 @@
 }
 
 .related-topics {
-  flex-basis: 15%;
-  /* Additional styles for related topics */
+  width:fit-content;
+  display:flex;
+  gap:10%
+
+}
+
+.related-topics-main-container {
+
+  background-color: white;
+  font-size: 16px;
+  margin-bottom: 10px;
+
 }
 
 /* Component Specific Styles */

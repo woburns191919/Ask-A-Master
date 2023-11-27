@@ -25,3 +25,25 @@
 .topic-header {
   border-bottom: 2px solid gray;
 }
+
+.related-topics-main-container {
+  background-color: white;
+  margin-bottom: 10px;
+  padding: 10px;
+  width:36%;
+  height:fit-content;
+}
+
+.related-topics-box {
+  margin-bottom: 10px;
+  padding: 10px;
+  /* border: 1px solid #ddd; */
+  border-radius: 4px;
+}
+
+
+
+.followers {
+  font-size: 0.9em;
+  color: #777;
+}
