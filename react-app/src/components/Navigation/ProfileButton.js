@@ -49,20 +49,18 @@ function ProfileButton({ user }) {
         )}
       </button>
 
-      <ul className={ulClassName} ref={ulRef}>
+      <ul className={ulClassName} ref={ulRef} id="nav-profile">
         {user ? (
-          <div className="nav-profile">
-            <li>{user.username}</li>
-            <li>{user.email}</li>
-            <div id="bookmark">
-            <Link to={'/saved-questions'}>
-              Bookmarks
-            </Link>
-            </div>
+          <>
+            <li className="username">{user.username}</li>
+            <li className="email">{user.email}</li>
+            <li className="bookmarks">
+              <Link to={'/saved-questions'}>Bookmarks</Link>
+            </li>
             <li>
               <button onClick={handleLogout}>Log Out</button>
             </li>
-          </div>
+          </>
         ) : (
           <>
             <OpenModalButton
