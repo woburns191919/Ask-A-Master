@@ -1,7 +1,7 @@
 .topics-main-container {
   background-color: #f6f7f8;
   padding: 20px;
-  width:56%
+  width:fit-content;
 }
 
 /* access to topics sidebar */
