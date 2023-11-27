@@ -40,7 +40,7 @@ function ProfileButton({ user }) {
   const closeMenu = () => setShowMenu(false);
 
   return (
-    <div className="profile-button-container">
+    <div className="profile-button-container" id="square">
       <button onClick={openMenu}>
         {user ? (
           <span className="user-initial">{user.email[0]}</span>
@@ -48,18 +48,21 @@ function ProfileButton({ user }) {
           <i className="fas fa-user-circle" />
         )}
       </button>
+
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
-          <>
+          <div className="nav-profile">
             <li>{user.username}</li>
             <li>{user.email}</li>
+            <div id="bookmark">
             <Link to={'/saved-questions'}>
               Bookmarks
             </Link>
+            </div>
             <li>
               <button onClick={handleLogout}>Log Out</button>
             </li>
-          </>
+          </div>
         ) : (
           <>
             <OpenModalButton

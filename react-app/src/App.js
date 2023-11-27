@@ -108,7 +108,9 @@ function App() {
         <Switch>
           <Route path="/login" component={LoginFormPage} />
           <Route path="/signup" component={SignupFormPage} />
+
           <Route exact path="/topics/:id" component={TopicPage} />
+
           <Route exact path="/questions/:id" component={Comments} />
           <ProtectedRoute path="/" exact>
             <CommonLayout>

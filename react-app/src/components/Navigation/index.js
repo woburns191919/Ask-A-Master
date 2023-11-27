@@ -88,14 +88,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
           {user && (
             <ProfileButton
               user={user}
-              style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "50%",
-                backgroundColor: "#0073e6",
-                color: "white",
-                border: "none",
-              }}
+           
             />
           )}
           <img className="languagesIcon" src={languages} alt="languages" />
