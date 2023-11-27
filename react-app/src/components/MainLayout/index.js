@@ -65,11 +65,15 @@ const MainLayout = ({
         </div>
         {isMainPage ? (
             // Render fake advertisements on the main page
-            <div className="related-topics">
+           <main className="related-topics-main-container">
+            <div className="related-topics-box">
+              <div className="topics">
               <p>Ad 1</p>
               <p>Ad 2</p>
-              {/* Add more fake ads or ad components here */}
+              </div>
             </div>
+
+           </main>
           ) : (
             // Otherwise, render the regular related topics
             <RelatedTopics />
