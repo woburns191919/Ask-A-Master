@@ -30,12 +30,12 @@ function LoginFormPage() {
   return (
     <div className="login-container">
       <div className="outer-wrap">
+        <div className="login-right">
         <img
         src={logo}
         >
         </img>
           <p>A place to share knowledge and better understand the world</p>
-        <div className="login-right">
           {/* switched */}
 
           <button className="continue-google">Continue with Google</button>
