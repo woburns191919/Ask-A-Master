@@ -25,7 +25,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
 
   // Add the missing declarations
-  const [questionId, setQuestionId] = useState(null);  // For handling question ID
+  const [questionId, setQuestionId] = useState(null); // For handling question ID
 
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
@@ -36,15 +36,22 @@ function App() {
   }, []);
 
   const handleAddQuestion = (newQuestion) => {
-    setAllQuestions([...allQuestions, { ...newQuestion, image_filename: newQuestion.image_filename }]);
+    setAllQuestions([
+      ...allQuestions,
+      { ...newQuestion, image_filename: newQuestion.image_filename },
+    ]);
   };
 
   const onUpdateQuestion = (updatedQuestion) => {
-    setAllQuestions(allQuestions.map(q => q.id === updatedQuestion.id ? updatedQuestion : q));
+    setAllQuestions(
+      allQuestions.map((q) =>
+        q.id === updatedQuestion.id ? updatedQuestion : q
+      )
+    );
   };
 
   const onDeleteQuestion = (deletedQuestionId) => {
-    setAllQuestions(allQuestions.filter(q => q.id !== deletedQuestionId));
+    setAllQuestions(allQuestions.filter((q) => q.id !== deletedQuestionId));
   };
 
   const openDeleteModal = (questionId) => {
@@ -89,10 +96,14 @@ function App() {
     }
   };
 
-
   return (
     <>
-      <Navigation isLoaded={isLoaded} onAddQuestion={handleAddQuestion} user={sessionUser} updateSearchResults={updateSearchResults} />
+      <Navigation
+        isLoaded={isLoaded}
+        onAddQuestion={handleAddQuestion}
+        user={sessionUser}
+        updateSearchResults={updateSearchResults}
+      />
       {isLoaded && (
         <Switch>
           <Route path="/login" component={LoginFormPage} />
@@ -118,7 +129,11 @@ function App() {
               <SavedQuestions userId={sessionUser?.id} images={images} />
             </CommonLayout>
           </Route>
-          <Route exact path="/search-results" component={SearchResults} />
+          <Route exact path="/search-results">
+            <CommonLayout>
+              <SearchResults searchResults={searchResults} />
+            </CommonLayout>
+          </Route>
         </Switch>
       )}
     </>
