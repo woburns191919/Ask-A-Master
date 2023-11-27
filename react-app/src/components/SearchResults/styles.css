@@ -22,4 +22,9 @@
   font-weight: bold;
 }
 
+.search-page {
+  color: none;
+  background-color: none;
+  width:36%;
+}
 
