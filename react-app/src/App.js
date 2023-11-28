@@ -82,20 +82,6 @@ function App() {
     }
   };
 
-  const fetchImages = async () => {
-    try {
-      const response = await fetch("/api/questions/images");
-      if (response.ok) {
-        const data = await response.json();
-        setImages(data);
-      } else {
-        console.error("Failed to fetch images.");
-      }
-    } catch (error) {
-      console.error("Error fetching images:", error);
-    }
-  };
-
   return (
     <>
       <Navigation
@@ -111,7 +97,11 @@ function App() {
 
           <Route exact path="/topics/:id" component={TopicPage} />
 
-          <Route exact path="/questions/:id" component={Comments} />
+          <Route exact path="/questions/:id">
+            <CommonLayout>
+              <Comments />
+            </CommonLayout>
+          </Route>
           <ProtectedRoute path="/" exact>
             <CommonLayout>
               <MainLayout
