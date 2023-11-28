@@ -14,3 +14,10 @@
 .saved-question-body {
   margin-bottom: 8px;
 }
+
+.bookmarks {
+  font-weight:500px;
+  /* border-bottom: .5px solid gray; */
+  padding-bottom: 2%;
+
+}
