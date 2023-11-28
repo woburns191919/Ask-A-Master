@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import logo from "../../images/quora.png"
+import logo from "../../images/quora.png";
 import "./LoginForm.css";
 
 function LoginFormPage() {
@@ -30,19 +30,20 @@ function LoginFormPage() {
   return (
     <div className="login-container">
       <div className="outer-wrap">
-        <img
-        src={logo}
-        >
-        </img>
-          <p>A place to share knowledge and better understand the world</p>
         <div className="login-right">
+          <img src={logo}></img>
+          <p>
+            A place to share knowledge and better understand the world of chess
+          </p>
           {/* switched */}
-
-          <button className="continue-google">Continue with Google</button>
-          <button className="continue-facebook">Continue with Facebook</button>
+          <div className="google-face">
+            <button className="continue-google">Continue with Google</button>
+            <button className="continue-facebook">
+              Continue with Facebook
+            </button>
+          </div>
         </div>
         <div className="login-left">
-
           <div className="login-header">Login</div>
           <form onSubmit={handleSubmit}>
             <ul className="error-list">
@@ -72,12 +73,14 @@ function LoginFormPage() {
                 className="form-input"
               />
             </label>
-            <button type="submit" className="form-button">
-              Log In
-            </button>
-            <button type="button" onClick={handleDemoUserLogin}>
-              Demo User
-            </button>
+            <div className="login-bottom">
+              <button type="submit" className="form-button">
+                Log In
+              </button>
+              <button type="button" onClick={handleDemoUserLogin}>
+                Demo User
+              </button>
+            </div>
           </form>
         </div>
       </div>

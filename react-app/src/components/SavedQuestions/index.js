@@ -75,7 +75,7 @@ const SavedQuestions = ({ userId }) => {
             ))}
           </div>
         </div>
-        <div className="related-topics">
+        <div className="search-page">
           {/* Related topics section */}
         </div>
       </div>

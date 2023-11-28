@@ -1,16 +1,13 @@
-/* styles.css */
 .related-topics-main-container {
-
   background-color: white;
   font-size: 16px;
   margin-bottom: 10px;
-
 }
 
 .related-topics {
-  width:fit-content;
-  display:flex;
-  gap:10%
+  width: fit-content;
+  display: flex;
+  gap: 10%;
 }
 
 .related-topics-box a {
@@ -18,7 +15,7 @@
   font-size: 15px;
   font-weight: 800;
   line-height: 1.5;
-  color: #333; /* dark gray */
+  color: #333;
   text-align: left;
 }
 
@@ -30,20 +27,18 @@
   background-color: white;
   margin-bottom: 10px;
   padding: 10px;
-  width:36%;
-  height:fit-content;
+  width: 36%;
+  height: fit-content;
 }
 
 .related-topics-box {
   margin-bottom: 10px;
   padding: 10px;
-  /* border: 1px solid #ddd; */
+
   border-radius: 4px;
 }
 
-
-
 .followers {
   font-size: 0.9em;
-  color: #777;
+  color: rgb(198, 195, 195);
 }
