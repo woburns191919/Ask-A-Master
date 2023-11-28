@@ -36,6 +36,14 @@
   display:flex;
   gap:10%
 
+
+}
+
+.content .main-container {
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+
 }
 
 .related-topics-main-container {
