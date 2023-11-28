@@ -1,5 +1,3 @@
-
-
 /* Common styles */
 body {
   font-family: Arial, sans-serif;
@@ -8,25 +6,21 @@ body {
 }
 
 .login-container {
-
-  background-image: url('../../images/quora-background-signup.webp');
+  background-image: url("../../images/quora-background-signup.webp");
   background-size: cover;
   display: flex;
-  flex-direction:column;
-
+  flex-direction: column;
 }
 
 .outer-wrap {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   height: 100vh;
   justify-content: center;
   align-items: center;
-  padding-right:22%;
-  padding-left:22%;
+  padding-right: 22%;
+  padding-left: 22%;
 }
-
-
 
 /* Left side styles */
 .login-left {
@@ -94,9 +88,26 @@ body {
   border-right: 1px solid #ccc;
 }
 
+.login-right p {
+  font-family: "Courier New", Courier, monospace;
+}
+
+.login-left {
+  font-family: "Courier New", Courier, monospace;
+}
+
 .login-right h2 {
   font-size: 20px;
   color: rgb(232, 224, 224);
+}
+
+.login-bottom {
+  display: flex;
+  gap: 10%;
+}
+
+.google-face {
+  display:flex;
 }
 
 .continue-google {
@@ -120,8 +131,6 @@ body {
   font-size: 18px;
   cursor: pointer;
 }
-
-
 
 .error-list {
   list-style: none;
