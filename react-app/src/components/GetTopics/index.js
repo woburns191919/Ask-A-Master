@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import CreateTopicForm from "../CreateTopic/CreateTopicForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useModal } from '../../context/Modal';
+import { faPlus, faBook, faFilm, faMusic, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { useModal } from "../../context/Modal";
 
 import "./styles.css";
 
@@ -12,6 +12,13 @@ export default function GetTopics() {
   const [allTopics, setAllTopics] = useState([]);
   const { setModalContent } = useModal();
 
+  const topicIcons = {
+    "Books": faBook,
+    "Music": faMusic,
+    "Movies": faFilm,
+  };
+
+  const getDefaultIcon = () => faQuestionCircle;
 
   const fetchAllTopics = async () => {
     try {
@@ -50,23 +57,22 @@ export default function GetTopics() {
     setModalContent(<CreateTopicForm addNewTopic={addNewTopic} />);
   };
 
-
   return (
     <main className="topics-main-container">
       <div className="create-topic-option" onClick={handleOpenModalClick}>
         <FontAwesomeIcon icon={faPlus} className="create-topic-icon" />
         <span className="create-topic-text">Create Space</span>
       </div>
-      {allTopics
-        ?.concat()
-        .reverse()
-        .map((topic, i) => (
-          <div className="topics-box" key={topic.id}>
+      {allTopics ?.concat().reverse().map((topic, i) => (
+        <Link to={`/topics/${topic.id}`} key={topic.id} className="topic-link">
+          <div className="topics-box">
             <div className="topics">
-              <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
+            <FontAwesomeIcon icon={topicIcons[topic.type] || getDefaultIcon()} className="topic-icon" />
+              <span>{topic.name}</span>
             </div>
           </div>
-        ))}
+        </Link>
+      ))}
     </main>
   );
 }

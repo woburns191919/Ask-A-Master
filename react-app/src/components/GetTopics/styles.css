@@ -11,16 +11,38 @@
 
 
 .topics-box {
+  display: flex;
+  align-items: center;
   padding: 10px;
-  /* border: 1px solid #e1e1e1; */
   transition: background 0.3s, border 0.3s;
+  margin-top: 20px;
+  border: 1px solid transparent; /* Add border */
+  cursor: pointer;
 }
 
 .topics-box:hover {
   background-color: #f5f5f5;
-  /* border: 1px solid #242525; */
-  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #242525; /* Border color on hover */
 }
+
+.topics {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between icon and topic name */
+}
+
+.topic-icon {
+  font-size: 20px; /* Adjust size as needed */
+  color: #d3d3d3; /* Initial color of the icon */
+  transition: color 0.3s; /* Transition for color change */
+}
+
+.topics-box:hover .topic-icon {
+  color: #3a3a3a; /* Color change on hover */
+}
+
 
 .topics-box + .topics-box {
   margin-top: 20px;
