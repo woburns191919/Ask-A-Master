@@ -50,8 +50,8 @@ export default function GetTopics() {
 
   return (
     <main className="topics-main-container">
-      {/* Add Create Space option */}
-      <div className="create-topic-option">
+
+      <div className="create-topic-option" onClick={handleOpenModalClick}>
       <FontAwesomeIcon icon={faPlus} className="create-topic-icon" />
         {/* <FaPlus className="create-topic-icon" /> */}
         <OpenModalButton
@@ -60,7 +60,7 @@ export default function GetTopics() {
             <CreateTopicForm addNewTopic={addNewTopic}
             />
           }
-          onButtonClick={handleOpenModalClick}
+
         />
 
       </div>
