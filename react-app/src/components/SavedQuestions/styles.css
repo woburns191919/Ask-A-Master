@@ -1,23 +1,21 @@
 .saved-question-box {
-  background-color: #fff;
-  border: 1px solid #e6e6e6;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  margin-bottom: 10px;
   padding: 12px;
+  border: 1px solid #e6e6e6;
+  background-color: white;
+  font-size: 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.saved-question-title {
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.saved-question-body {
-  margin-bottom: 8px;
-}
 
 .bookmarks {
   font-weight:500px;
   /* border-bottom: .5px solid gray; */
   padding-bottom: 2%;
 
+}
+
+
+.saved-question-title, .saved-question-body {
+  margin-bottom: 8px;
 }

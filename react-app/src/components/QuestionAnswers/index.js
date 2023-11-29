@@ -118,7 +118,7 @@ export default function QuestionAnswers({
         .reverse()
         .map((question, index) => (
           <div
-            className="question-answer-box"
+            className="box question-answer-box"
             key={index}
             onClick={(e) => handleBoxClick(question.id, e)}
           >

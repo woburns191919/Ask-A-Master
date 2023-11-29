@@ -52,13 +52,13 @@ const SavedQuestions = ({ userId }) => {
         <div className="content">
           <div className="bookmarks">
             <h4>Bookmarks</h4>
-           
+
             <hr></hr>
           </div>
           <div className="question-answers-container">
             {savedQuestions.map((question, index) => (
               <div className="question-answer-box" key={index}>
-                <p>{question.title}</p>
+                <h5>{question.title}</h5>
                 <div className="answer-box">
                   <p>{question.body}</p>
                 </div>

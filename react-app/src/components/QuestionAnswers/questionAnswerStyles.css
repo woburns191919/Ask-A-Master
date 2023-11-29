@@ -1,6 +1,6 @@
 /* questionAnswersStyles.css */
 .question-answer-box {
-  padding: 12px 12px 0px;
+  padding: 12px;
   border: 1px solid #e6e6e6;
   background-color: white;
   font-size: 16px;
@@ -69,3 +69,11 @@
 .dropdown button:hover {
   background-color: #f2f2f2;
 }
+
+
+/* 
+@media screen and (max-width: 768px) {
+  .saved-question-box, .question-answer-box {
+
+  }
+} */
