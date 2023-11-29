@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-// import "./styles.css"
+
 
 const topicsMap = {
   "Opening Theory": 1,
