@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import OpenModalButton from "../OpenModalButton";
 import CreateTopicForm from "../CreateTopic/CreateTopicForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faBook, faFilm, faMusic, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
