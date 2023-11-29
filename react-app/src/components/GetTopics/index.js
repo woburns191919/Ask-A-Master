@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import CreateTopicForm from "../CreateTopic/CreateTopicForm";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useModal } from '../../context/Modal';
 
 import "./styles.css";
 
 export default function GetTopics() {
   const [allTopics, setAllTopics] = useState([]);
+  const { setModalContent } = useModal();
+
 
   const fetchAllTopics = async () => {
     try {
@@ -45,34 +47,26 @@ export default function GetTopics() {
   }, [allTopics]);
 
   const handleOpenModalClick = () => {
-    console.log("OpenModalButton clicked");
+    setModalContent(<CreateTopicForm addNewTopic={addNewTopic} />);
   };
+
 
   return (
     <main className="topics-main-container">
-
       <div className="create-topic-option" onClick={handleOpenModalClick}>
-      <FontAwesomeIcon icon={faPlus} className="create-topic-icon" />
-        {/* <FaPlus className="create-topic-icon" /> */}
-        <OpenModalButton
-          buttonText="Create Space"
-          modalComponent={
-            <CreateTopicForm addNewTopic={addNewTopic}
-            />
-          }
-
-        />
-
+        <FontAwesomeIcon icon={faPlus} className="create-topic-icon" />
+        <span className="create-topic-text">Create Space</span>
       </div>
-      {allTopics ?.concat()
+      {allTopics
+        ?.concat()
         .reverse()
         .map((topic, i) => (
-        <div className="topics-box" key={topic.id}>
-          <div className="topics">
-            <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
+          <div className="topics-box" key={topic.id}>
+            <div className="topics">
+              <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </main>
   );
 }
