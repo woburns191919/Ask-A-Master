@@ -158,7 +158,7 @@ const Comments = () => {
                 <div className="comment-container" key={answer.id}>
                   <div className="comment-content">{answer.content}</div>
                   <div className="comment-info">
-                    Answered by {users[0].find((user) => user.id === answer.user_id)?.first_name} on {new Date(answer.created_at).toLocaleDateString()}
+                    Answered by {users[0]?.find((user) => user.id === answer.user_id)?.first_name} on {new Date(answer.created_at).toLocaleDateString()}
                     {sessionUser && answer.user_id === sessionUser.id && (
                       <>
                         <button onClick={() => {
