@@ -29,7 +29,7 @@ export default function AskShareComponent({ handleAddQuestion }) {
     justifyContent: "center",
     flexDirection: "column", // Stack inputs vertically
     gap: "10px", // Space between elements
-    width: "85%"
+    // width: "100%"
   };
 
   const inputStyle = {

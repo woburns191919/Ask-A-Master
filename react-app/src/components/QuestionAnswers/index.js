@@ -132,6 +132,26 @@ export default function QuestionAnswers({
                   )?.first_name
                 }
               </span>
+              <br></br>
+              ELO Rating{" "}
+              <span className="user-name">
+                {
+                  users[0]?.find(
+                    (user) => user.id === parseInt(question.user_id)
+                  )?.elo_rating
+                }
+              </span>
+              <br></br>
+              Country{" "}
+              <span className="user-name">
+                {
+                  users[0]?.find(
+                    (user) => user.id === parseInt(question.user_id)
+                  )?.country
+                }
+              </span>
+
+
               <p>{question.body}</p>
             </div>
             <div className="answer-box">

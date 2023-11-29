@@ -22,12 +22,33 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
   const sessionUser = useSelector((state) => state.session.user);
   const history = useHistory();
 
+  function TooltipIcon({ src, alt, tooltipText }) {
+    const [showTooltip, setShowTooltip] = useState(false);
+
+    return (
+      <div
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+        style={{ position: "relative" }}
+      >
+        <img className="navIcon" src={src} alt={alt} />
+        {showTooltip && (
+          <div
+            className="tooltip"
+
+          >
+            {tooltipText}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
   const performSearch = async () => {
-
     if (!searchTerm.trim()) return; // Prevent searching with empty string
 
     try {
@@ -66,11 +87,15 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
         </NavLink>
       </div>
       <div className="navItems">
-        <img className="navIcon" src={home} alt="home" />
-        <img className="navIcon" src={following} alt="following" />
-        <img className="navIcon" src={answer} alt="answer" />
-        <img className="navIcon" src={spaces} alt="spaces" />
-        <img className="navIcon" src={notifications} alt="notifications" />
+        <TooltipIcon src={home} alt="home" tooltipText="Home" />
+        <TooltipIcon src={following} alt="following" tooltipText="Following" />
+        <TooltipIcon src={answer} alt="answer" tooltipText="Answer" />
+        <TooltipIcon src={spaces} alt="spaces" tooltipText="Spaces" />
+        <TooltipIcon
+          src={notifications}
+          alt="notifications"
+          tooltipText="Notifications"
+        />
         <div className="searchBar">
           <input
             type="search"
@@ -85,32 +110,27 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
           className="navActions"
           style={{ display: "flex", alignItems: "center", gap: "10px" }}
         >
-          {user && (
-            <ProfileButton
-              user={user}
-
-            />
-          )}
+          {user && <ProfileButton user={user} />}
           <img className="languagesIcon" src={languages} alt="languages" />
           <div className="red-question">
-          <OpenModalButton
-            buttonText="Add Question"
-            modalComponent={
-              <AddQuestionForm
-                formType="Create"
-                onQuestionAdded={onAddQuestion}
-                className="open-modal-button"
-                // style={{
-                //   backgroundColor: "#b92b27",
-                //   color: "white",
-                //   border: "none",
-                //   borderRadius: "20px",
-                //   padding: "8px 15px",
-                //   cursor: "pointer",
-                // }}
-              />
-            }
-          />
+            <OpenModalButton
+              buttonText="Add Question"
+              modalComponent={
+                <AddQuestionForm
+                  formType="Create"
+                  onQuestionAdded={onAddQuestion}
+                  className="open-modal-button"
+                  // style={{
+                  //   backgroundColor: "#b92b27",
+                  //   color: "white",
+                  //   border: "none",
+                  //   borderRadius: "20px",
+                  //   padding: "8px 15px",
+                  //   cursor: "pointer",
+                  // }}
+                />
+              }
+            />
           </div>
         </div>
       </div>
