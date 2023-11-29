@@ -139,6 +139,7 @@ const Comments = () => {
   // console.log('user find', users[0]?.find(user => user.id === answers[0].user_id).first_name)
   // users[0]?.map((user) => console.log("user obj id", user.id));
   // answers?.map((answer) => console.log("answer obj id", answer.id));
+  console.log('users array from comments', users)
 
   return (
     <div className="main-layout">
@@ -157,7 +158,7 @@ const Comments = () => {
                 <div className="comment-container" key={answer.id}>
                   <div className="comment-content">{answer.content}</div>
                   <div className="comment-info">
-                    Answered by {users.find((user) => user.id === answer.user_id)?.first_name} on {new Date(answer.created_at).toLocaleDateString()}
+                    Answered by {users[0]?.find((user) => user.id === answer.user_id)?.first_name} on {new Date(answer.created_at).toLocaleDateString()}
                     {sessionUser && answer.user_id === sessionUser.id && (
                       <>
                         <button onClick={() => {
@@ -195,7 +196,7 @@ const Comments = () => {
           </div>
         </div>
         <div className="search-page">
-       
+
         </div>
       </div>
     </div>

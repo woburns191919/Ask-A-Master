@@ -25,6 +25,7 @@ const TopicQuestionsPage = ({ topicQuestions }) => {
   const fetchQuestionsByTopic = async () => {
     try {
       const res = await fetch(`/api/topics/${id}/questions`);
+      console.log('res from topic question', res)
       if (res.ok) {
         const data = await res.json();
         setQuestions(data.questions);

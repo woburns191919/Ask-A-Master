@@ -112,13 +112,13 @@ export default function QuestionAnswers({
   console.log('all questions from QuestionAnswers', allQuestions)
 
   return (
-    <main className="main-container">
+    <main className="main-container" >
       {allQuestions
         ?.concat()
         .reverse()
         .map((question, index) => (
           <div
-            className="question-answer-box"
+            className="box question-answer-box"
             key={index}
             onClick={(e) => handleBoxClick(question.id, e)}
           >

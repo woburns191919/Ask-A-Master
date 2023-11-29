@@ -55,17 +55,20 @@ a {
 }
 
 .create-topic-icon {
-  position: absolute;
-  left: 18px;
-  top: 25%;
-  transform: translateY(-50%);
   color: #d3d3d3;
-  font-size: 12px;
-  z-index:100;
+  font-size: 20px;
 }
+
 
 .create-topic-option {
   display: flex;
   align-items: center;
-  /* ...other styles... */
+  justify-content: center;
+  gap: 10px; /* Space between icon and button */
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #f5f5f5; /* Background color */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Permanent shadow */
+  cursor: pointer;
+  border: 1px solid #e1e1e1; /* Adding border */
 }

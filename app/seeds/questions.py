@@ -47,6 +47,12 @@ def seed_questions():
             "body": "Aren't all bishops good? I'd like to understand pawn structures better. How can you use pawn structure to make bad bishops and good bishops?",
             "user_id": 10,
             "topic_id": 5
+        },
+        { #8
+            "title": "Should I still play?",
+            "body": "I actually feel like I'm just too good at chess. Should I still keep playing if I truly believe that nobody can ever beat me?",
+            "user_id": 2,
+            "topic_id": 4
         }
     ]
 

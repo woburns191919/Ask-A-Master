@@ -28,12 +28,15 @@ const SavedQuestions = ({ userId }) => {
     fetchSavedQuestions();
   }, [userId, history]);
 
-  const toggleDropdown = (questionId) => setShowDropdown(showDropdown === questionId ? null : questionId);
+  const toggleDropdown = (questionId) =>
+    setShowDropdown(showDropdown === questionId ? null : questionId);
   const closeDropdown = () => setShowDropdown(null);
 
   const handleUnsavedQuestion = async (questionId) => {
     try {
-      const response = await fetch(`/api/questions/${questionId}/unsave`, { method: "DELETE" });
+      const response = await fetch(`/api/questions/${questionId}/unsave`, {
+        method: "DELETE",
+      });
       if (!response.ok) throw new Error("Failed to unsave the question");
       removeBookmark(questionId);
       setSavedQuestions(savedQuestions.filter((q) => q.id !== questionId));
@@ -45,11 +48,13 @@ const SavedQuestions = ({ userId }) => {
   return (
     <div className="main-layout">
       <div className="content-wrapper">
-        <div className="sidebar sidebar-menu">
-          {/* Sidebar content */}
-        </div>
+        <div className="sidebar sidebar-menu">{/* Sidebar content */}</div>
         <div className="content">
-          <h2>Bookmarks</h2>
+          <div className="bookmarks">
+            <h4>Bookmarks</h4>
+
+            <hr></hr>
+          </div>
           <div className="question-answers-container">
             {savedQuestions.map((question, index) => (
               <div className="question-answer-box" key={index}>
@@ -58,16 +63,29 @@ const SavedQuestions = ({ userId }) => {
                   <p>{question.body}</p>
                 </div>
                 {question.image_filename && (
-                  <img className="photos" src={`/${question.image_filename}`} alt="Related" />
+                  <img
+                    className="photos"
+                    src={`/${question.image_filename}`}
+                    alt="Related"
+                  />
                 )}
                 <div className="ellipsis-container">
-                  <img className="ellipsis" src={ellipsis} alt="Options" onClick={() => toggleDropdown(question.id)} />
+                  <img
+                    className="ellipsis"
+                    src={ellipsis}
+                    alt="Options"
+                    onClick={() => toggleDropdown(question.id)}
+                  />
                   {showDropdown === question.id && (
                     <div className="dropdown">
-                      <button onClick={() => {
-                        handleUnsavedQuestion(question.id);
-                        closeDropdown();
-                      }}>Remove Bookmark</button>
+                      <button
+                        onClick={() => {
+                          handleUnsavedQuestion(question.id);
+                          closeDropdown();
+                        }}
+                      >
+                        Remove Bookmark
+                      </button>
                     </div>
                   )}
                 </div>
@@ -75,9 +93,7 @@ const SavedQuestions = ({ userId }) => {
             ))}
           </div>
         </div>
-        <div className="search-page">
-          {/* Related topics section */}
-        </div>
+        <div className="search-page">{/* Related topics section */}</div>
       </div>
     </div>
   );
