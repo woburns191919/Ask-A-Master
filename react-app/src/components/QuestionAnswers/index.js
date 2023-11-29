@@ -112,7 +112,7 @@ export default function QuestionAnswers({
   console.log('all questions from QuestionAnswers', allQuestions)
 
   return (
-    <main className="main-container">
+    <main className="main-container" >
       {allQuestions
         ?.concat()
         .reverse()

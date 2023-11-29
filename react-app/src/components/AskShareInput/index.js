@@ -29,6 +29,7 @@ export default function AskShareComponent({ handleAddQuestion }) {
     justifyContent: "center",
     flexDirection: "column", // Stack inputs vertically
     gap: "10px", // Space between elements
+    width: "85%"
   };
 
   const inputStyle = {
@@ -41,7 +42,7 @@ export default function AskShareComponent({ handleAddQuestion }) {
     padding: "10px",
     border: "1px solid #ccc",
     borderRadius: "4px",
-    minHeight: "80px", // Set a minimum height
+    minHeight: "80px",
   };
 
   const buttonStyle = {
