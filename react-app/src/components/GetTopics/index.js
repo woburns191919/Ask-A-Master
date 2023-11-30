@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CreateTopicForm from "../CreateTopic/CreateTopicForm";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faBook, faFilm, faMusic, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faPlus, faBook, faFilm, faMusic, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { useModal } from "../../context/Modal";
 
 import "./styles.css";
@@ -11,13 +11,13 @@ export default function GetTopics() {
   const [allTopics, setAllTopics] = useState([]);
   const { setModalContent } = useModal();
 
-  const topicIcons = {
-    "Books": faBook,
-    "Music": faMusic,
-    "Movies": faFilm,
-  };
+  // const topicIcons = {
+  //   "Books": faBook,
+  //   "Music": faMusic,
+  //   "Movies": faFilm,
+  // };
 
-  const getDefaultIcon = () => faQuestionCircle;
+  // const getDefaultIcon = () => faQuestionCircle;
 
   const fetchAllTopics = async () => {
     try {
@@ -59,14 +59,14 @@ export default function GetTopics() {
   return (
     <main className="topics-main-container">
       <div className="create-topic-option" onClick={handleOpenModalClick}>
-        <FontAwesomeIcon icon={faPlus} className="create-topic-icon" />
+        <i className="fa fa-plus create-topic-icon" />
         <span className="create-topic-text">Create Space</span>
       </div>
       {allTopics ?.concat().reverse().map((topic, i) => (
         <Link to={`/topics/${topic.id}`} key={topic.id} className="topic-link">
           <div className="topics-box">
             <div className="topics">
-            <FontAwesomeIcon icon={topicIcons[topic.type] || getDefaultIcon()} className="topic-icon" />
+            <i className="fa fa-question-circle" />
               <span>{topic.name}</span>
             </div>
           </div>
