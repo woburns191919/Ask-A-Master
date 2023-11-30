@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { thunkGetAllUsers } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import "./styles.css";
+import "./questionAnswerStyles.css";
 
 import ellipsis from "../../images/ellipsis.png";
 import OpenModalButton from "../OpenModalButton";
@@ -14,6 +14,7 @@ export default function QuestionAnswers({
   answersForQuestions,
   onUpdateQuestion,
   openDeleteModal,
+  handleQuestionsUpdate
 
 }) {
   // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)
@@ -108,16 +109,16 @@ export default function QuestionAnswers({
   // console.log('questionId from question answers', questionId)
   console.log("user arr", users);
   // console.log('session user', sessionUser)
-  console.log("question arr****", allQuestions);
+  console.log('all questions from QuestionAnswers', allQuestions)
 
   return (
-    <main className="main-container">
+    <main className="main-container" >
       {allQuestions
         ?.concat()
         .reverse()
         .map((question, index) => (
           <div
-            className="question-answer-box"
+            className="box question-answer-box"
             key={index}
             onClick={(e) => handleBoxClick(question.id, e)}
           >
@@ -131,6 +132,26 @@ export default function QuestionAnswers({
                   )?.first_name
                 }
               </span>
+              <br></br>
+              ELO Rating{" "}
+              <span className="user-name">
+                {
+                  users[0]?.find(
+                    (user) => user.id === parseInt(question.user_id)
+                  )?.elo_rating
+                }
+              </span>
+              <br></br>
+              Country{" "}
+              <span className="user-name">
+                {
+                  users[0]?.find(
+                    (user) => user.id === parseInt(question.user_id)
+                  )?.country
+                }
+              </span>
+
+
               <p>{question.body}</p>
             </div>
             <div className="answer-box">
@@ -168,6 +189,7 @@ export default function QuestionAnswers({
                             questionId={question.id}
                             onUpdateQuestion={onUpdateQuestion}
                             closeModal={closeDropdown}
+                            handleQuestionsUpdate={handleQuestionsUpdate}
                           />
                         }
                       />

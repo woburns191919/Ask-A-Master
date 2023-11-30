@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-// import "./styles.css"
+
 
 const topicsMap = {
   "Opening Theory": 1,
@@ -17,9 +17,7 @@ export default function AskShareComponent({ handleAddQuestion }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [topic, setTopic] = useState("");
-
-
-
+  const [imageFilename, setImageFilename] = useState("");
 
   const askShareInputStyle = {
     padding: "10px",
@@ -31,6 +29,7 @@ export default function AskShareComponent({ handleAddQuestion }) {
     justifyContent: "center",
     flexDirection: "column", // Stack inputs vertically
     gap: "10px", // Space between elements
+    // width: "100%"
   };
 
   const inputStyle = {
@@ -43,7 +42,7 @@ export default function AskShareComponent({ handleAddQuestion }) {
     padding: "10px",
     border: "1px solid #ccc",
     borderRadius: "4px",
-    minHeight: "80px", // Set a minimum height
+    minHeight: "80px",
   };
 
   const buttonStyle = {
@@ -77,7 +76,8 @@ export default function AskShareComponent({ handleAddQuestion }) {
       setBody("");
       setTopic("");
       handleAddQuestion(newQuestion.question);
-      console.log('new question data', newQuestion)
+      setImageFilename(newQuestion.image_filename);
+      console.log("new question data", newQuestion);
     } else {
       console.error("Failed to post question");
     }
@@ -101,6 +101,11 @@ export default function AskShareComponent({ handleAddQuestion }) {
       <button onClick={handleSubmit} style={buttonStyle}>
         Post
       </button>
+      {/* {imageFilename && (
+        <div>
+          <img src={`/${imageFilename}`} alt="Question related" />
+        </div>
+      )} */}
     </div>
   );
 }

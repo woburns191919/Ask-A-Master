@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
@@ -11,6 +11,7 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const history = useHistory()
 
   const openMenu = () => {
     if (showMenu) return;
@@ -33,14 +34,17 @@ function ProfileButton({ user }) {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    dispatch(logout());
+    dispatch(logout()).then(() => {
+      history.push('/login');
+    });
+
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
 
   return (
-    <div className="profile-button-container">
+    <div className="profile-button-container" id="square">
       <button onClick={openMenu}>
         {user ? (
           <span className="user-initial">{user.email[0]}</span>
@@ -48,14 +52,15 @@ function ProfileButton({ user }) {
           <i className="fas fa-user-circle" />
         )}
       </button>
-      <ul className={ulClassName} ref={ulRef}>
+
+      <ul className={ulClassName} ref={ulRef} id="nav-profile">
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.email}</li>
-            <Link to={'/saved-questions'}>
-              Bookmarks
-            </Link>
+            <li className="username">{user.username}</li>
+            <li className="email">{user.email}</li>
+            <li className="bookmarks">
+              <Link to={'/saved-questions'}>Bookmarks</Link>
+            </li>
             <li>
               <button onClick={handleLogout}>Log Out</button>
             </li>

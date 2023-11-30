@@ -62,6 +62,7 @@ export default function AddQuestionForm({
   questionId,
   onQuestionAdded,
   onUpdateQuestion,
+  handleQuestionsUpdate
 }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -136,6 +137,7 @@ export default function AddQuestionForm({
         // console.log('data from AddQuestion', data)
         if (formType === "Edit") {
           onUpdateQuestion(data.question); // Update the question
+          handleQuestionsUpdate(data.question)
           // console.log('data.question from add question form', data.question)
         } else {
           onQuestionAdded(data.question); // Add the new question to state

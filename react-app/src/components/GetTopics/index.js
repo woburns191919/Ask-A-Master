@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import OpenModalButton from "../OpenModalButton";
 import CreateTopicForm from "../CreateTopic/CreateTopicForm";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faBook, faFilm, faMusic, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { useModal } from "../../context/Modal";
 
 import "./styles.css";
 
 export default function GetTopics() {
   const [allTopics, setAllTopics] = useState([]);
+  const { setModalContent } = useModal();
+
+  const topicIcons = {
+    "Books": faBook,
+    "Music": faMusic,
+    "Movies": faFilm,
+  };
+
+  const getDefaultIcon = () => faQuestionCircle;
 
   const fetchAllTopics = async () => {
     try {
@@ -45,33 +53,24 @@ export default function GetTopics() {
   }, [allTopics]);
 
   const handleOpenModalClick = () => {
-    console.log("OpenModalButton clicked");
+    setModalContent(<CreateTopicForm addNewTopic={addNewTopic} />);
   };
 
   return (
     <main className="topics-main-container">
-      {/* Add Create Space option */}
-      <div className="create-topic-option">
-      <FontAwesomeIcon icon={faPlus} className="create-topic-icon" />
-        {/* <FaPlus className="create-topic-icon" /> */}
-        <OpenModalButton
-          buttonText="Create Space"
-          modalComponent={
-            <CreateTopicForm addNewTopic={addNewTopic}
-            />
-          }
-          onButtonClick={handleOpenModalClick}
-        />
-
+      <div className="create-topic-option" onClick={handleOpenModalClick}>
+        <FontAwesomeIcon icon={faPlus} className="create-topic-icon" />
+        <span className="create-topic-text">Create Space</span>
       </div>
-      {allTopics ?.concat()
-        .reverse()
-        .map((topic, i) => (
-        <div className="topics-box" key={topic.id}>
-          <div className="topics">
-            <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
+      {allTopics ?.concat().reverse().map((topic, i) => (
+        <Link to={`/topics/${topic.id}`} key={topic.id} className="topic-link">
+          <div className="topics-box">
+            <div className="topics">
+            <FontAwesomeIcon icon={topicIcons[topic.type] || getDefaultIcon()} className="topic-icon" />
+              <span>{topic.name}</span>
+            </div>
           </div>
-        </div>
+        </Link>
       ))}
     </main>
   );

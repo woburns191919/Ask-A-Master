@@ -139,63 +139,64 @@ const Comments = () => {
   // console.log('user find', users[0]?.find(user => user.id === answers[0].user_id).first_name)
   // users[0]?.map((user) => console.log("user obj id", user.id));
   // answers?.map((answer) => console.log("answer obj id", answer.id));
+  console.log('users array from comments', users)
 
   return (
-    <div className="question-comments-container">
-      <div className="question-body">{question}</div>
-      <div className="answers-container">
-        <div className="answer-header">
-          {answers.length === 1 ? "1 Answer" : `${answers.length} Answers`}{" "}
+    <div className="main-layout">
+      <div className="content-wrapper">
+        <div className="sidebar sidebar-menu">
+          {/* Sidebar content, if any */}
         </div>
-        {answers.map((answer) => (
-          <div className="comment-container" key={answer.id}>
-            <div className="comment-content">{answer.content}</div>
-            <div className="comment-info">
-              Answered by{" "}
-              {users.length &&
-                users[0].find((user) => user.id === answer.user_id)?.first_name}
-                {" "}
-              on {new Date(answer.created_at).toLocaleDateString()}
-              {sessionUser && answer.user_id === sessionUser.id && (
-                <>
+        <div className="content">
+          <div className="question-comments-container">
+            <div className="question-body">{question}</div>
+            <div className="answers-container">
+              <div className="answer-header">
+                {answers.length === 1 ? "1 Answer" : `${answers.length} Answers`}
+              </div>
+              {answers.map((answer) => (
+                <div className="comment-container" key={answer.id}>
+                  <div className="comment-content">{answer.content}</div>
+                  <div className="comment-info">
+                    Answered by {users[0]?.find((user) => user.id === answer.user_id)?.first_name} on {new Date(answer.created_at).toLocaleDateString()}
+                    {sessionUser && answer.user_id === sessionUser.id && (
+                      <>
+                        <button onClick={() => {
+                          setEditingCommentId(answer.id);
+                          setNewComment(answer.content);
+                        }}>Edit</button>
+                        <button onClick={() => openDeleteModal(answer.id)}>Delete Comment</button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              ))}
+              <div className="comment-section">
+                <input
+                  type="text"
+                  className="comment-input"
+                  placeholder="Add a comment..."
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                />
+                {editingCommentId ? (
                   <button
-                    onClick={() => {
-                      setEditingCommentId(answer.id);
-                      // console.log("Setting editingCommentId to:", answer.id);
-                      setNewComment(answer.content);
-                    }}
+                    className="comment-submit-button"
+                    onClick={() => submitEdit(editingCommentId)}
                   >
-                    Edit
+                    Save Edit
                   </button>
-
-                  <button onClick={() => openDeleteModal(answer.id)}>
-                    Delete Comment
+                ) : (
+                  <button className="comment-submit-button" onClick={postComment}>
+                    Comment
                   </button>
-                </>
-              )}
+                )}
+              </div>
             </div>
           </div>
-        ))}
-        <div className="comment-section">
-          <input
-            type="text"
-            className="comment-input"
-            placeholder="Add a comment..."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          {editingCommentId ? (
-            <button
-              className="comment-submit-button"
-              onClick={() => submitEdit(editingCommentId)}
-            >
-              Save Edit
-            </button>
-          ) : (
-            <button className="comment-submit-button" onClick={postComment}>
-              Comment
-            </button>
-          )}
+        </div>
+        <div className="search-page">
+
         </div>
       </div>
     </div>
