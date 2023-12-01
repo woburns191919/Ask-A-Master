@@ -13,8 +13,11 @@ def add_prefix_for_prod(attr):
 class Image(db.Model):
     __tablename__ = 'images'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
-    filename = db.Column(db.String, nullable=False) 
+    filename = db.Column(db.String, nullable=False)
     question_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('questions.id')))
 
     question = db.relationship('Question', back_populates='image')
