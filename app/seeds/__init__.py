@@ -17,8 +17,8 @@ seed_commands = AppGroup('seed')
 def seed():
     if environment == 'production':
         # Before seeding, truncate all tables prefixed with schema name
-        db.session.execute(f"TRUNCATE table {SCHEMA}.answers RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.images RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.answers RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.questions RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.topics RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
@@ -29,8 +29,8 @@ def seed():
     seed_users()
     seed_topics()
     seed_questions()
-    seed_images()
     seed_answers()
+    seed_images()
 
 
 @seed_commands.command('undo')
