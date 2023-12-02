@@ -91,6 +91,28 @@ def upgrade():
     if environment == "production":
         op.execute(f"ALTER TABLE answers SET SCHEMA {SCHEMA};")
 
+    op.create_table('question_topic_association',
+        sa.Column('question_id', sa.Integer(), nullable=False),
+        sa.Column('topic_id', sa.Integer(), nullable=False),
+        sa.ForeignKeyConstraint(['question_id'], ['your_schema.questions.id'], ),
+        sa.ForeignKeyConstraint(['topic_id'], ['your_schema.topics.id'], ),
+        sa.PrimaryKeyConstraint('question_id', 'topic_id')
+    )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE question_topic_association SET SCHEMA {SCHEMA};")
+
+    op.create_table('saved_questions',
+        sa.Column('user_id', sa.Integer(), nullable=False),
+        sa.Column('question_id', sa.Integer(), nullable=False),
+        sa.ForeignKeyConstraint(['user_id'], ['your_schema.users.id'], ),
+        sa.ForeignKeyConstraint(['question_id'], ['your_schema.questions.id'], ),
+        sa.PrimaryKeyConstraint('user_id', 'question_id')
+    )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE saved_questions SET SCHEMA {SCHEMA};")
+
 
 
 
