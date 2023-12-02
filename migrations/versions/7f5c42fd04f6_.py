@@ -94,8 +94,8 @@ def upgrade():
     op.create_table('question_topic_association',
         sa.Column('question_id', sa.Integer(), nullable=False),
         sa.Column('topic_id', sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(['question_id'], ['your_schema.questions.id'], ),
-        sa.ForeignKeyConstraint(['topic_id'], ['your_schema.topics.id'], ),
+        sa.ForeignKeyConstraint(['question_id'], ['ask_a_master11.questions.id'], ),
+        sa.ForeignKeyConstraint(['topic_id'], ['ask_a_master11.topics.id'], ),
         sa.PrimaryKeyConstraint('question_id', 'topic_id')
     )
 
@@ -105,8 +105,8 @@ def upgrade():
     op.create_table('saved_questions',
         sa.Column('user_id', sa.Integer(), nullable=False),
         sa.Column('question_id', sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(['user_id'], ['your_schema.users.id'], ),
-        sa.ForeignKeyConstraint(['question_id'], ['your_schema.questions.id'], ),
+        sa.ForeignKeyConstraint(['user_id'], ['ask_a_master11.users.id'], ),
+        sa.ForeignKeyConstraint(['question_id'], ['ask_a_master11.questions.id'], ),
         sa.PrimaryKeyConstraint('user_id', 'question_id')
     )
 
