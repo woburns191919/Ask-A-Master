@@ -11,6 +11,7 @@ import spaces from "../../images/spaces.png";
 import notifications from "../../images/notifications.png";
 import searchIcon from "../../images/searchIcon.png";
 import languages from "../../images/languages.png";
+import icon from "../../images/my-logo.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
@@ -32,14 +33,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
         style={{ position: "relative" }}
       >
         <img className="navIcon" src={src} alt={alt} />
-        {showTooltip && (
-          <div
-            className="tooltip"
-
-          >
-            {tooltipText}
-          </div>
-        )}
+        {showTooltip && <div className="tooltip">{tooltipText}</div>}
       </div>
     );
   }
@@ -83,11 +77,13 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
     <header className="navBarContainer">
       <div className="navLogo">
         <NavLink exact to="/">
-          <img className="header-logo" src={quora} alt="quora-logo" />
+          <img className="header-logo" src={icon} alt="ask-a-master-logo" />
         </NavLink>
       </div>
       <div className="navItems">
-        <TooltipIcon src={home} alt="home" tooltipText="Home" />
+        <NavLink exact to="/">
+          <TooltipIcon src={home} alt="home" tooltipText="Home" />
+        </NavLink>
         <TooltipIcon src={following} alt="following" tooltipText="Following" />
         <TooltipIcon src={answer} alt="answer" tooltipText="Answer" />
         <TooltipIcon src={spaces} alt="spaces" tooltipText="Spaces" />
@@ -105,7 +101,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
             onKeyDown={handleKeyPress}
           />
         </div>
-        <button className="tryQuoraButton">Try Quora+</button>
+        <button className="tryQuoraButton">Try Ask a Master+</button>
         <div
           className="navActions"
           style={{ display: "flex", alignItems: "center", gap: "10px" }}
