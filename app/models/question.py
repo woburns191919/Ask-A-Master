@@ -12,6 +12,7 @@ def add_prefix_for_prod(attr):
 
 question_topic_association = db.Table(
     'question_topic_association',
+    db.Model.metadata,
     db.Column('question_id', db.Integer, db.ForeignKey(add_prefix_for_prod('questions.id')), primary_key=True),
     db.Column('topic_id', db.Integer, db.ForeignKey(add_prefix_for_prod('topics.id')), primary_key=True)
 )
