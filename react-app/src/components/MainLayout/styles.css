@@ -1,16 +1,66 @@
 .main-layout-content {
   display: flex;
   justify-content: space-between;
-  padding: 20px; /* Adjust spacing as needed */
+  padding: 20px;
 }
 
 .main-layout-sidebar {
-  flex-basis: 20%; /* Adjust width of the sidebar */
-  padding: 10px; /* Internal spacing */
+  flex-basis: 20%;
+  padding: 10px;
 }
 
 .main-layout-main {
-  flex-grow: 1; /* Main content grows to fill space */
-  padding: 10px; /* Internal spacing */
+  flex-grow: 1;
+  padding: 10px;
 }
 
+
+@media screen and (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+
+  .sidebar-menu {
+    width: 100%; 
+    order: 2;
+    padding: 10px 0;
+    display: block;
+  }
+
+  .content {
+    width: 100%;
+    order: 1;
+    padding: 10px 0;
+    display: block;
+  }
+
+  .main-layout-main {
+    width: 100%;
+    display: block;
+  }
+
+  .question-answer-box {
+    width: 100%;
+    padding: 8px;
+    margin: 0 auto;
+    display: block;
+  }
+
+
+  .photos {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+
+@media screen and (max-width: 730px) and (min-width: 720px) {
+  .content-wrapper, .sidebar-menu, .content, .main-layout-main, .question-answer-box {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+
+}
