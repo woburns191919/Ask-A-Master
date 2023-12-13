@@ -27,18 +27,33 @@ function LoginFormPage() {
     setPassword("password9");
   };
 
+  const handleGoogleLogin = () => {
+    alert(
+      "Google login is not currently available. Please use the standard login method."
+    );
+  };
+
+  const handleFacebookLogin = () => {
+    alert(
+      "Facebook login is not currently available. Please use the standard login method."
+    );
+  };
+
   return (
     <div className="login-container">
-    <div className="outer-wrap">
-      <div className="login-right">
-        <img src={logo} alt="Ask a Master"></img>
-        <p>
-          A place to share knowledge and better understand the world of chess
-        </p>
+      <div className="outer-wrap">
+        <div className="login-right">
+          <img src={logo} alt="Ask a Master"></img>
+          <p>
+            A place to share knowledge and better understand the world of chess
+          </p>
           {/* switched */}
           <div className="google-face">
-            <button className="continue-google">Continue with Google</button>
-            <button className="continue-facebook">
+            <button className="continue-google" onClick={handleGoogleLogin}>
+              Continue with Google
+            </button>
+
+            <button className="continue-facebook" onClick={handleFacebookLogin}>
               Continue with Facebook
             </button>
           </div>

@@ -24,7 +24,9 @@ function App() {
   const { setModalContent } = useModal();
   const [searchResults, setSearchResults] = useState([]);
 
-  const [questionId, setQuestionId] = useState(null);
+
+  const [questionId, setQuestionId] = useState(null); 
+
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
