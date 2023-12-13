@@ -24,8 +24,8 @@ function App() {
   const { setModalContent } = useModal();
   const [searchResults, setSearchResults] = useState([]);
 
-  // Add the missing declarations
-  const [questionId, setQuestionId] = useState(null); // For handling question ID
+
+  const [questionId, setQuestionId] = useState(null); 
 
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));

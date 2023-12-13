@@ -51,8 +51,6 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("Search results received: ****", data);
-        // Handle search results
         updateSearchResults(data);
         history.push("/search-results");
       } else {
@@ -107,7 +105,8 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
           style={{ display: "flex", alignItems: "center", gap: "10px" }}
         >
           {user && <ProfileButton user={user} />}
-          <img className="languagesIcon" src={languages} alt="languages" />
+          <TooltipIcon src={languages} alt="languages" tooltipText="languages" />
+      
           <div className="red-question">
             <OpenModalButton
               buttonText="Add Question"
@@ -116,14 +115,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
                   formType="Create"
                   onQuestionAdded={onAddQuestion}
                   className="open-modal-button"
-                  // style={{
-                  //   backgroundColor: "#b92b27",
-                  //   color: "white",
-                  //   border: "none",
-                  //   borderRadius: "20px",
-                  //   padding: "8px 15px",
-                  //   cursor: "pointer",
-                  // }}
+
                 />
               }
             />

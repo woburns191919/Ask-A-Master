@@ -3,20 +3,19 @@ import { useParams } from "react-router-dom";
 import "./styles.css";
 
 function TopicInfo() {
-
   const { id: topicId } = useParams();
   const [topicInfo, setTopicInfo] = useState(null);
+  const [followerCount, setFollowerCount] = useState(0);
 
   useEffect(() => {
     const fetchTopicInfo = async () => {
       try {
         const response = await fetch(`/api/topics/${topicId}`);
-
         if (response.ok) {
-
           const data = await response.json();
           setTopicInfo(data.topic);
-          console.log('data from TopicInfo**', data)
+          setFollowerCount(Math.floor(Math.random() * 1000)); // Generate random followers
+          console.log('data from TopicInfo**', data);
         } else {
           console.error("Failed to fetch topic info. Status:", response.status);
         }
@@ -34,13 +33,13 @@ function TopicInfo() {
     return <div>Loading...</div>;
   }
 
-  console.log('topic info***', topicInfo)
+  console.log('topic info***', topicInfo);
 
   return (
     <div className="topic-info-container">
       <h2>{topicInfo.name}</h2>
-      {/* <p className="followers">Followers: {topicInfo.followerCount}</p> */}
-      {/* Implement ellipsis dropdown here */}
+      <p className="followers">Followers: {followerCount}k</p>
+     
     </div>
   );
 }

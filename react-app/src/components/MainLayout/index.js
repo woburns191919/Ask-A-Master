@@ -42,7 +42,7 @@ const MainLayout = ({
         </div>
         <div className="content">
           {sessionUser && (
-            <div className="ask-share-container">
+            <div className="ask-share-container question-answer-box">
               {topicId ? (
                 <TopicInfo topicId={topicId} />
               ) : (

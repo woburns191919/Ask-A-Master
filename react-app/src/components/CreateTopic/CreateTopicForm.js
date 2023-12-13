@@ -20,6 +20,7 @@ export default function CreateTopicForm({ addNewTopic }) {
     bottom: 0,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     display: "flex",
+    flexDirection:"column",
     alignItems: "center",
     justifyContent: "center",
     zIndex: 1000,
@@ -60,7 +61,7 @@ export default function CreateTopicForm({ addNewTopic }) {
 
   const history = useHistory()
 
- 
+
 
   const handleSubmit = async (e) => {
     console.log('inside handle submit')
@@ -104,8 +105,8 @@ export default function CreateTopicForm({ addNewTopic }) {
             onChange={(e) => setTopicName(e.target.value)}
             style={inputStyles}
           />
-          <label style={labelStyles}>Topic Description</label>
-          {/* <textarea
+          {/* <label style={labelStyles}>Topic Description</label>
+          <textarea
             placeholder="Topic Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
