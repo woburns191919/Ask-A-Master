@@ -22,4 +22,41 @@ flask seed all
 
 
 -------------
-add question to new new topic 
+add question to new new topic
+
+
+
+add toast
+
+option to cancel
+
+any time you click, you want something to change
+
+scroll left side sticky?
+
+chron jobs -- last mod
+
+google analytics -- put these in sites
+
+
+priorities
+
+ linked in, chron jobs, personal portfolio (), put media screens in issues (make git issues!)
+
+own it as a failure
+
+
+github will host the html5 up
+
+3-5 git issues
+
+get linked in  -- prioritize this, then personal portfolio
+then html5 up
+
+featured section on linked in
+
+enhancements -- things like sticky panel 
+
+add mysql, sequelize to languages and frameworks
+
+link for resume templates

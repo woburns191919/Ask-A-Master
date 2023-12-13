@@ -170,21 +170,8 @@ export default function AddQuestionForm({
           onChange={(e) => setBody(e.target.value)}
           style={inputStyles}
         />
-        <label style={labelStyles}>Topic</label>
-        <select
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          style={inputStyles}
-        >
-          {/* Render options for topics */}
-          {Object.keys(topicsMap).map((topicName) => (
-            <option key={topicName} value={topicName}>
-              {topicName}
-            </option>
-          ))}
-        </select>
-        <label style={labelStyles}>Image</label>
-        <input type="file" onChange={handleImageChange} style={inputStyles} />
+
+  
         <button onClick={handleSubmit} style={buttonStyles}>
           {formType === "Edit" ? "Update Question" : "Submit Question"}
         </button>
