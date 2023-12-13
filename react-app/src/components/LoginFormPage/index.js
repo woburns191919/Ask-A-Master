@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import logo from "../../images/quora.png";
+import logo from "../../images/label.png";
 import "./LoginForm.css";
 
 function LoginFormPage() {
@@ -29,12 +29,12 @@ function LoginFormPage() {
 
   return (
     <div className="login-container">
-      <div className="outer-wrap">
-        <div className="login-right">
-          <img src={logo}></img>
-          <p>
-            A place to share knowledge and better understand the world of chess
-          </p>
+    <div className="outer-wrap">
+      <div className="login-right">
+        <img src={logo} alt="Ask a Master"></img>
+        <p>
+          A place to share knowledge and better understand the world of chess
+        </p>
           {/* switched */}
           <div className="google-face">
             <button className="continue-google">Continue with Google</button>

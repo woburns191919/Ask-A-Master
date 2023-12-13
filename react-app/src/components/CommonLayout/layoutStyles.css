@@ -102,6 +102,11 @@
 
 }
 
+.ask-share-container .question-answer-box {
+  padding:0;
+  margin: 0;
+}
+
 
 
 /* Adjustments for smaller screens */
