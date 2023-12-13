@@ -21,7 +21,7 @@
   }
 
   .sidebar-menu {
-    width: 100%; 
+    width: 100%;
     order: 2;
     padding: 10px 0;
     display: block;
@@ -42,7 +42,7 @@
   .question-answer-box {
     width: 100%;
     padding: 8px;
-    margin: 0 auto;
+   
     display: block;
   }
 

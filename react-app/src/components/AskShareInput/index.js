@@ -20,23 +20,18 @@ export default function AskShareComponent({ handleAddQuestion }) {
   const [imageFilename, setImageFilename] = useState("");
 
   const askShareInputStyle = {
-    padding: "10px",
-    margin: "20px 0", // Add margin to separate it from navigation
+
     backgroundColor: "#fff",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)", // Add shadow for depth
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
     borderRadius: "4px",
     display: "flex",
     justifyContent: "center",
-    flexDirection: "column", // Stack inputs vertically
-    gap: "10px", // Space between elements
-    // width: "100%"
+    flexDirection: "column",
+    gap: "10px",
+    width:"100%"
+
   };
 
-  const inputStyle = {
-    padding: "10px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-  };
 
   const textareaStyle = {
     padding: "10px",
