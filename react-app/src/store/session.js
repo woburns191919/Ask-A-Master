@@ -121,7 +121,7 @@ export const thunkGetAllUsers = () => async (dispatch) => {
     }
   } catch (error) {
     console.error("Error while fetching users:", error);
-    // Handle other errors as needed
+    
   }
 };
 

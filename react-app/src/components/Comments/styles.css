@@ -12,7 +12,7 @@
   font-size: 18px;
   margin-bottom: 20px;
   font-weight: bold;
-  color: #2b6dad; /* Quora's blue color */
+  color: #2b6dad;
 }
 
 .answers-container {
@@ -24,7 +24,7 @@
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 15px;
-  color: #161718; /* Dark text */
+  color: #161718;
 }
 
 .comment-container {
@@ -65,7 +65,7 @@
   transition: background-color 0.3s;
 }
 
-/* Edit and Delete button styles */
+
 .comment-container button {
   margin-right: 5px;
   padding: 5px 10px;

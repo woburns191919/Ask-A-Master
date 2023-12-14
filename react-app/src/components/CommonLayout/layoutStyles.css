@@ -20,7 +20,7 @@
 
 .sidebar {
   flex-basis: 15%;
-  /* Additional styles for sidebar */
+
 }
 
 .content {
@@ -28,7 +28,7 @@
   max-width: 70%;
   width: 138%;
   margin-left: -50%;
-  /* Additional styles for content */
+
 }
 
 .related-topics {
@@ -109,7 +109,7 @@
 
 
 
-/* Adjustments for smaller screens */
+
 @media screen and (max-width: 768px) {
   .sidebar, .related-topics {
     display: none;

@@ -59,7 +59,7 @@ const SearchResultsComponent = ({ searchResults }) => {
         </div>
 
         <div className="search-page">
-          {/* Adjust as needed for layout */}
+        
         </div>
       </div>
     </div>

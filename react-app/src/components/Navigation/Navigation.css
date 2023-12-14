@@ -1,4 +1,4 @@
-/* import searchIcon from "../../images/searchIcon.png"; */
+
 
 .navBarContainer {
   display: flex;
@@ -39,13 +39,13 @@
 
 
 .navIcon {
-  margin-right: 20px; /* Adjust as needed for spacing */
+  margin-right: 20px;
   position: relative;
 }
 .navIcon:hover::after {
   content: '';
   position: absolute;
-  bottom: -5px; /* Adjust as needed */
+  bottom: -5px;
   left: 0;
   width: 100%;
   height: 2px;
@@ -124,7 +124,7 @@
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
   white-space: nowrap;
   z-index: 10;
-  visibility: hidden; 
+  visibility: hidden;
   opacity: 0;
   transition: visibility 0.2s, opacity 0.2s ease-in-out;
 }

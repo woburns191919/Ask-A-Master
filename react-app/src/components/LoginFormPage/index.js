@@ -45,7 +45,7 @@ function LoginFormPage() {
         <div className="login-right">
           <img src={logo} alt="Ask a Master"></img>
 
-          {/* switched */}
+        
           <div className="google-face">
             <button className="continue-google" onClick={handleGoogleLogin}>
               Continue with Google
