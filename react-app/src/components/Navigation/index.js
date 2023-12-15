@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
-import "./Navigation.css"; // Updated CSS file
+import "./Navigation.css";
 import quora from "../../images/quora.png";
 import home from "../../images/home.png";
 import answer from "../../images/answer.png";
@@ -43,7 +43,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
   };
 
   const performSearch = async () => {
-    if (!searchTerm.trim()) return; // Prevent searching with empty string
+    if (!searchTerm.trim()) return; 
 
     try {
       const response = await fetch(
@@ -106,7 +106,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
         >
           {user && <ProfileButton user={user} />}
           <TooltipIcon src={languages} alt="languages" tooltipText="languages" />
-      
+
           <div className="red-question">
             <OpenModalButton
               buttonText="Add Question"

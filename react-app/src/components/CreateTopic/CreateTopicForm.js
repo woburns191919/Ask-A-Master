@@ -2,15 +2,11 @@ import React, { useState } from "react";
 import { useModal } from "../../context/Modal";
 import { useHistory } from "react-router-dom";
 
-
 export default function CreateTopicForm({ addNewTopic }) {
-  console.log("Rendering CreateTopicForm");
   const [topicName, setTopicName] = useState("");
   const [description, setDescription] = useState("");
   const { closeModal } = useModal();
   const [topics, setTopics] = useState([]);
-
-
 
   const modalStyles = {
     position: "fixed",
@@ -20,7 +16,7 @@ export default function CreateTopicForm({ addNewTopic }) {
     bottom: 0,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     display: "flex",
-    flexDirection:"column",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     zIndex: 1000,
@@ -56,20 +52,13 @@ export default function CreateTopicForm({ addNewTopic }) {
     padding: "10px 20px",
     cursor: "pointer",
     transition: "background-color 0.3s",
-
   };
 
-  const history = useHistory()
-
-
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
-    console.log('inside handle submit')
     e.preventDefault();
-    console.log("Submitting form with data:", { topicName, description });
 
-
-    // API call to create a new topic
     const response = await fetch("/api/topics/new", {
       method: "POST",
       headers: {
@@ -82,7 +71,7 @@ export default function CreateTopicForm({ addNewTopic }) {
     });
     if (response.ok) {
       const newTopic = await response.json();
-      console.log('New topic created:', newTopic);
+
       addNewTopic(newTopic);
 
       closeModal();
@@ -92,9 +81,8 @@ export default function CreateTopicForm({ addNewTopic }) {
     }
   };
 
- return (
+  return (
     <div style={modalStyles} onClick={() => closeModal()}>
-
       <div style={modalContentStyles} onClick={(e) => e.stopPropagation()}>
         <form onSubmit={handleSubmit}>
           <label style={labelStyles}>Topic Name</label>
@@ -105,20 +93,10 @@ export default function CreateTopicForm({ addNewTopic }) {
             onChange={(e) => setTopicName(e.target.value)}
             style={inputStyles}
           />
-          {/* <label style={labelStyles}>Topic Description</label>
-          <textarea
-            placeholder="Topic Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            style={inputStyles}
-          /> */}
 
-
-          <button type="submit" style={buttonStyles}
-          >
+          <button type="submit" style={buttonStyles}>
             Create Topic
           </button>
-
         </form>
       </div>
     </div>

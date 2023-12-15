@@ -12,19 +12,19 @@ export default function GetTopics() {
 
   const getIconForTopic = (topicName) => {
     switch (topicName.toLowerCase()) {
-      case 'chess books and resources':
+      case "chess books and resources":
         return "fa fa-book";
-      case 'avoiding blunders':
+      case "avoiding blunders":
         return "fa fa-times-circle";
-      case 'chess analysis':
+      case "chess analysis":
         return "fa fa-search";
-      case 'tactics and combinations':
+      case "tactics and combinations":
         return "fa fa-puzzle-piece";
-      case 'endgame techniques':
+      case "endgame techniques":
         return "fa fa-flag-checkered";
-      case 'middle game strategy':
+      case "middle game strategy":
         return "fa fa-chess-knight";
-      case 'opening theory':
+      case "opening theory":
         return "fa fa-play-circle";
       default:
         return "fa fa-star";
@@ -53,16 +53,13 @@ export default function GetTopics() {
 
   useEffect(() => {
     (async function () {
-      console.log("Fetching topics...");
       const topicsData = await fetchAllTopics();
-      console.log("Fetched topics:", topicsData);
+
       setAllTopics(topicsData);
     })();
   }, []);
 
-  useEffect(() => {
-    console.log("Updated topics list in GetTopics:", allTopics);
-  }, [allTopics]);
+  useEffect(() => {}, [allTopics]);
 
   const handleOpenModalClick = () => {
     setModalContent(<CreateTopicForm addNewTopic={addNewTopic} />);
@@ -85,7 +82,7 @@ export default function GetTopics() {
           >
             <div className="topics-box">
               <div className="topics">
-              <i className={getIconForTopic(topic.name)} />
+                <i className={getIconForTopic(topic.name)} />
                 <span>{topic.name}</span>
               </div>
             </div>

@@ -37,14 +37,14 @@ def map_keywords_to_image(keywords):
     print("Keyword to Image Mapping:", keyword_to_image)
     print("Initial Image Scores:", image_scores)
 
-    # Score each image based on how many keywords it matches
+
     for keyword in keywords:
         for image in keyword_to_image.get(keyword, []):
             image_scores[image] += 1
 
     print("Updated Image Scores:", image_scores)
 
-    # Find the image with the highest score
+
     best_image = max(image_scores, key=image_scores.get)
 
     print("Best Image:", best_image)
@@ -81,12 +81,12 @@ def get_question_images():
 @login_required
 def save_question(question_id):
     try:
-        # Find the question
+
         question = Question.query.get(question_id)
         if not question:
             return jsonify(message="Question not found"), 404
 
-        # Add the question to the user's saved questions
+
         current_user.saved_questions.append(question)
         db.session.commit()
 
@@ -100,12 +100,12 @@ def save_question(question_id):
 @login_required
 def unsave_question(question_id):
     try:
-        # Find the question
+
         question = Question.query.get(question_id)
         if not question:
             return jsonify(message="Question not found"), 404
 
-        # Remove the question from the user's saved questions
+
         current_user.saved_questions.remove(question)
         db.session.commit()
 
@@ -123,14 +123,14 @@ def delete_question(question_id):
     print(f"Backend received delete request for question ID: {question_id}")
     print(f"Current User ID: {current_user.id}")
     try:
-        # Check if the user is authenticated
+
         if not current_user.is_authenticated:
             return jsonify(message="You need to be logged in"), 401
 
-        # Retrieve the question to be deleted
+
         question_to_delete = Question.query.get(question_id)
 
-        # Check if the question exists
+
         if not question_to_delete:
             return jsonify(message="Question not found"), 404
 
@@ -140,14 +140,14 @@ def delete_question(question_id):
             print('question to del id, cur user id', question_to_delete.user_id, current_user.id)
             return jsonify(message="You cannot delete this question"), 403
 
-        # Delete the question from the database
+
         db.session.delete(question_to_delete)
         db.session.commit()
 
         return jsonify(message="Question deleted successfully"), 200
 
     except Exception as e:
-        # Log the exception
+
         print("Error deleting question:", str(e))
         return jsonify(message="Internal Server Error"), 500
 
@@ -168,12 +168,12 @@ def create_question():
     user_id = data.get('user_id')
     topic_id = data.get('topic_id', 1)
 
-    # Extract keywords from the question body
+
     keywords = extract_keywords(body)
-    # Get the best image filename based on the keywords
+
     image_filename = map_keywords_to_image(keywords)
 
-    # Create new question
+
     new_question = Question(
         title=title,
         body=body,
@@ -183,12 +183,12 @@ def create_question():
     db.session.add(new_question)
     db.session.commit()
 
-    # Associate image with the question
+
     new_image = Image(filename=image_filename, question_id=new_question.id)
     db.session.add(new_image)
     db.session.commit()
 
-    # Return the new question data including image filename
+
     return jsonify({
         'message': 'Question created successfully',
         'question': new_question.to_dict(),
@@ -208,7 +208,7 @@ def get_question(question_id):
 
 @questions_routes.route("/")
 def get_all_questions():
-    # Fetch all questions including related images
+
     questions = Question.query.all()
     all_questions = []
 
@@ -235,7 +235,7 @@ def edit_question(question_id):
         return jsonify(message="You need to be logged in"), 401
 
     question_to_edit = Question.query.get(question_id)
-    # Query the associated image
+
     image = Image.query.filter_by(question_id=question_id).first()
 
     if not question_to_edit:
@@ -252,7 +252,7 @@ def edit_question(question_id):
 
     db.session.commit()
 
-    # Return the updated question data, including the image filename
+  
     question_dict = question_to_edit.to_dict()
     if image:
         question_dict["image_filename"] = image.filename

@@ -62,7 +62,7 @@ export default function AddQuestionForm({
   questionId,
   onQuestionAdded,
   onUpdateQuestion,
-  handleQuestionsUpdate
+  handleQuestionsUpdate,
 }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -94,7 +94,7 @@ export default function AddQuestionForm({
   }, [formType, questionId]);
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // Set the uploaded file
+    setImage(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -106,7 +106,7 @@ export default function AddQuestionForm({
       user_id: sessionUser.id,
       topic_id: topicsMap[topic] || 1,
       if(image) {
-        formData.append("image", image); // Add image if available
+        formData.append("image", image);
       },
     };
 
@@ -115,11 +115,9 @@ export default function AddQuestionForm({
       let method;
 
       if (formType === "Edit") {
-        // Update URL and method for editing
         url = `/api/questions/edit/${questionId}`;
         method = "PUT";
       } else {
-        // URL and method for creating a new question
         url = "/api/questions/new";
         method = "POST";
       }
@@ -134,17 +132,15 @@ export default function AddQuestionForm({
 
       if (response.ok) {
         const data = await response.json();
-        // console.log('data from AddQuestion', data)
+
         if (formType === "Edit") {
-          onUpdateQuestion(data.question); // Update the question
-          handleQuestionsUpdate(data.question)
-          // console.log('data.question from add question form', data.question)
+          onUpdateQuestion(data.question);
+          handleQuestionsUpdate(data.question);
         } else {
-          onQuestionAdded(data.question); // Add the new question to state
+          onQuestionAdded(data.question);
         }
         closeModal();
       } else {
-        // Handle errors
         console.error("Failed to post question:", response.status);
       }
     } catch (error) {
@@ -171,7 +167,6 @@ export default function AddQuestionForm({
           style={inputStyles}
         />
 
-  
         <button onClick={handleSubmit} style={buttonStyles}>
           {formType === "Edit" ? "Update Question" : "Submit Question"}
         </button>

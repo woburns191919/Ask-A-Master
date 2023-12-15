@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import GetTopics from "../GetTopics";
 import QuestionAnswers from "../QuestionAnswers";
 import AskShareComponent from "../AskShareInput";
-// import "./styles.css";
+
 import { useDispatch, useSelector } from "react-redux";
 import { thunkGetAllUsers } from "../../store/session";
 import RelatedTopics from "../RelatedTopics";
@@ -21,7 +21,7 @@ const MainLayout = ({
   handleTopicCreated,
   handleQuestionsUpdate,
 }) => {
-  const { id: topicId } = useParams(); //  undefined on main page
+  const { id: topicId } = useParams();
 
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
@@ -31,15 +31,12 @@ const MainLayout = ({
   useEffect(() => {
     dispatch(thunkGetAllUsers());
   }, [dispatch]);
-  console.log("images from main", images);
 
   return (
     <div className="main-layout">
       <div className="upper-layout"></div>
       <div className="content-wrapper">
-        <div className="sidebar sidebar-menu">
-          {/* <GetTopics handleTopicCreated={handleTopicCreated}/> */}
-        </div>
+        <div className="sidebar sidebar-menu"></div>
         <div className="content">
           {sessionUser && (
             <div className="ask-share-container question-answer-box">

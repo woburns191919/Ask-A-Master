@@ -55,8 +55,24 @@ then html5 up
 
 featured section on linked in
 
-enhancements -- things like sticky panel 
+enhancements -- things like sticky panel
 
 add mysql, sequelize to languages and frameworks
 
 link for resume templates
+
+
+
+git issues:
+
+ads more dynamic
+
+sizing on ask question post
+
+media screens for small screens
+
+error handling?
+
+sign up page should clear previous email password input
+
+need answers on main page
