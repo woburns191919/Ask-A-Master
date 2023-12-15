@@ -12,18 +12,18 @@ topics_routes = Blueprint('topics', __name__)
 
 
 @topics_routes.route("/new", methods=["POST"])
-#  @login_required
+
 def create_topic():
     """
     Create a new topic.
     """
     data = request.json
 
-    # Check if the 'name' key is in the request data
+
     if 'name' not in data:
         return jsonify({'error': 'Name is required'}), 400
 
-    # Check if a topic with this name already exists
+
     existing_topic = Topic.query.filter_by(name=data['name']).first()
     if existing_topic:
         return jsonify({'error': 'A topic with this name already exists'}), 400
@@ -58,7 +58,7 @@ def get_questions_by_topic(topic_id):
     for question in questions:
         question_data = question.to_dict()
 
-        # Fetch associated image for each question
+        
         image = Image.query.filter_by(question_id=question.id).first()
         if image:
             question_data["image_filename"] = image.filename

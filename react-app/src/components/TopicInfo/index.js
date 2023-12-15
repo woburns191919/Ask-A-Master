@@ -14,8 +14,7 @@ function TopicInfo() {
         if (response.ok) {
           const data = await response.json();
           setTopicInfo(data.topic);
-          setFollowerCount(Math.floor(Math.random() * 1000)); // Generate random followers
-          console.log('data from TopicInfo**', data);
+          setFollowerCount(Math.floor(Math.random() * 1000));
         } else {
           console.error("Failed to fetch topic info. Status:", response.status);
         }
@@ -33,13 +32,10 @@ function TopicInfo() {
     return <div>Loading...</div>;
   }
 
-  console.log('topic info***', topicInfo);
-
   return (
     <div className="topic-info-container">
       <h2>{topicInfo.name}</h2>
       <p className="followers">Followers: {followerCount}k</p>
-     
     </div>
   );
 }

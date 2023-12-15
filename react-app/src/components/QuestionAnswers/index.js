@@ -14,17 +14,13 @@ export default function QuestionAnswers({
   answersForQuestions,
   onUpdateQuestion,
   openDeleteModal,
-  handleQuestionsUpdate
-
+  handleQuestionsUpdate,
 }) {
-  // console.log('onUpdateQuestion prop in QA***', onUpdateQuestion)
-  // console.log("images in qa", images);
-
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [images, setImages] = useState([])
-  // const [savedQuestions, setSavedQuestions] = useState([]);
+  const [images, setImages] = useState([]);
+
   const { addBookmark, isBookmarked, removeBookmark } = useBookmarkContext();
 
   useEffect(() => {
@@ -44,7 +40,6 @@ export default function QuestionAnswers({
       console.error("Error fetching images:", error);
     }
   };
-
 
   const users = Object.values(
     useSelector((state) =>
@@ -71,7 +66,6 @@ export default function QuestionAnswers({
   };
 
   const handleBoxClick = (questionId, event) => {
-    // Prevent routing if the ellipsis or any of its children is clicked
     if (event.target.closest(".ellipsis-container")) {
       return;
     }
@@ -106,13 +100,8 @@ export default function QuestionAnswers({
     }
   };
 
-  // console.log('questionId from question answers', questionId)
-  console.log("user arr", users);
-  // console.log('session user', sessionUser)
-  console.log('all questions from QuestionAnswers', allQuestions)
-
   return (
-    <main className="main-container" >
+    <main className="main-container">
       {allQuestions
         ?.concat()
         .reverse()
@@ -150,8 +139,6 @@ export default function QuestionAnswers({
                   )?.country
                 }
               </span>
-
-
               <p>{question.body}</p>
             </div>
             <div className="answer-box">
@@ -160,8 +147,6 @@ export default function QuestionAnswers({
                   <p key={i}>{answer.content}</p>
                 ))}
 
-              {/* Display the image if available */}
-              {/* {console.log('filename', question.image_filename)} */}
               {question.image_filename && (
                 <img
                   className="photos"
@@ -204,7 +189,7 @@ export default function QuestionAnswers({
                     </button>
                   )}
                   {isBookmarked(question.id) && (
-                      <button onClick={() => handleUnsavedQuestion(question.id)}>
+                    <button onClick={() => handleUnsavedQuestion(question.id)}>
                       Remove Bookmark
                     </button>
                   )}

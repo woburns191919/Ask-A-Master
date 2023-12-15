@@ -1,4 +1,3 @@
-/* styles.css */
 .question-comments-container {
   max-width: 800px;
   margin: 20px auto;
@@ -64,7 +63,6 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
-
 
 .comment-container button {
   margin-right: 5px;

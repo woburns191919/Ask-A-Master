@@ -1,4 +1,3 @@
-/* questionAnswersStyles.css */
 .question-answer-box {
   padding: 12px;
   border: 1px solid #e6e6e6;
@@ -8,7 +7,6 @@
   color: #333333;
   margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-
 }
 
 .question-answer-box h5 {
@@ -17,12 +15,12 @@
   font-weight: bold;
 }
 
-.comment-text, .answer-box p {
+.comment-text,
+.answer-box p {
   font-size: 15px;
   line-height: 1.6;
   color: #4a4a4a;
 }
-
 
 .photos {
   width: 100%;
@@ -31,13 +29,11 @@
 }
 
 .ellipsis-container {
-
   float: right;
 }
 
 .dropdown {
   right: 0;
-
 }
 
 .question-answer-box {
@@ -46,7 +42,8 @@
   border: 1px solid #e2e2e2;
 }
 
-.question-box, .answer-box {
+.question-box,
+.answer-box {
   margin-top: 12px;
 }
 
@@ -60,7 +57,7 @@
   font-size: 15px;
   font-weight: 400;
   line-height: 1.5;
-  color: #333; /* dark gray */
+  color: #333;
   text-align: left;
 }
 
@@ -71,8 +68,6 @@
 }
 
 .dropdown {
-  /* position: absolute; */
-
   top: 100%;
   background-color: white;
   border: 1px solid #ddd;
@@ -81,7 +76,7 @@
   padding: 8px 0;
   z-index: 100;
   display: none;
-  width:fit-content;
+  width: fit-content;
 }
 
 .ellipsis-container:hover .dropdown {
@@ -103,25 +98,23 @@
   background-color: #f2f2f2;
 }
 
-
-
-/* Styles for smaller screens */
 @media screen and (max-width: 768px) {
   .box .question-answer-box {
     padding: 8px;
     margin-bottom: 8px;
     font-size: 14px;
-    width: 100%; /* Full width */
-    box-sizing: border-box; /* Include padding in the width */
-    margin-left: auto; /* Center align */
-    margin-right: auto; /* Center align */
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .question-answer-box h5 {
     font-size: 16px;
   }
 
-  .comment-text, .answer-box p {
+  .comment-text,
+  .answer-box p {
     font-size: 14px;
   }
 
@@ -141,12 +134,10 @@
 }
 
 @media screen and (min-width: 500px) and (max-width: 768px) {
-
   .main-container {
-    border: 4px solid red
+    border: 4px solid red;
   }
   .main-container .question-answer-box {
-   
     padding: 10px;
     margin: 0;
     font-size: 14px;
@@ -158,7 +149,8 @@
     width: 100%;
   }
 
-  .related-topics-main-container, .sidebar .sidebar-menu {
+  .related-topics-main-container,
+  .sidebar .sidebar-menu {
     display: none;
   }
 
@@ -166,7 +158,8 @@
     font-size: 16px;
   }
 
-  .comment-text, .answer-box p {
+  .comment-text,
+  .answer-box p {
     font-size: 13px;
   }
 }

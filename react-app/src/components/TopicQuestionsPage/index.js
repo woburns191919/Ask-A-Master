@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import "./styles.css"; // Import the same stylesheet
+import "./styles.css";
 
 const TopicQuestionsPage = ({ topicQuestions }) => {
-  console.log('topic questions prop', topicQuestions)
   const { id } = useParams();
   const [questions, setQuestions] = useState([]);
   const [allTopics, setAllTopics] = useState([]);
@@ -25,7 +24,7 @@ const TopicQuestionsPage = ({ topicQuestions }) => {
   const fetchQuestionsByTopic = async () => {
     try {
       const res = await fetch(`/api/topics/${id}/questions`);
-      console.log('res from topic question', res)
+
       if (res.ok) {
         const data = await res.json();
         setQuestions(data.questions);
@@ -69,7 +68,6 @@ const TopicQuestionsPage = ({ topicQuestions }) => {
             <h2>All Topics</h2>
             <ul className="topic-list">
               {" "}
-              {/* Adding a new class for the topics */}
               {allTopics.map((topic) => (
                 <li key={topic.id}>
                   <img
@@ -93,7 +91,7 @@ const TopicQuestionsPage = ({ topicQuestions }) => {
                       <li key={i}>{answer.content}</li>
                     ))}
                   </ul>
-                  {console.log('image filename', question.image_filename)}
+
                   {question.image_filename && (
                     <img
                       className="photos"

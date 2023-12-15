@@ -116,12 +116,12 @@ export const thunkGetAllUsers = () => async (dispatch) => {
     if (response.ok) {
       const data = await response.json();
       dispatch(getAllUsers(data));
-      // console.log('data??', data.users)
+   
       return data.users
     }
   } catch (error) {
     console.error("Error while fetching users:", error);
-    
+
   }
 };
 

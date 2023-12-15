@@ -2,13 +2,13 @@ from flask import Blueprint, jsonify, request
 from app.models import User, Question
 from app.models.answer import Answer
 from app.models.topic import Topic
-# ... other imports
+
 
 search_routes = Blueprint('search', __name__)
 
 @search_routes.route("/")
 def search():
-    query = request.args.get('query', '')  # Retrieve the search query
+    query = request.args.get('query', '')  
 
     if not query:
         return jsonify({'message': 'No search query provided'}), 400
