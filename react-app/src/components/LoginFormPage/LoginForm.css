@@ -1,4 +1,4 @@
-/* Common styles */
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -31,7 +31,7 @@ body {
   height:100%;
 }
 
-/* Left side styles */
+
 .login-left {
   background: white;
   padding: 20px;
@@ -82,7 +82,7 @@ body {
   cursor: pointer;
 }
 
-/* Right side styles */
+
 .login-right {
   width: 50%;
   padding: 20px;
@@ -154,22 +154,8 @@ body {
   margin-bottom: 10px;
 }
 
-/*
-.form-button, .continue-google, .continue-facebook {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid transparent;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-} */
 
 .form-button {
   background-color: #b92b27;
   color: white;
 }
-
-/* .form-button:hover {
-  background-color: #9b1f20;
-} */

@@ -1,6 +1,6 @@
-import React, { useRef, useState, useContext, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import './Modal.css';
+import React, { useRef, useState, useContext, useEffect } from "react";
+import ReactDOM from "react-dom";
+import "./Modal.css";
 
 const ModalContext = React.createContext();
 
@@ -8,19 +8,16 @@ export function ModalProvider({ children }) {
   const modalRef = useRef();
   const [modalContent, setModalContent] = useState(null);
 
-  // New addition: callback function for when the modal closes
   const [onCloseCallback, setOnCloseCallback] = useState(null);
 
   const closeModal = () => {
     setModalContent(null); // clear the modal contents
     if (onCloseCallback) {
-      onCloseCallback();  // Execute the callback if it exists
+      onCloseCallback(); // Execute the callback if it exists
     }
     setOnCloseCallback(null); // Reset the callback
   };
-  useEffect(() => {
-    console.log("Modal content updated:", modalContent);
-  }, [modalContent]);
+  useEffect(() => {}, [modalContent]);
 
   // Updated context value to include setOnCloseCallback
   const contextValue = {
@@ -28,7 +25,7 @@ export function ModalProvider({ children }) {
     modalContent,
     setModalContent,
     setOnCloseCallback, // New addition
-    closeModal
+    closeModal,
   };
 
   return (

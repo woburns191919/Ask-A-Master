@@ -86,29 +86,13 @@ export default function ConfirmDelete({
     }
   };
 
-  console.log(
-    "ConfirmDelete rendered with questionId:",
-    questionId,
-    "and itemId:",
-    itemId
-  );
-
-  // console.log("itemId:", itemId);
-  // console.log("itemType:", itemType);
-  // console.log("questionId:", questionId);
-
-  useEffect(() => {
-    console.log("ConfirmDelete: questionId =", questionId);
-  }, [questionId]);
+  useEffect(() => {}, [questionId]);
 
   const handleDelete = async () => {
     const url =
       itemType === "comment"
         ? `/api/questions/${questionId}/comments/${itemId}`
         : `/api/questions/${questionId}`;
-
-    // console.log("Delete URL:", url);
-    console.log("Attempting to delete question with ID:", questionId);
 
     try {
       const response = await fetch(url, {

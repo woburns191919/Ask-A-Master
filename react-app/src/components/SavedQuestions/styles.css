@@ -1,5 +1,4 @@
 .saved-question-box {
-  /* padding: 12px; */
   border: 1px solid #e6e6e6;
   background-color: white;
   font-size: 16px;
@@ -7,15 +6,13 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-
 .bookmarks {
-  font-weight:500px;
-  /* border-bottom: .5px solid gray; */
-  padding-bottom: 2%;
+  font-weight: 500px;
 
+  padding-bottom: 2%;
 }
 
-
-.saved-question-title, .saved-question-body {
+.saved-question-title,
+.saved-question-body {
   margin-bottom: 8px;
 }

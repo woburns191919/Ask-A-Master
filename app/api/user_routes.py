@@ -8,7 +8,7 @@ user_routes = Blueprint('users', __name__)
 
 
 @user_routes.route('/')
-# @login_required
+
 def users():
     """
     Query for all users and returns them in a list of user dictionaries
@@ -50,7 +50,7 @@ def get_saved_questions(user_id):
     for question in saved_questions:
         question_data = question.to_dict()
 
-        # Fetch associated image for each saved question
+      
         image = Image.query.filter_by(question_id=question.id).first()
         if image:
             question_data["image_filename"] = image.filename
@@ -59,5 +59,3 @@ def get_saved_questions(user_id):
 
     print(f"Saved Questions: {saved_questions_data}")
     return jsonify(saved_questions_data)
-
-

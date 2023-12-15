@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-
 const topicsMap = {
   "Opening Theory": 1,
   "Middle Game Strategy": 2,
@@ -20,7 +19,6 @@ export default function AskShareComponent({ handleAddQuestion }) {
   const [imageFilename, setImageFilename] = useState("");
 
   const askShareInputStyle = {
-
     backgroundColor: "#fff",
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
     borderRadius: "4px",
@@ -28,10 +26,8 @@ export default function AskShareComponent({ handleAddQuestion }) {
     justifyContent: "center",
     flexDirection: "column",
     gap: "10px",
-    width:"100%"
-
+    width: "100%",
   };
-
 
   const textareaStyle = {
     padding: "10px",
@@ -72,7 +68,6 @@ export default function AskShareComponent({ handleAddQuestion }) {
       setTopic("");
       handleAddQuestion(newQuestion.question);
       setImageFilename(newQuestion.image_filename);
-      console.log("new question data", newQuestion);
     } else {
       console.error("Failed to post question");
     }
@@ -80,13 +75,6 @@ export default function AskShareComponent({ handleAddQuestion }) {
 
   return (
     <div style={askShareInputStyle}>
-      {/* <input
-        type="text"
-        placeholder="Title of your question"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        style={inputStyle}
-      /> */}
       <textarea
         placeholder="What do you want to ask or share?"
         value={body}
@@ -96,11 +84,6 @@ export default function AskShareComponent({ handleAddQuestion }) {
       <button onClick={handleSubmit} style={buttonStyle}>
         Post
       </button>
-      {/* {imageFilename && (
-        <div>
-          <img src={`/${imageFilename}`} alt="Question related" />
-        </div>
-      )} */}
     </div>
   );
 }

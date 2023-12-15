@@ -55,9 +55,8 @@ const Comments = () => {
           const answersData = await answersResponse.json();
 
           setQuestion(questionData.body);
-          // setAnswerId(answersData.id)
+
           setAnswers(answersData.answers);
-          // console.log("answers data", answersData.answers);
         } else {
           console.error(
             "Failed to fetch question or answers:",
@@ -105,7 +104,6 @@ const Comments = () => {
       alert("Comment cannot be empty.");
       return;
     }
-    // console.log("Submitting edit for commentId:", commentId);
 
     try {
       const response = await fetch(
@@ -136,10 +134,7 @@ const Comments = () => {
     }
   };
 
-  // console.log('user find', users[0]?.find(user => user.id === answers[0].user_id).first_name)
-  // users[0]?.map((user) => console.log("user obj id", user.id));
-  // answers?.map((answer) => console.log("answer obj id", answer.id));
-  console.log('users array from comments', users)
+
 
   return (
     <div className="main-layout">
@@ -152,20 +147,33 @@ const Comments = () => {
             <div className="question-body">{question}</div>
             <div className="answers-container">
               <div className="answer-header">
-                {answers.length === 1 ? "1 Answer" : `${answers.length} Answers`}
+                {answers.length === 1
+                  ? "1 Answer"
+                  : `${answers.length} Answers`}
               </div>
               {answers.map((answer) => (
                 <div className="comment-container" key={answer.id}>
                   <div className="comment-content">{answer.content}</div>
                   <div className="comment-info">
-                    Answered by {users[0]?.find((user) => user.id === answer.user_id)?.first_name} on {new Date(answer.created_at).toLocaleDateString()}
+                    Answered by{" "}
+                    {
+                      users[0]?.find((user) => user.id === answer.user_id)
+                        ?.first_name
+                    }{" "}
+                    on {new Date(answer.created_at).toLocaleDateString()}
                     {sessionUser && answer.user_id === sessionUser.id && (
                       <>
-                        <button onClick={() => {
-                          setEditingCommentId(answer.id);
-                          setNewComment(answer.content);
-                        }}>Edit</button>
-                        <button onClick={() => openDeleteModal(answer.id)}>Delete Comment</button>
+                        <button
+                          onClick={() => {
+                            setEditingCommentId(answer.id);
+                            setNewComment(answer.content);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button onClick={() => openDeleteModal(answer.id)}>
+                          Delete Comment
+                        </button>
                       </>
                     )}
                   </div>
@@ -187,7 +195,10 @@ const Comments = () => {
                     Save Edit
                   </button>
                 ) : (
-                  <button className="comment-submit-button" onClick={postComment}>
+                  <button
+                    className="comment-submit-button"
+                    onClick={postComment}
+                  >
                     Comment
                   </button>
                 )}
@@ -195,9 +206,7 @@ const Comments = () => {
             </div>
           </div>
         </div>
-        <div className="search-page">
-
-        </div>
+        <div className="search-page"></div>
       </div>
     </div>
   );

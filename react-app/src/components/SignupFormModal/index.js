@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { signUp } from "../../store/session";
-import "./SignupForm.css";
+
 
 function SignupFormModal() {
+	console.log('other sign up mounting')
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
@@ -74,7 +75,16 @@ function SignupFormModal() {
 						required
 					/>
 				</label>
-				<button type="submit">Sign Up</button>
+				<>
+    <div className="signup-page">
+        <h1>Sign Up</h1>
+        <form onSubmit={handleSubmit}>
+
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+</>
+
 			</form>
 		</>
 	);

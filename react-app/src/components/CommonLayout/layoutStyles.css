@@ -1,26 +1,20 @@
-/* Global Styles */
 .main-layout {
   display: flex;
   flex-direction: column;
   background-color: #f6f7f8;
   width: 100%;
-
 }
 
 .content-wrapper {
   display: flex;
   justify-content: center;
-  justify-content:space-between;
-  padding-top:4%;
-  padding-right:4%;
-
-
-
+  justify-content: space-between;
+  padding-top: 4%;
+  padding-right: 4%;
 }
 
 .sidebar {
   flex-basis: 15%;
-  /* Additional styles for sidebar */
 }
 
 .content {
@@ -28,37 +22,34 @@
   max-width: 70%;
   width: 138%;
   margin-left: -50%;
-  /* Additional styles for content */
 }
 
 .related-topics {
-  width:fit-content;
-  display:flex;
-  gap:10%
-
-
+  width: fit-content;
+  display: flex;
+  gap: 10%;
 }
 
 .content .main-container {
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   min-width: 200px;
   max-width: 440px;
 }
 
-.main-container .question-answer-box{
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+.main-container .question-answer-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   min-width: 200px;
   width: 520px;
 }
 
 .question-answers-container .question-answer-box {
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   min-width: 200px;
   width: 520px;
 }
@@ -69,55 +60,44 @@
   color: #333;
 }
 
-
-
 .content .question-answers-container {
-  display:flex;
-  flex-direction:column;
-  gap:15px;
-
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .related-topics-main-container {
-
   background-color: white;
   font-size: 16px;
   margin-bottom: 10px;
-
 }
 
-
-.ask-share-container, .question-answers-container {
+.ask-share-container,
+.question-answers-container {
   width: 100%;
-
 }
 
 .ask-share-container {
   max-width: 80%;
 }
 
-.ask-share-container{
+.ask-share-container {
   width: 100%;
-  align-content:center;
-
+  align-content: center;
 }
 
 .ask-share-container .question-answer-box {
-  padding:0;
+  padding: 0;
   margin: 0;
 }
 
-
-
-/* Adjustments for smaller screens */
 @media screen and (max-width: 768px) {
-  .sidebar, .related-topics {
+  .sidebar,
+  .related-topics {
     display: none;
   }
 
   .content {
     max-width: 100%;
   }
-
-
 }
