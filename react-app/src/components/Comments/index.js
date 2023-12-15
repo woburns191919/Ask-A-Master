@@ -134,7 +134,7 @@ const Comments = () => {
     }
   };
 
-  console.log("users array from comments", users);
+
 
   return (
     <div className="main-layout">

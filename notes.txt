@@ -73,6 +73,6 @@ media screens for small screens
 
 error handling?
 
-no sign up page rendered
+sign up page should clear previous email password input
 
-need answers on main page 
+need answers on main page

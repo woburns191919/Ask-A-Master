@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import logo from "../../images/new-logo.png";
 import "./LoginForm.css";
 
@@ -11,6 +11,7 @@ function LoginFormPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const history = useHistory();
 
   if (sessionUser) return <Redirect to="/" />;
 
@@ -39,13 +40,17 @@ function LoginFormPage() {
     );
   };
 
+  const handleSignUpClick = () => {
+    history.push('/signup');
+  };
+
   return (
     <div className="login-container">
       <div className="outer-wrap">
         <div className="login-right">
           <img src={logo} alt="Ask a Master"></img>
 
-        
+
           <div className="google-face">
             <button className="continue-google" onClick={handleGoogleLogin}>
               Continue with Google
@@ -93,6 +98,7 @@ function LoginFormPage() {
               <button type="button" onClick={handleDemoUserLogin}>
                 Demo User
               </button>
+              <button type="button" onClick={handleSignUpClick}>Sign Up</button> 
             </div>
           </form>
         </div>
