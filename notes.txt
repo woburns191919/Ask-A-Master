@@ -76,3 +76,7 @@ error handling?
 sign up page should clear previous email password input
 
 need answers on main page
+
+rating should be prov
+
+clear form at login page

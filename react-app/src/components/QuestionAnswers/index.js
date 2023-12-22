@@ -100,6 +100,8 @@ export default function QuestionAnswers({
     }
   };
 
+  console.log('all questions****', allQuestions)
+
   return (
     <main className="main-container">
       {allQuestions

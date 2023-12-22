@@ -11,14 +11,14 @@ function SignupFormPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
-
+  const [eloRating, setEloRating] = useState("");
 
   if (sessionUser) return <Redirect to="/" />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      const data = await dispatch(signUp(username, email, password));
+      const data = await dispatch(signUp(username, email, password, eloRating));
       if (data) {
         setErrors(data);
       }
@@ -81,6 +81,23 @@ function SignupFormPage() {
     },
   };
 
+  function UserProfile() {
+    const user = useSelector((state) => state.session.user);
+
+    const eloRatingDisplay = user.elo_rating ? user.elo_rating : "Provisional";
+
+    const countryDisplay = user.country ? user.country : "";
+    const firstNameDisplay = user.first_name ? user.first_name : "";
+    const lastNameDisplay = user.last_name ? user.last_name : "";
+    return (
+      <div>
+        <p>Elo Rating: {eloRatingDisplay}</p>
+        <p>Country: {countryDisplay}</p>
+        <p>First Name: {firstNameDisplay}</p>
+        <p>Last Name: {lastNameDisplay}</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -115,6 +132,18 @@ function SignupFormPage() {
               style={style.input}
             />
           </label>
+
+          {/* Elo Rating input field */}
+          <label style={style.label}>
+            Elo Rating
+            <input
+              type="number"
+              value={eloRating}
+              onChange={(e) => setEloRating(e.target.value)}
+              style={style.input}
+            />
+          </label>
+
           <label style={style.label}>
             Password
             <input
@@ -140,8 +169,10 @@ function SignupFormPage() {
           </button>
         </form>
       </div>
+      {sessionUser && <UserProfile />}
     </>
   );
+
 }
 
 export default SignupFormPage;
