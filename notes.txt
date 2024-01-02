@@ -65,11 +65,11 @@ link for resume templates
 
 git issues:
 
-ads more dynamic
+
 
 sizing on ask question post
 
-media screens for small screens
+
 
 error handling?
 
