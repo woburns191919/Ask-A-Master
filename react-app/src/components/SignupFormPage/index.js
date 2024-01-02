@@ -19,7 +19,13 @@ function SignupFormPage() {
     e.preventDefault();
     if (password === confirmPassword) {
       const data = await dispatch(signUp(username, email, password, eloRating));
-      if (data) {
+      if (!data) {
+        setEmail('');
+        setUsername('');
+        setPassword('');
+        setConfirmPassword('');
+        setEloRating('');
+      } else {
         setErrors(data);
       }
     } else {
@@ -98,7 +104,6 @@ function SignupFormPage() {
       </div>
     );
   }
-
   return (
     <>
       <div style={style.container}>
@@ -114,8 +119,8 @@ function SignupFormPage() {
           <label style={style.label}>
             Email
             <input
-              autoComplete="off"
-              type="text"
+              autoComplete="email" // Suggest auto-fill for email
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -125,6 +130,7 @@ function SignupFormPage() {
           <label style={style.label}>
             Username
             <input
+              autoComplete="username" // Suggest auto-fill for username
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -137,6 +143,7 @@ function SignupFormPage() {
           <label style={style.label}>
             Elo Rating
             <input
+              autoComplete="off" 
               type="number"
               value={eloRating}
               onChange={(e) => setEloRating(e.target.value)}
@@ -147,6 +154,7 @@ function SignupFormPage() {
           <label style={style.label}>
             Password
             <input
+              autoComplete="new-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -157,6 +165,7 @@ function SignupFormPage() {
           <label style={style.label}>
             Confirm Password
             <input
+              autoComplete="new-password"
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -172,7 +181,6 @@ function SignupFormPage() {
       {sessionUser && <UserProfile />}
     </>
   );
-
 }
 
 export default SignupFormPage;

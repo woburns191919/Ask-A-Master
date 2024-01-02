@@ -74,6 +74,7 @@ function LoginFormPage() {
             <label className="form-label">
               Email
               <input
+                autoComplete="off"
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -98,7 +99,7 @@ function LoginFormPage() {
               <button type="button" onClick={handleDemoUserLogin}>
                 Demo User
               </button>
-              <button type="button" onClick={handleSignUpClick}>Sign Up</button> 
+              <button type="button" onClick={handleSignUpClick}>Sign Up</button>
             </div>
           </form>
         </div>
