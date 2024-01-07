@@ -17,17 +17,17 @@ def extract_keywords(text):
     doc = nlp(text)
     return [token.lemma_ for token in doc if token.pos_ in ["NOUN", "PROPN"]]
 
-default_images = ["analysis.png", "blunder.png", "fischer.png"]
+default_images = ["analysis2.jpg", "blunder2.png", "fischer2.jpg"]
 def map_keywords_to_image(keywords):
     print("Function map_keywords_to_image called with keywords:", keywords)
     keyword_to_image = {
-        "blunder": ["blunder.png"],
-        "analysis": ["analysis.png"],
-        "structure": ["structure.jpg"],
-        "analyze": ["images.png"],
-        "bishop": ["bad-bishop.jpg"],
-        "pawn": ["pawn.jpg"],
-        "magnus": ["magnus.jpg"]
+        "blunder": ["blunder2.png"],
+        "analysis": ["analysis2.jpg"],
+        "structure": ["structure2.jpg"],
+        "analyze": ["analyze2.jpg"],
+        "bishop": ["bishop2.png"],
+        "pawn": ["pawn2.jpg"],
+        "genius": ["magnus2.jpg"]
     }
 
 
@@ -252,7 +252,7 @@ def edit_question(question_id):
 
     db.session.commit()
 
-  
+
     question_dict = question_to_edit.to_dict()
     if image:
         question_dict["image_filename"] = image.filename
