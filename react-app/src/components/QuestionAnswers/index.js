@@ -11,6 +11,7 @@ import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
 import { useBookmarkContext } from "../../context/BookmarkContext";
 
+
 export default function QuestionAnswers({
   allQuestions,
   answersForQuestions,
@@ -138,7 +139,7 @@ export default function QuestionAnswers({
                   )?.last_name
                 }
                 </div>
-                    
+
                     <div className="elo-rating">
                     ELO Rating <span> {
                   users[0]?.find(
