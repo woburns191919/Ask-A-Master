@@ -117,57 +117,54 @@ export default function QuestionAnswers({
         .map((question, index) => {
           const userId = question.user_id.toString();
           const userProfileImage =
-            userImages[userId] || defaultProfile; // Fallback to a default image
+            userImages[userId] || defaultProfile;
 
-          return (
-            <div
-              className="question-answer-box"
-              key={index}
-              onClick={(e) => handleBoxClick(question.id, e)}
-            >
-              <h5>{question.title}</h5>
-              <img src={userProfileImage} className="user-profile-image" />
-              <div className="question-box comment-text">
-                Posted by{" "}
-                <span className="user-name">
-                  {
-                    users[0].find((user) => user.id === parseInt(question.user_id))
-                      ?.first_name
-                  }
-                </span>
-                <br></br>
-                ELO Rating{" "}
-                <span className="user-name">
-                  {
-                    users[0].find((user) => user.id === parseInt(question.user_id))
-                      ?.elo_rating
-                  }
-                </span>
-                <br></br>
-                Country{" "}
-                <span className="user-name">
-                  {
-                    users[0].find((user) => user.id === parseInt(question.user_id))
-                      ?.country
-                  }
-                </span>
-                <p>{question.body}</p>
-              </div>
-              <div className="answer-box">
-                {answersForQuestions &&
-                  answersForQuestions[question.id]?.map((answer, i) => (
-                    <p key={i}>{answer.content}</p>
-                  ))}
-
-                {question.image_filename && (
-                  <img
-                    className="photos"
-                    src={`/${question.image_filename}`}
-                    alt="Related"
-                    style={{ height: "400px" }}
-                  />
-                )}
-              </div>
+            return (
+              <div
+                className="question-answer-box"
+                key={index}
+                onClick={(e) => handleBoxClick(question.id, e)}
+              >
+                <div className="user-profile-container">
+                  <img src={userProfileImage} className="user-profile-image" />
+                  <div className="user-credentials">
+                    Posted by <span className="user-name">  {
+                  users[0]?.find(
+                    (user) => user.id === parseInt(question.user_id)
+                  )?.first_name
+                }</span>
+                    <br />
+                    ELO Rating <span className="user-name"> {
+                  users[0]?.find(
+                    (user) => user.id === parseInt(question.user_id)
+                  )?.elo_rating
+                }</span>
+                    <br />
+                    Country <span className="user-name"> {
+                  users[0]?.find(
+                    (user) => user.id === parseInt(question.user_id)
+                  )?.country
+                }</span>
+                  </div>
+                </div>
+                <div className="question-content">
+                  <h5>{question.title}</h5>
+                  <p>{question.body}</p>
+                </div>
+                <div className="answer-box">
+                  {answersForQuestions &&
+                    answersForQuestions[question.id]?.map((answer, i) => (
+                      <p key={i}>{answer.content}</p>
+                    ))}
+                  {question.image_filename && (
+                    <img
+                      className="photos"
+                      src={`/${question.image_filename}`}
+                      alt="Related"
+                      style={{ height: "400px" }}
+                    />
+                  )}
+                </div>
               <div className="ellipsis-container">
                 <img
                   className="ellipsis"
