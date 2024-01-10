@@ -15,6 +15,7 @@ const Comments = () => {
   const [newComment, setNewComment] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const sessionUser = useSelector((state) => state.session.user);
+  const allQuestions = useSelector((state) => state.questions?.allQuestions);
   const { setModalContent } = useModal();
 
   const dispatch = useDispatch();
@@ -28,6 +29,19 @@ const Comments = () => {
   useEffect(() => {
     dispatch(thunkGetAllUsers());
   }, [dispatch]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const foundQuestion = allQuestions?.find((q) => q.id === parseInt(id));
+    if (isMounted) {
+      setQuestion(foundQuestion);
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id, allQuestions]);
+
 
   const onDeleteComment = (deletedCommentId) => {
     setAnswers((currentAnswers) =>
@@ -56,8 +70,7 @@ const Comments = () => {
           const questionData = await questionResponse.json();
           const answersData = await answersResponse.json();
 
-          setQuestion(questionData.body);
-
+          setQuestion(questionData);
           setAnswers(answersData.answers);
         } else {
           console.error(
@@ -135,8 +148,7 @@ const Comments = () => {
       console.error("Error editing comment:", error);
     }
   };
-
-
+console.log('question from comments', question)
   return (
     <main className="main-container">
       <div className="content-wrapper">
@@ -147,15 +159,23 @@ const Comments = () => {
         <div className="center-content">
           <div className="question-comments-container">
             <div className="question-body">
-              {question}
+              {question?.body}
+              {question?.image_filename && (
+                <img
+                  className="question-photo"
+                  src={`/${question.image_filename}`}
+                  alt="Question"
+                  style={{ height: "400px" }}
+                />
+              )}
             </div>
             <div className="answers-container">
               {answers.map((answer) => (
                 <div className="comment-container" key={answer.id}>
                   <div className="comment-content">{answer.content}</div>
                   <div className="comment-info">
-                    Answered on {new Date(answer.created_at).toLocaleDateString()}
-                    {/* Add more info about the answer */}
+                    Answered on{" "}
+                    {new Date(answer.created_at).toLocaleDateString()}
                   </div>
                 </div>
               ))}
@@ -176,10 +196,7 @@ const Comments = () => {
                   Save Edit
                 </button>
               ) : (
-                <button
-                  className="comment-submit-button"
-                  onClick={postComment}
-                >
+                <button className="comment-submit-button" onClick={postComment}>
                   Comment
                 </button>
               )}
