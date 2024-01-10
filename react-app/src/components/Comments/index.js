@@ -4,6 +4,8 @@ import ConfirmDelete from "../QuestionModal/ConfirmDelete";
 import { useModal } from "../../context/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkGetAllUsers } from "../../store/session";
+import GetTopics from "../GetTopics";
+import RelatedTopics from "../RelatedTopics";
 import "./styles.css";
 
 const Comments = () => {
@@ -135,36 +137,29 @@ const Comments = () => {
   };
 
 
-
   return (
     <main className="main-container">
       <div className="content-wrapper">
-        <div className="question-comments-container">
-          {/* Question Display */}
-          <div className="question-body">
-            {question}
-          </div>
+        <div className="sidebar sidebar-menu">
+          <GetTopics />
+        </div>
 
-          {/* Comments Display */}
-          <div className="answers-container">
-            <div className="answer-header">
-              {answers.length === 1 ? "1 Answer" : `${answers.length} Answers`}
+        <div className="center-content">
+          <div className="question-comments-container">
+            <div className="question-body">
+              {question}
             </div>
-
-            {/* Mapping over each answer (comment) */}
-            {answers.map((answer) => (
-              <div className="comment-container" key={answer.id}>
-                <div className="comment-content">{answer.content}</div>
-                <div className="comment-info">
-                  {/* Additional information about the comment */}
-                  Answered by { /* logic to display user's name */ }
-                  on {new Date(answer.created_at).toLocaleDateString()}
-                  {/* Conditional rendering for edit and delete options */}
+            <div className="answers-container">
+              {answers.map((answer) => (
+                <div className="comment-container" key={answer.id}>
+                  <div className="comment-content">{answer.content}</div>
+                  <div className="comment-info">
+                    Answered on {new Date(answer.created_at).toLocaleDateString()}
+                    {/* Add more info about the answer */}
+                  </div>
                 </div>
-              </div>
-            ))}
-
-            {/* Add Comment Section */}
+              ))}
+            </div>
             <div className="comment-section">
               <input
                 type="text"
@@ -190,6 +185,10 @@ const Comments = () => {
               )}
             </div>
           </div>
+        </div>
+
+        <div className="related-topics-main-container">
+          <RelatedTopics showAds={true} />
         </div>
       </div>
     </main>
