@@ -10,7 +10,7 @@ import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
 import { useBookmarkContext } from "../../context/BookmarkContext";
-
+import UserProfileInfo from "../UserProfileInfo";
 
 export default function QuestionAnswers({
   allQuestions,
@@ -28,10 +28,7 @@ export default function QuestionAnswers({
 
   const userImages = {
     2: magnusProfile,
-
   };
-
-
 
   useEffect(() => {
     fetchImages();
@@ -117,58 +114,39 @@ export default function QuestionAnswers({
         .reverse()
         .map((question, index) => {
           const userId = question.user_id.toString();
-          const userProfileImage =
-            userImages[userId] || defaultProfile;
-
-            return (
-              <div
-                className="question-answer-box"
-                key={index}
-                onClick={(e) => handleBoxClick(question.id, e)}
-              >
-                <div className="user-profile-container">
-                  <img src={userProfileImage} className="user-profile-image" />
-                  <div className="user-credentials">
-                    <div className="user-name">  {
-                  users[0]?.find(
-                    (user) => user.id === parseInt(question.user_id)
-                  )?.first_name
-                } {" "} {
-                  users[0]?.find(
-                    (user) => user.id === parseInt(question.user_id)
-                  )?.last_name
-                }
-                </div>
-
-                    <div className="elo-rating">
-                    ELO Rating <span> {
-                  users[0]?.find(
-                    (user) => user.id === parseInt(question.user_id)
-                  )?.elo_rating
-                }</span>
-                </div>
-                    <br /> <br />
-
-                  </div>
-                </div>
-                <div >
-                  <h5 className="title-content">{question.title}</h5>
-                  <p className="question-content">{question.body}</p>
-                </div>
-                <div className="answer-box">
-                  {answersForQuestions &&
-                    answersForQuestions[question.id]?.map((answer, i) => (
-                      <p key={i}>{answer.content}</p>
-                    ))}
-                  {question.image_filename && (
-                    <img
-                      className="photos"
-                      src={`/${question.image_filename}`}
-                      alt="Related"
-                      style={{ height: "400px" }}
-                    />
-                  )}
-                </div>
+          const userProfileImage = userImages[userId] || defaultProfile;
+          const user = users[0]?.find(
+            (user) => user.id === parseInt(question.user_id)
+          );
+          return (
+            <div
+              className="question-answer-box"
+              key={index}
+              onClick={(e) => handleBoxClick(question.id, e)}
+            >
+              <UserProfileInfo
+                user={user}
+                userProfileImage={userProfileImage}
+              />
+              <br></br>
+              <div>
+                <h5 className="title-content">{question.title}</h5>
+                <p className="question-content">{question.body}</p>
+              </div>
+              <div className="answer-box">
+                {answersForQuestions &&
+                  answersForQuestions[question.id]?.map((answer, i) => (
+                    <p key={i}>{answer.content}</p>
+                  ))}
+                {question.image_filename && (
+                  <img
+                    className="photos"
+                    src={`/${question.image_filename}`}
+                    alt="Related"
+                    style={{ height: "400px" }}
+                  />
+                )}
+              </div>
               <div className="ellipsis-container">
                 <img
                   className="ellipsis"
