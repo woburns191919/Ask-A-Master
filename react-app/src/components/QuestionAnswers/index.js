@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./questionAnswerStyles.css";
 
 import ellipsis from "../../images/ellipsis.png";
+import magnusProfile from "../../images/magnus-profile.png"
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
@@ -22,6 +23,19 @@ export default function QuestionAnswers({
   const [images, setImages] = useState([]);
 
   const { addBookmark, isBookmarked, removeBookmark } = useBookmarkContext();
+
+
+  const userImages = {
+    '1': magnusProfile,
+    '2': '/images/user2.png',
+    '3': '/images/user3.png',
+   
+  };
+
+  const getRandomImage = () => {
+    const randomIndex = Math.floor(Math.random() * profileImages.length);
+    return profileImages[randomIndex];
+  };
 
   useEffect(() => {
     fetchImages();
@@ -100,6 +114,9 @@ export default function QuestionAnswers({
     }
   };
 
+
+
+
   return (
     <>
       {allQuestions
@@ -112,6 +129,7 @@ export default function QuestionAnswers({
             onClick={(e) => handleBoxClick(question.id, e)}
           >
             <h5>{question.title}</h5>
+            <img src={getRandomImage()} className="user-profile-image" />
             <div className="question-box comment-text">
               Posted by{" "}
               <span className="user-name">
