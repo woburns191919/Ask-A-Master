@@ -101,13 +101,13 @@ export default function QuestionAnswers({
   };
 
   return (
-    <main className="main-container">
+    <>
       {allQuestions
         ?.concat()
         .reverse()
         .map((question, index) => (
           <div
-            className="box question-answer-box"
+            className="question-answer-box"
             key={index}
             onClick={(e) => handleBoxClick(question.id, e)}
           >
@@ -198,6 +198,6 @@ export default function QuestionAnswers({
             </div>
           </div>
         ))}
-    </main>
+    </>
   );
 }

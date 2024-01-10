@@ -37,9 +37,12 @@
 }
 
 .question-answer-box {
+
   padding: 16px;
   margin-bottom: 20px;
   border: 1px solid #e2e2e2;
+  width:auto;
+
 }
 
 .question-box,
@@ -131,6 +134,10 @@
     width: 100%;
     text-align: left;
   }
+}
+
+.question-answer-box {
+  width:fit-content;
 }
 
 @media screen and (min-width: 500px) and (max-width: 768px) {
