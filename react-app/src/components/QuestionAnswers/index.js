@@ -128,28 +128,31 @@ export default function QuestionAnswers({
                 <div className="user-profile-container">
                   <img src={userProfileImage} className="user-profile-image" />
                   <div className="user-credentials">
-                    Posted by <span className="user-name">  {
+                    <div className="user-name">  {
                   users[0]?.find(
                     (user) => user.id === parseInt(question.user_id)
                   )?.first_name
-                }</span>
-                    <br />
-                    ELO Rating <span className="user-name"> {
+                } {" "} {
+                  users[0]?.find(
+                    (user) => user.id === parseInt(question.user_id)
+                  )?.last_name
+                }
+                </div>
+                    
+                    <div className="elo-rating">
+                    ELO Rating <span> {
                   users[0]?.find(
                     (user) => user.id === parseInt(question.user_id)
                   )?.elo_rating
                 }</span>
-                    <br />
-                    Country <span className="user-name"> {
-                  users[0]?.find(
-                    (user) => user.id === parseInt(question.user_id)
-                  )?.country
-                }</span>
+                </div>
+                    <br /> <br />
+
                   </div>
                 </div>
-                <div className="question-content">
-                  <h5>{question.title}</h5>
-                  <p>{question.body}</p>
+                <div >
+                  <h5 className="title-content">{question.title}</h5>
+                  <p className="question-content">{question.body}</p>
                 </div>
                 <div className="answer-box">
                   {answersForQuestions &&
