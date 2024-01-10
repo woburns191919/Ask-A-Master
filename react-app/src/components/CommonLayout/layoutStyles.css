@@ -17,6 +17,10 @@
   flex-basis: 15%;
 }
 
+.center-content {
+  padding-right:3%;
+}
+
 .content {
   flex-grow: 2;
   max-width: 70%;
