@@ -47,7 +47,7 @@
   flex-direction: column;
   gap: 15px;
   min-width: 200px;
-  width: 520px;
+  /* width: 520px; */
 }
 
 .question-answers-container .question-answer-box {
@@ -55,7 +55,7 @@
   flex-direction: column;
   gap: 15px;
   min-width: 200px;
-  width: 520px;
+  /* width: 520px; */
 }
 
 .question-answer-box .answer-box p {

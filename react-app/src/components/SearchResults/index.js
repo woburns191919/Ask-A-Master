@@ -45,21 +45,15 @@ const SearchResultsComponent = ({ searchResults }) => {
   };
 
   return (
-    <div className="main-layout">
-      <div className="content-wrapper">
-        <div className="sidebar sidebar-menu">{/* Sidebar content */}</div>
+    <div className="search-layout">
+      <div className="search-results-wrapper">
 
-        <div className="content">
-          {renderQuestionsAndAnswers(
-            searchResults?.questions,
-            searchResults?.answers
-          )}
-        </div>
-
-        <div className="search-page"></div>
+        {renderQuestionsAndAnswers(
+          searchResults?.questions,
+          searchResults?.answers
+        )}
       </div>
     </div>
   );
 };
-
 export default SearchResultsComponent;

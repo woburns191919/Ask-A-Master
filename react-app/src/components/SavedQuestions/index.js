@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useBookmarkContext } from "../../context/BookmarkContext";
 import ellipsis from "../../images/ellipsis.png";
+import GetTopics from "../GetTopics";
+import RelatedTopics from "../RelatedTopics";
 import "./styles.css";
 
 const SavedQuestions = ({ userId }) => {
@@ -46,19 +48,17 @@ const SavedQuestions = ({ userId }) => {
   };
 
   return (
-    <div className="main-layout">
+    <main className="main-container">
       <div className="content-wrapper">
-        <div className="sidebar sidebar-menu">{/* Sidebar content */}</div>
-        <div className="content">
-          <div className="bookmarks">
-            <h4>Bookmarks</h4>
-
-            <hr></hr>
-          </div>
-          <div className="question-answers-container">
+        <div className="sidebar sidebar-menu">
+          <GetTopics/>
+        </div>
+        <div className="center-content">
+          <div className="question-answer-box">
+            <h2>Saved Questions</h2>
             {savedQuestions.map((question, index) => (
-              <div className="question-answer-box" key={index}>
-                <h5>{question.title}</h5>
+              <div className="question-box" key={index}>
+                <h4>{question.title}</h4>
                 <div className="answer-box">
                   <p>{question.body}</p>
                 </div>
@@ -93,9 +93,13 @@ const SavedQuestions = ({ userId }) => {
             ))}
           </div>
         </div>
-        <div className="search-page">{/* Related topics section */}</div>
+        <div className="related-topics-main-container">
+          <RelatedTopics showAds={true} />
+        </div>
+
+
       </div>
-    </div>
+    </main>
   );
 };
 
