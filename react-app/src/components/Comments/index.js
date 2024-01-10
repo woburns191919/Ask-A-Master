@@ -137,78 +137,62 @@ const Comments = () => {
 
 
   return (
-    <div className="main-layout">
+    <main className="main-container">
       <div className="content-wrapper">
-        <div className="sidebar sidebar-menu">
-          {/* Sidebar content, if any */}
-        </div>
-        <div className="content">
-          <div className="question-comments-container">
-            <div className="question-body">{question}</div>
-            <div className="answers-container">
-              <div className="answer-header">
-                {answers.length === 1
-                  ? "1 Answer"
-                  : `${answers.length} Answers`}
-              </div>
-              {answers.map((answer) => (
-                <div className="comment-container" key={answer.id}>
-                  <div className="comment-content">{answer.content}</div>
-                  <div className="comment-info">
-                    Answered by{" "}
-                    {
-                      users[0]?.find((user) => user.id === answer.user_id)
-                        ?.first_name
-                    }{" "}
-                    on {new Date(answer.created_at).toLocaleDateString()}
-                    {sessionUser && answer.user_id === sessionUser.id && (
-                      <>
-                        <button
-                          onClick={() => {
-                            setEditingCommentId(answer.id);
-                            setNewComment(answer.content);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button onClick={() => openDeleteModal(answer.id)}>
-                          Delete Comment
-                        </button>
-                      </>
-                    )}
-                  </div>
+        <div className="question-comments-container">
+          {/* Question Display */}
+          <div className="question-body">
+            {question}
+          </div>
+
+          {/* Comments Display */}
+          <div className="answers-container">
+            <div className="answer-header">
+              {answers.length === 1 ? "1 Answer" : `${answers.length} Answers`}
+            </div>
+
+            {/* Mapping over each answer (comment) */}
+            {answers.map((answer) => (
+              <div className="comment-container" key={answer.id}>
+                <div className="comment-content">{answer.content}</div>
+                <div className="comment-info">
+                  {/* Additional information about the comment */}
+                  Answered by { /* logic to display user's name */ }
+                  on {new Date(answer.created_at).toLocaleDateString()}
+                  {/* Conditional rendering for edit and delete options */}
                 </div>
-              ))}
-              <div className="comment-section">
-                <input
-                  type="text"
-                  className="comment-input"
-                  placeholder="Add a comment..."
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                />
-                {editingCommentId ? (
-                  <button
-                    className="comment-submit-button"
-                    onClick={() => submitEdit(editingCommentId)}
-                  >
-                    Save Edit
-                  </button>
-                ) : (
-                  <button
-                    className="comment-submit-button"
-                    onClick={postComment}
-                  >
-                    Comment
-                  </button>
-                )}
               </div>
+            ))}
+
+            {/* Add Comment Section */}
+            <div className="comment-section">
+              <input
+                type="text"
+                className="comment-input"
+                placeholder="Add a comment..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+              {editingCommentId ? (
+                <button
+                  className="comment-submit-button"
+                  onClick={() => submitEdit(editingCommentId)}
+                >
+                  Save Edit
+                </button>
+              ) : (
+                <button
+                  className="comment-submit-button"
+                  onClick={postComment}
+                >
+                  Comment
+                </button>
+              )}
             </div>
           </div>
         </div>
-        <div className="search-page"></div>
       </div>
-    </div>
+    </main>
   );
 };
 
