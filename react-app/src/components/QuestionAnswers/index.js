@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import "./questionAnswerStyles.css";
 
 import ellipsis from "../../images/ellipsis.png";
-import magnusProfile from "../../images/magnus-profile.png"
+import magnusProfile from "../../images/magnus-profile.png";
+import defaultProfile from "../../images/default-profile.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
@@ -24,18 +25,12 @@ export default function QuestionAnswers({
 
   const { addBookmark, isBookmarked, removeBookmark } = useBookmarkContext();
 
-
   const userImages = {
-    '1': magnusProfile,
-    '2': '/images/user2.png',
-    '3': '/images/user3.png',
-   
+    2: magnusProfile,
+
   };
 
-  const getRandomImage = () => {
-    const randomIndex = Math.floor(Math.random() * profileImages.length);
-    return profileImages[randomIndex];
-  };
+
 
   useEffect(() => {
     fetchImages();
@@ -114,108 +109,110 @@ export default function QuestionAnswers({
     }
   };
 
-
-
-
   return (
     <>
       {allQuestions
         ?.concat()
         .reverse()
-        .map((question, index) => (
-          <div
-            className="question-answer-box"
-            key={index}
-            onClick={(e) => handleBoxClick(question.id, e)}
-          >
-            <h5>{question.title}</h5>
-            <img src={getRandomImage()} className="user-profile-image" />
-            <div className="question-box comment-text">
-              Posted by{" "}
-              <span className="user-name">
-                {
-                  users[0]?.find(
-                    (user) => user.id === parseInt(question.user_id)
-                  )?.first_name
-                }
-              </span>
-              <br></br>
-              ELO Rating{" "}
-              <span className="user-name">
-                {
-                  users[0]?.find(
-                    (user) => user.id === parseInt(question.user_id)
-                  )?.elo_rating
-                }
-              </span>
-              <br></br>
-              Country{" "}
-              <span className="user-name">
-                {
-                  users[0]?.find(
-                    (user) => user.id === parseInt(question.user_id)
-                  )?.country
-                }
-              </span>
-              <p>{question.body}</p>
-            </div>
-            <div className="answer-box">
-              {answersForQuestions &&
-                answersForQuestions[question.id]?.map((answer, i) => (
-                  <p key={i}>{answer.content}</p>
-                ))}
+        .map((question, index) => {
+          const userId = question.user_id.toString();
+          const userProfileImage =
+            userImages[userId] || defaultProfile; // Fallback to a default image
 
-              {question.image_filename && (
+          return (
+            <div
+              className="question-answer-box"
+              key={index}
+              onClick={(e) => handleBoxClick(question.id, e)}
+            >
+              <h5>{question.title}</h5>
+              <img src={userProfileImage} className="user-profile-image" />
+              <div className="question-box comment-text">
+                Posted by{" "}
+                <span className="user-name">
+                  {
+                    users[0].find((user) => user.id === parseInt(question.user_id))
+                      ?.first_name
+                  }
+                </span>
+                <br></br>
+                ELO Rating{" "}
+                <span className="user-name">
+                  {
+                    users[0].find((user) => user.id === parseInt(question.user_id))
+                      ?.elo_rating
+                  }
+                </span>
+                <br></br>
+                Country{" "}
+                <span className="user-name">
+                  {
+                    users[0].find((user) => user.id === parseInt(question.user_id))
+                      ?.country
+                  }
+                </span>
+                <p>{question.body}</p>
+              </div>
+              <div className="answer-box">
+                {answersForQuestions &&
+                  answersForQuestions[question.id]?.map((answer, i) => (
+                    <p key={i}>{answer.content}</p>
+                  ))}
+
+                {question.image_filename && (
+                  <img
+                    className="photos"
+                    src={`/${question.image_filename}`}
+                    alt="Related"
+                    style={{ height: "400px" }}
+                  />
+                )}
+              </div>
+              <div className="ellipsis-container">
                 <img
-                  className="photos"
-                  src={`/${question.image_filename}`}
-                  alt="Related"
-                  style={{ height: "400px" }}
+                  className="ellipsis"
+                  src={ellipsis}
+                  onClick={() => toggleDropdown(question.id)}
                 />
-              )}
-            </div>
-            <div className="ellipsis-container">
-              <img
-                className="ellipsis"
-                src={ellipsis}
-                onClick={() => toggleDropdown(question.id)}
-              />
-              {showDropdown === question.id && (
-                <div className="dropdown">
-                  {isCurrentUserAuthor(question) && (
-                    <>
-                      <OpenModalButton
-                        buttonText="Edit question"
-                        modalComponent={
-                          <AddQuestionForm
-                            formType="Edit"
-                            questionId={question.id}
-                            onUpdateQuestion={onUpdateQuestion}
-                            closeModal={closeDropdown}
-                            handleQuestionsUpdate={handleQuestionsUpdate}
-                          />
-                        }
-                      />
-                      <button onClick={() => openDeleteModal(question.id)}>
-                        Delete question
+                {showDropdown === question.id && (
+                  <div className="dropdown">
+                    {isCurrentUserAuthor(question) && (
+                      <>
+                        <OpenModalButton
+                          buttonText="Edit question"
+                          modalComponent={
+                            <AddQuestionForm
+                              formType="Edit"
+                              questionId={question.id}
+                              onUpdateQuestion={onUpdateQuestion}
+                              closeModal={closeDropdown}
+                              handleQuestionsUpdate={handleQuestionsUpdate}
+                            />
+                          }
+                        />
+                        <button onClick={() => openDeleteModal(question.id)}>
+                          Delete question
+                        </button>
+                      </>
+                    )}
+                    {!isBookmarked(question.id) && (
+                      <button onClick={() => handleSaveQuestion(question.id)}>
+                        Bookmark
                       </button>
-                    </>
-                  )}
-                  {!isBookmarked(question.id) && (
-                    <button onClick={() => handleSaveQuestion(question.id)}>
-                      Bookmark
-                    </button>
-                  )}
-                  {isBookmarked(question.id) && (
-                    <button onClick={() => handleUnsavedQuestion(question.id)}>
-                      Remove Bookmark
-                    </button>
-                  )}
-                </div>
-              )}
+                    )}
+                    {isBookmarked(question.id) && (
+                      <button
+                        onClick={() => handleUnsavedQuestion(question.id)}
+                      >
+                        Remove Bookmark
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
     </>
   );
 }
