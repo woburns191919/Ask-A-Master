@@ -34,7 +34,6 @@ const Comments = () => {
 
   const dispatch = useDispatch();
 
-
   const users = Object.values(
     useSelector((state) =>
       state.session.allUsers ? state.session.allUsers : []
@@ -173,7 +172,7 @@ const Comments = () => {
     8: talProfile,
     9: fabProfile,
     10: hikaruProfile,
-    11: levonProfile
+    11: levonProfile,
   };
 
   return (
@@ -201,15 +200,14 @@ const Comments = () => {
             </div>
             <div className="answers-container">
               {answers.map((answer) => {
-                const answerUser = users[0]?.find((user) => user.id === answer.user_id)
+                const answerUser = users[0]?.find(
+                  (user) => user.id === answer.user_id
+                );
                 const userProfileImage =
                   userImages[answerUser?.id] || defaultProfile;
 
-
-
                 return (
                   <div className="comment-container" key={answer.id}>
-
                     <div className="user-profile-container">
                       <img
                         src={userProfileImage || defaultProfile}
@@ -218,13 +216,24 @@ const Comments = () => {
                       />
                       <div className="user-credentials">
                         <div className="user-name">
-                          {users[0]?.find((user) => user.id === answer.user_id)
-                          ?.first_name} {users[0]?.find((user) => user.id === answer.user_id)
-                            ?.last_name}
+                          {
+                            users[0]?.find((user) => user.id === answer.user_id)
+                              ?.first_name
+                          }{" "}
+                          {
+                            users[0]?.find((user) => user.id === answer.user_id)
+                              ?.last_name
+                          }
                         </div>
                         <div className="elo-rating">
-                          ELO Rating <span>{users[0]?.find((user) => user.id === answer.user_id)
-                          ?.elo_rating}</span>
+                          ELO Rating{" "}
+                          <span>
+                            {
+                              users[0]?.find(
+                                (user) => user.id === answer.user_id
+                              )?.elo_rating
+                            }
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -237,20 +246,20 @@ const Comments = () => {
                       }{" "}
                       on {new Date(answer.created_at).toLocaleDateString()}
                       {sessionUser && answer.user_id === sessionUser.id && (
-                      <>
-                        <button
-                          onClick={() => {
-                            setEditingCommentId(answer.id);
-                            setNewComment(answer.content);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button onClick={() => openDeleteModal(answer.id)}>
-                          Delete Comment
-                        </button>
-                      </>
-                    )}
+                        <>
+                          <button
+                            onClick={() => {
+                              setEditingCommentId(answer.id);
+                              setNewComment(answer.content);
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button onClick={() => openDeleteModal(answer.id)}>
+                            Delete Comment
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 );
