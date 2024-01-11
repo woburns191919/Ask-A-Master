@@ -4,43 +4,62 @@ import ProfileButton from "../../components/Navigation/ProfileButton";
 import ellipsis from "../../images/ellipsis.png";
 import GetTopics from "../GetTopics";
 import RelatedTopics from "../RelatedTopics";
-import "./styles.css";
+import UserProfileInfo from "../UserProfileInfo";
 
-const SearchResultsComponent = ({ searchResults }) => {
-  const renderTopics = (topics) => {
-    return topics?.length > 0 ? (
-      topics.map((topic) => (
-        <div key={topic.id} className="result-item">
-          <p>{topic.name}</p>
-        </div>
-      ))
-    ) : (
-      <p>No topics found.</p>
-    );
+import willProfile from "../../images/wbheadshot.jpg";
+import magnusProfile from "../../images/magnus-profile.png";
+import garryProfile from "../../images/garry.jpg";
+import anandProfile from "../../images/anand.png";
+import bobbyProfile from "../../images/bobby.jpg";
+import kramnikProfile from "../../images/kramnik.jpg";
+import karpovProfile from "../../images/karpov.jpg";
+import talProfile from "../../images/tal.jpg";
+import fabProfile from "../../images/fab.jpg";
+import hikaruProfile from "../../images/hikaru.jpg";
+import levonProfile from "../../images/levon.jpg";
+import defaultProfile from "../../images/default-profile.png";
+
+import "./styles.css"
+
+const SearchResultsComponent = ({ searchResults, users }) => {
+
+  const userImages = {
+    1: willProfile,
+    2: magnusProfile,
+    3: garryProfile,
+    4: anandProfile,
+    5: bobbyProfile,
+    6: kramnikProfile,
+    7: karpovProfile,
+    8: talProfile,
+    9: fabProfile,
+    10: hikaruProfile,
+    11: levonProfile
   };
 
   const renderQuestionsAndAnswers = (questions, answers) => {
     return questions?.length > 0 ? (
-      questions.map((question) => (
-        <div key={question.id} className="question-item">
-          <NavLink to={`/questions/${question.id}`} className="question-link">
-            {question.title}
-          </NavLink>
-          {answers
-            .filter((answer) => answer.questionId === question.id)
-            .map((answer) => (
-              <div key={answer.id} className="answer-item">
-                <div className="answer-user-info">
-                  <ProfileButton userId={answer.userId} />
-                  <div className="user-details">
-                    <p className="user-name">{answer.user?.username}</p>
-                  </div>
+      questions.map((question) => {
+        const userId = question.user_id.toString();
+        const userProfileImage = userImages[userId] || defaultProfile;
+        const user = users?.find((user) => user.id === parseInt(question.user_id));
+
+        return (
+          <div key={question.id} className="question-answer-box">
+            <UserProfileInfo user={user} userProfileImage={userProfileImage} />
+            <NavLink to={`/questions/${question.id}`} className="question-link">
+              <h5 className="title-content">{question.title}</h5>
+            </NavLink>
+            {answers
+              .filter((answer) => answer.questionId === question.id)
+              .map((answer, i) => (
+                <div key={i} className="answer-item">
+                  <p className="answer-content">{answer.content}</p>
                 </div>
-                <p className="answer-content">{answer.content}</p>
-              </div>
-            ))}
-        </div>
-      ))
+              ))}
+          </div>
+        );
+      })
     ) : (
       <p>No questions found.</p>
     );
@@ -59,7 +78,7 @@ const SearchResultsComponent = ({ searchResults }) => {
               searchResults?.questions,
               searchResults?.answers
             )}
-        
+
           </div>
         </div>
 
