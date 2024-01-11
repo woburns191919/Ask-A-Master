@@ -8,6 +8,7 @@ import GetTopics from "../GetTopics";
 import RelatedTopics from "../RelatedTopics";
 import magnusProfile from "../../images/magnus-profile.png";
 import defaultProfile from "../../images/default-profile.png";
+import UserProfileInfo from "../UserProfileInfo";
 import "./styles.css";
 
 const Comments = () => {
@@ -24,9 +25,7 @@ const Comments = () => {
 
   const userImages = {
     2: magnusProfile,
-
   };
-
 
   const users = Object.values(
     useSelector((state) =>
@@ -49,7 +48,6 @@ const Comments = () => {
       isMounted = false;
     };
   }, [id, allQuestions]);
-
 
   const onDeleteComment = (deletedCommentId) => {
     setAnswers((currentAnswers) =>
@@ -156,7 +154,7 @@ const Comments = () => {
       console.error("Error editing comment:", error);
     }
   };
-console.log('question from comments', question)
+  console.log("session user", sessionUser);
   return (
     <main className="main-container">
       <div className="content-wrapper">
@@ -178,30 +176,29 @@ console.log('question from comments', question)
               )}
             </div>
             <div className="answers-container">
-  {answers.map((answer) => {
+              {answers.map((answer) => {
+                const answerUser = users.find(
+                  (user) => user.id === answer.user_id
+                );
+                const userProfileImage =
+                  userImages[answerUser?.id] || defaultProfile;
 
-    const answerUser = users.find((user) => user.id === answer.user_id);
-
-    return (
-      <div className="comment-container" key={answer.id}>
-        <div className="comment-content">{answer.content}</div>
-        {answerUser && (
-          <div className="answer-user-info">
-            <img src={answerUser.profileImage || defaultProfile} alt={`${answerUser.first_name} ${answerUser.last_name}`} className="answer-user-profile-image" />
-            <div>
-              <div className="user-name">{answerUser.first_name} {answerUser.last_name}</div>
-              <div className="elo-rating">ELO Rating: {answerUser.elo_rating}</div>
-
+                return (
+                  <div className="comment-container" key={answer.id}>
+                    <UserProfileInfo
+                      user={answerUser}
+                      userProfileImage={userProfileImage}
+                    />
+                    <div className="comment-content">{answer.content}</div>
+                    <div className="comment-info">
+                      Answered on{" "}
+                      {new Date(answer.created_at).toLocaleDateString()}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          </div>
-        )}
-        <div className="comment-info">
-          Answered on {new Date(answer.created_at).toLocaleDateString()}
-        </div>
-      </div>
-    );
-  })}
-</div>
+
             <div className="comment-section">
               <input
                 type="text"
