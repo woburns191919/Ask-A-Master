@@ -191,6 +191,7 @@ const Comments = () => {
 
                 return (
                   <div className="comment-container" key={answer.id}>
+                    {console.log('ansswer user?', answerUser)}
                     <UserProfileInfo
                       user={answerUser}
                       userProfileImage={userProfileImage}
