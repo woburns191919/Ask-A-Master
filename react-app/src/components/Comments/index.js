@@ -184,7 +184,10 @@ const Comments = () => {
 
         <div className="center-content">
           <div className="ask-share-container">
-            <div className="topic-info-container">{question?.title}</div>
+            <div className="topic-info-container">
+                <h2>{question?.title}
+              </h2>
+            </div>
           </div>
           <div className="question-comments-container">
             <div className="question-body">
