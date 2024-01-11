@@ -163,6 +163,12 @@ const Comments = () => {
         </div>
 
         <div className="center-content">
+        <div className="ask-share-container">
+          <div className="topic-info-container">
+            {question?.title}
+          </div>
+
+          </div>
           <div className="question-comments-container">
             <div className="question-body">
               {question?.body}
