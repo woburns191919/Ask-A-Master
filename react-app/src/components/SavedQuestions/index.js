@@ -12,6 +12,13 @@ const SavedQuestions = ({ userId }) => {
   const history = useHistory();
   const { removeBookmark } = useBookmarkContext();
 
+  const handleBoxClick = (questionId, event) => {
+    if (event.target.closest(".ellipsis-container")) {
+      return;
+    }
+    history.push(`/questions/${questionId}`);
+  };
+
   useEffect(() => {
     const fetchSavedQuestions = async () => {
       if (!userId) {
@@ -48,59 +55,47 @@ const SavedQuestions = ({ userId }) => {
   };
 
   return (
-    <main className="main-container">
-      <div className="content-wrapper">
-        <div className="sidebar sidebar-menu">
-          <GetTopics/>
-        </div>
-        <div className="center-content">
-          <div className="question-answer-box">
-            <h2>Saved Questions</h2>
-            {savedQuestions.map((question, index) => (
-              <div className="question-box" key={index}>
-                <h4>{question.title}</h4>
-                <div className="answer-box">
-                  <p>{question.body}</p>
-                </div>
-                {question.image_filename && (
-                  <img
-                    className="photos"
-                    src={`/${question.image_filename}`}
-                    alt="Related"
-                  />
-                )}
-                <div className="ellipsis-container">
-                  <img
-                    className="ellipsis"
-                    src={ellipsis}
-                    alt="Options"
-                    onClick={() => toggleDropdown(question.id)}
-                  />
-                  {showDropdown === question.id && (
-                    <div className="dropdown">
-                      <button
-                        onClick={() => {
-                          handleUnsavedQuestion(question.id);
-                          closeDropdown();
-                        }}
-                      >
-                        Remove Bookmark
-                      </button>
-                    </div>
-                  )}
-                </div>
+    <>
+      {savedQuestions.map((question, index) => (
+        <div
+          className="question-answer-box"
+          key={index}
+          onClick={(e) => handleBoxClick(question.id, e)}
+        >
+          <h4>{question.title}</h4>
+          <div className="answer-box">
+            <p>{question.body}</p>
+          </div>
+          {question.image_filename && (
+            <img
+              className="photos"
+              src={`/${question.image_filename}`}
+              alt="Related"
+            />
+          )}
+          <div className="ellipsis-container">
+            <img
+              className="ellipsis"
+              src={ellipsis}
+              alt="Options"
+              onClick={() => toggleDropdown(question.id)}
+            />
+            {showDropdown === question.id && (
+              <div className="dropdown">
+                <button
+                  onClick={() => {
+                    handleUnsavedQuestion(question.id);
+                    closeDropdown();
+                  }}
+                >
+                  Remove Bookmark
+                </button>
               </div>
-            ))}
+            )}
           </div>
         </div>
-        <div className="related-topics-main-container">
-          <RelatedTopics showAds={true} />
-        </div>
-
-
-      </div>
-    </main>
+      ))}
+    </>
   );
 };
-
 export default SavedQuestions;
