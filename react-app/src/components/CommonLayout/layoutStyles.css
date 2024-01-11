@@ -81,13 +81,14 @@
   width: 100%;
 }
 
-.ask-share-container {
-  /* max-width: 80%; */
-}
 
 .ask-share-container {
   width: 100%;
   align-content: center;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #e2e2e2;
+  background-color:white;
 }
 
 .ask-share-container .question-answer-box {
