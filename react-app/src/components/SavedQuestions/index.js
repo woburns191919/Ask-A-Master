@@ -61,6 +61,12 @@ const SavedQuestions = ({ userId }) => {
           <GetTopics />
         </div>
         <div className="saved-question-wrapper">
+          <div className="ask-share-container">
+          <div className="topic-info-container">
+            <h2>Saved Questions</h2>
+          </div>
+
+          </div>
         {savedQuestions.map((question, index) => (
           <div
             className="question-answer-box"
