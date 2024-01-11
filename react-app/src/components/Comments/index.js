@@ -6,10 +6,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { thunkGetAllUsers } from "../../store/session";
 import GetTopics from "../GetTopics";
 import RelatedTopics from "../RelatedTopics";
-import magnusProfile from "../../images/magnus-profile.png";
 import defaultProfile from "../../images/default-profile.png";
 import UserProfileInfo from "../UserProfileInfo";
 import "./styles.css";
+
+import willProfile from "../../images/wbheadshot.jpg";
+import magnusProfile from "../../images/magnus-profile.png";
+import garryProfile from "../../images/garry.jpg";
+import anandProfile from "../../images/anand.png";
+import bobbyProfile from "../../images/bobby.jpg";
+import kramnikProfile from "../../images/kramnik.jpg";
+import karpovProfile from "../../images/karpov.jpg";
+import talProfile from "../../images/tal.jpg";
+import fabProfile from "../../images/fab.jpg";
+import hikaruProfile from "../../images/hikaru.jpg";
+import levonProfile from "../../images/levon.jpg";
 
 const Comments = () => {
   const { id } = useParams();
@@ -152,7 +163,17 @@ const Comments = () => {
     }
   };
   const userImages = {
+    1: willProfile,
     2: magnusProfile,
+    3: garryProfile,
+    4: anandProfile,
+    5: bobbyProfile,
+    6: kramnikProfile,
+    7: karpovProfile,
+    8: talProfile,
+    9: fabProfile,
+    10: hikaruProfile,
+    11: levonProfile
   };
 
   return (
@@ -184,7 +205,7 @@ const Comments = () => {
                 const userProfileImage =
                   userImages[answerUser?.id] || defaultProfile;
 
-             
+
 
                 return (
                   <div className="comment-container" key={answer.id}>
