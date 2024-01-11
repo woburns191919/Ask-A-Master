@@ -88,10 +88,11 @@
 
 .question-answer-box {
 
-  padding: 16px;
+  /* padding: 16px; */
   margin-bottom: 20px;
   border: 1px solid #e2e2e2;
   width:auto;
+  padding-bottom:6%;
 
 }
 
@@ -196,7 +197,7 @@
 }
 
 @media screen and (min-width: 500px) and (max-width: 768px) {
-  
+
   .main-container .question-answer-box {
     padding: 10px;
     margin: 0;
