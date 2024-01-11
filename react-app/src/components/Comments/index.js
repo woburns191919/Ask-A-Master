@@ -4,6 +4,11 @@ import ConfirmDelete from "../QuestionModal/ConfirmDelete";
 import { useModal } from "../../context/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkGetAllUsers } from "../../store/session";
+import GetTopics from "../GetTopics";
+import RelatedTopics from "../RelatedTopics";
+import magnusProfile from "../../images/magnus-profile.png";
+import defaultProfile from "../../images/default-profile.png";
+import UserProfileInfo from "../UserProfileInfo";
 import "./styles.css";
 
 const Comments = () => {
@@ -13,9 +18,11 @@ const Comments = () => {
   const [newComment, setNewComment] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const sessionUser = useSelector((state) => state.session.user);
+  const allQuestions = useSelector((state) => state.questions?.allQuestions);
   const { setModalContent } = useModal();
 
   const dispatch = useDispatch();
+
 
   const users = Object.values(
     useSelector((state) =>
@@ -26,6 +33,18 @@ const Comments = () => {
   useEffect(() => {
     dispatch(thunkGetAllUsers());
   }, [dispatch]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const foundQuestion = allQuestions?.find((q) => q.id === parseInt(id));
+    if (isMounted) {
+      setQuestion(foundQuestion);
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id, allQuestions]);
 
   const onDeleteComment = (deletedCommentId) => {
     setAnswers((currentAnswers) =>
@@ -54,8 +73,7 @@ const Comments = () => {
           const questionData = await questionResponse.json();
           const answersData = await answersResponse.json();
 
-          setQuestion(questionData.body);
-
+          setQuestion(questionData);
           setAnswers(answersData.answers);
         } else {
           console.error(
@@ -133,35 +151,71 @@ const Comments = () => {
       console.error("Error editing comment:", error);
     }
   };
-
-
+  const userImages = {
+    2: magnusProfile,
+  };
 
   return (
-    <div className="main-layout">
+    <main className="main-container">
       <div className="content-wrapper">
         <div className="sidebar sidebar-menu">
-          {/* Sidebar content, if any */}
+          <GetTopics />
         </div>
-        <div className="content">
+
+        <div className="center-content">
+          <div className="ask-share-container">
+            <div className="topic-info-container">{question?.title}</div>
+          </div>
           <div className="question-comments-container">
-            <div className="question-body">{question}</div>
+            <div className="question-body">
+              {question?.body}
+              {question?.image_filename && (
+                <img
+                  className="question-photo"
+                  src={`/${question.image_filename}`}
+                  alt="Question"
+                  style={{ height: "400px" }}
+                />
+              )}
+            </div>
             <div className="answers-container">
-              <div className="answer-header">
-                {answers.length === 1
-                  ? "1 Answer"
-                  : `${answers.length} Answers`}
-              </div>
-              {answers.map((answer) => (
-                <div className="comment-container" key={answer.id}>
-                  <div className="comment-content">{answer.content}</div>
-                  <div className="comment-info">
-                    Answered by{" "}
-                    {
-                      users[0]?.find((user) => user.id === answer.user_id)
-                        ?.first_name
-                    }{" "}
-                    on {new Date(answer.created_at).toLocaleDateString()}
-                    {sessionUser && answer.user_id === sessionUser.id && (
+              {answers.map((answer) => {
+                const answerUser = users[0]?.find((user) => user.id === answer.user_id)
+                const userProfileImage =
+                  userImages[answerUser?.id] || defaultProfile;
+
+             
+
+                return (
+                  <div className="comment-container" key={answer.id}>
+
+                    <div className="user-profile-container">
+                      <img
+                        src={userProfileImage || defaultProfile}
+                        className="user-profile-image"
+                        alt="Profile"
+                      />
+                      <div className="user-credentials">
+                        <div className="user-name">
+                          {users[0]?.find((user) => user.id === answer.user_id)
+                          ?.first_name} {users[0]?.find((user) => user.id === answer.user_id)
+                            ?.last_name}
+                        </div>
+                        <div className="elo-rating">
+                          ELO Rating <span>{users[0]?.find((user) => user.id === answer.user_id)
+                          ?.elo_rating}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="comment-content">{answer.content}</div>
+                    <div className="comment-info">
+                      Answered by{" "}
+                      {
+                        users[0]?.find((user) => user.id === answer.user_id)
+                          ?.first_name
+                      }{" "}
+                      on {new Date(answer.created_at).toLocaleDateString()}
+                      {sessionUser && answer.user_id === sessionUser.id && (
                       <>
                         <button
                           onClick={() => {
@@ -176,39 +230,41 @@ const Comments = () => {
                         </button>
                       </>
                     )}
+                    </div>
                   </div>
-                </div>
-              ))}
-              <div className="comment-section">
-                <input
-                  type="text"
-                  className="comment-input"
-                  placeholder="Add a comment..."
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                />
-                {editingCommentId ? (
-                  <button
-                    className="comment-submit-button"
-                    onClick={() => submitEdit(editingCommentId)}
-                  >
-                    Save Edit
-                  </button>
-                ) : (
-                  <button
-                    className="comment-submit-button"
-                    onClick={postComment}
-                  >
-                    Comment
-                  </button>
-                )}
-              </div>
+                );
+              })}
+            </div>
+
+            <div className="comment-section">
+              <input
+                type="text"
+                className="comment-input"
+                placeholder="Add a comment..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+              {editingCommentId ? (
+                <button
+                  className="comment-submit-button"
+                  onClick={() => submitEdit(editingCommentId)}
+                >
+                  Save Edit
+                </button>
+              ) : (
+                <button className="comment-submit-button" onClick={postComment}>
+                  Comment
+                </button>
+              )}
             </div>
           </div>
         </div>
-        <div className="search-page"></div>
+
+        <div className="related-topics-main-container">
+          <RelatedTopics showAds={true} />
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 

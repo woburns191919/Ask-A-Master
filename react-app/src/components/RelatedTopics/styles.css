@@ -38,6 +38,11 @@
   border-radius: 4px;
 }
 
+.related-topics-box img {
+  height:400px;
+  width:200px;
+}
+
 .followers {
   font-size: 0.9em;
   color: rgb(198, 195, 195);

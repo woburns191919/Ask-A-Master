@@ -2,6 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import ProfileButton from "../../components/Navigation/ProfileButton";
 import ellipsis from "../../images/ellipsis.png";
+import GetTopics from "../GetTopics";
+import RelatedTopics from "../RelatedTopics";
 import "./styles.css";
 
 const SearchResultsComponent = ({ searchResults }) => {
@@ -45,20 +47,27 @@ const SearchResultsComponent = ({ searchResults }) => {
   };
 
   return (
-    <div className="main-layout">
+    <main className="main-container">
       <div className="content-wrapper">
-        <div className="sidebar sidebar-menu">{/* Sidebar content */}</div>
-
-        <div className="content">
-          {renderQuestionsAndAnswers(
-            searchResults?.questions,
-            searchResults?.answers
-          )}
+        <div className="sidebar sidebar-menu">
+          <GetTopics />
         </div>
 
-        <div className="search-page"></div>
+        <div className="center-content">
+          <div className="search-results-container">
+            {renderQuestionsAndAnswers(
+              searchResults?.questions,
+              searchResults?.answers
+            )}
+        
+          </div>
+        </div>
+
+        <div className="related-topics-main-container">
+          <RelatedTopics showAds={true} />
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 

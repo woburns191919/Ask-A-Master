@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ad1 from "../../images/ad1.png"
+import ad2 from "../../images/ad2.jpg"
 import "./styles.css";
 
 export default function RelatedTopics({ showAds }) {
@@ -29,10 +31,10 @@ export default function RelatedTopics({ showAds }) {
     return showAds ? (
       <>
         <div className="related-topics-box ad-box">
-          <p>Ad 1</p>
+          <img src={ad1} />
         </div>
         <div className="related-topics-box ad-box">
-          <p>Ad 2</p>
+        <img src={ad2} />
         </div>
       </>
     ) : (

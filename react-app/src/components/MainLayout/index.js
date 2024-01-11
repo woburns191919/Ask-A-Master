@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import TopicInfo from "../TopicInfo";
 import { useLocation } from "react-router-dom";
 
+
 const MainLayout = ({
   allQuestions,
   images,
@@ -33,13 +34,17 @@ const MainLayout = ({
   }, [dispatch]);
 
   return (
-    <div className="main-layout">
-      <div className="upper-layout"></div>
+    <>
+      {/* <div className="upper-layout"></div> */}
       <div className="content-wrapper">
-        <div className="sidebar sidebar-menu"></div>
-        <div className="content">
+        <div className="left-content">
+        <GetTopics />
+        </div>
+
+
+        <div className="center-content">
           {sessionUser && (
-            <div className="ask-share-container question-answer-box">
+            <div className="ask-share-container">
               {topicId ? (
                 <TopicInfo topicId={topicId} />
               ) : (
@@ -63,7 +68,7 @@ const MainLayout = ({
           <RelatedTopics showAds={false} />
         )}
       </div>
-    </div>
+    </>
   );
 };
 export default MainLayout;
