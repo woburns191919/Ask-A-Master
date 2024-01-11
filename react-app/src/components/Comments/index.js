@@ -23,9 +23,6 @@ const Comments = () => {
 
   const dispatch = useDispatch();
 
-  const userImages = {
-    2: magnusProfile,
-  };
 
   const users = Object.values(
     useSelector((state) =>
@@ -154,7 +151,10 @@ const Comments = () => {
       console.error("Error editing comment:", error);
     }
   };
-  console.log("session user", sessionUser);
+  const userImages = {
+    2: magnusProfile,
+  };
+
   return (
     <main className="main-container">
       <div className="content-wrapper">
@@ -163,11 +163,8 @@ const Comments = () => {
         </div>
 
         <div className="center-content">
-        <div className="ask-share-container">
-          <div className="topic-info-container">
-            {question?.title}
-          </div>
-
+          <div className="ask-share-container">
+            <div className="topic-info-container">{question?.title}</div>
           </div>
           <div className="question-comments-container">
             <div className="question-body">
@@ -183,23 +180,56 @@ const Comments = () => {
             </div>
             <div className="answers-container">
               {answers.map((answer) => {
-                const answerUser = users.find(
-                  (user) => user.id === answer.user_id
-                );
+                const answerUser = users[0]?.find((user) => user.id === answer.user_id)
                 const userProfileImage =
                   userImages[answerUser?.id] || defaultProfile;
 
+             
+
                 return (
                   <div className="comment-container" key={answer.id}>
-                    {console.log('ansswer user?', answerUser)}
-                    <UserProfileInfo
-                      user={answerUser}
-                      userProfileImage={userProfileImage}
-                    />
+
+                    <div className="user-profile-container">
+                      <img
+                        src={userProfileImage || defaultProfile}
+                        className="user-profile-image"
+                        alt="Profile"
+                      />
+                      <div className="user-credentials">
+                        <div className="user-name">
+                          {users[0]?.find((user) => user.id === answer.user_id)
+                          ?.first_name} {users[0]?.find((user) => user.id === answer.user_id)
+                            ?.last_name}
+                        </div>
+                        <div className="elo-rating">
+                          ELO Rating <span>{users[0]?.find((user) => user.id === answer.user_id)
+                          ?.elo_rating}</span>
+                        </div>
+                      </div>
+                    </div>
                     <div className="comment-content">{answer.content}</div>
                     <div className="comment-info">
-                      Answered on{" "}
-                      {new Date(answer.created_at).toLocaleDateString()}
+                      Answered by{" "}
+                      {
+                        users[0]?.find((user) => user.id === answer.user_id)
+                          ?.first_name
+                      }{" "}
+                      on {new Date(answer.created_at).toLocaleDateString()}
+                      {sessionUser && answer.user_id === sessionUser.id && (
+                      <>
+                        <button
+                          onClick={() => {
+                            setEditingCommentId(answer.id);
+                            setNewComment(answer.content);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button onClick={() => openDeleteModal(answer.id)}>
+                          Delete Comment
+                        </button>
+                      </>
+                    )}
                     </div>
                   </div>
                 );
