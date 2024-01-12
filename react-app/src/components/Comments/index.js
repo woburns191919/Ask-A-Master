@@ -190,8 +190,12 @@ const Comments = () => {
             </div>
           </div>
           <div className="question-comments-container">
+            <div>
             <div className="question-body">
+              <p className="question-content">
               {question?.body}
+                </p>
+              </div>
               {question?.image_filename && (
                 <img
                   className="question-photo"
