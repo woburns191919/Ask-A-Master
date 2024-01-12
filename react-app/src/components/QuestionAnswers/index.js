@@ -4,13 +4,30 @@ import { useDispatch, useSelector } from "react-redux";
 import "./questionAnswerStyles.css";
 
 import ellipsis from "../../images/ellipsis.png";
-import magnusProfile from "../../images/magnus-profile.png";
+
+
+
+
+
 import defaultProfile from "../../images/default-profile.png";
 import OpenModalButton from "../OpenModalButton";
 import AddQuestionForm from "../QuestionModal/AddQuestion";
 import { useHistory } from "react-router-dom";
 import { useBookmarkContext } from "../../context/BookmarkContext";
 import UserProfileInfo from "../UserProfileInfo";
+
+
+import willProfile from "../../images/wbheadshot.jpg";
+import magnusProfile from "../../images/magnus-profile.png";
+import garryProfile from "../../images/garry.jpg";
+import anandProfile from "../../images/anand.png";
+import bobbyProfile from "../../images/bobby.jpg";
+import kramnikProfile from "../../images/kramnik.jpg";
+import karpovProfile from "../../images/karpov.jpg";
+import talProfile from "../../images/tal.jpg";
+import fabProfile from "../../images/fab.jpg";
+import hikaruProfile from "../../images/hikaru.jpg";
+import levonProfile from "../../images/levon.jpg";
 
 export default function QuestionAnswers({
   allQuestions,
@@ -27,7 +44,17 @@ export default function QuestionAnswers({
   const { addBookmark, isBookmarked, removeBookmark } = useBookmarkContext();
 
   const userImages = {
+    1: willProfile,
     2: magnusProfile,
+    3: garryProfile,
+    4: anandProfile,
+    5: bobbyProfile,
+    6: kramnikProfile,
+    7: karpovProfile,
+    8: talProfile,
+    9: fabProfile,
+    10: hikaruProfile,
+    11: levonProfile
   };
 
   useEffect(() => {
