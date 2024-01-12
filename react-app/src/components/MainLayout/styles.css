@@ -14,6 +14,13 @@
   padding: 10px;
 }
 
+.ask-share-container {
+  width:fit-content;
+}
+
+
+
+
 
 @media screen and (max-width: 768px) {
   .content-wrapper {
@@ -42,7 +49,7 @@
   .question-answer-box {
     width: 100%;
     padding: 8px;
-   
+
     display: block;
   }
 

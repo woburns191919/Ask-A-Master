@@ -1,10 +1,18 @@
 .question-comments-container {
-  max-width: 800px;
-  margin: 20px auto;
-  background-color: #fff;
+  padding: 12px;
   border: 1px solid #e6e6e6;
+  background-color: white;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  color: #333333;
+  margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  padding: 20px;
+  gap:10px;
+
+}
+
+.question-photo {
+  width:100%;
 }
 
 .question-body {

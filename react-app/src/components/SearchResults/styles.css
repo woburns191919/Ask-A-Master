@@ -28,3 +28,17 @@
   width:36%;
 }
 
+
+.search-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.search-results-wrapper {
+
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
