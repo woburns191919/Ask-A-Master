@@ -185,6 +185,7 @@ const Comments = () => {
         <div className="center-content">
           <div className="ask-share-container">
             <div className="topic-info-container">
+              {console.log('question array?', question)}
                 <h2>{question?.title}
               </h2>
             </div>
