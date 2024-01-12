@@ -6,12 +6,8 @@ body, h1, h2, h3, p {
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 
 
-
-* {
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
-}
