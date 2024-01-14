@@ -1,6 +1,5 @@
 
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -99,12 +98,10 @@ body {
   margin-top:70px;
 }
 
-.login-right p {
-  font-family: "Courier New", Courier, monospace;
-}
+
 
 .login-left {
-  font-family: "Courier New", Courier, monospace;
+
   margin-bottom:70px;
 }
 
