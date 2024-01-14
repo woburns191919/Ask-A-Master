@@ -5,6 +5,6 @@ body, h1, h2, h3, p {
   box-sizing: border-box;
 }
 
-* {
+*, body {
   font-family: 'Roboto', sans-serif;
 }
