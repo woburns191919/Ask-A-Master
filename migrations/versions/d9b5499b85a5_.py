@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 7f5c42fd04f6
+Revision ID: d9b5499b85a5
 Revises:
-Create Date: 2023-12-01 17:35:11.835072
+Create Date: 2024-01-15 10:18:54.395843
 
 """
 from alembic import op
@@ -13,9 +13,8 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 
-
 # revision identifiers, used by Alembic.
-revision = '7f5c42fd04f6'
+revision = 'd9b5499b85a5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -102,6 +101,7 @@ def upgrade():
     if environment == "production":
         op.execute(f"ALTER TABLE question_topic_association SET SCHEMA {SCHEMA};")
 
+
     op.create_table('saved_questions',
         sa.Column('user_id', sa.Integer(), nullable=False),
         sa.Column('question_id', sa.Integer(), nullable=False),
@@ -112,8 +112,6 @@ def upgrade():
 
     if environment == "production":
         op.execute(f"ALTER TABLE saved_questions SET SCHEMA {SCHEMA};")
-
-
 
 
 def downgrade():
