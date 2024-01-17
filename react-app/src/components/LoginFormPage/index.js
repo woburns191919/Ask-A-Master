@@ -41,7 +41,7 @@ function LoginFormPage() {
   };
 
   const handleSignUpClick = () => {
-    history.push('/signup');
+    history.push("/signup");
   };
 
   return (
@@ -49,17 +49,6 @@ function LoginFormPage() {
       <div className="outer-wrap">
         <div className="login-right">
           <img src={logo} alt="Ask a Master"></img>
-
-
-          <div className="google-face">
-            <button className="continue-google" onClick={handleGoogleLogin}>
-              Continue with Google
-            </button>
-
-            <button className="continue-facebook" onClick={handleFacebookLogin}>
-              Continue with Facebook
-            </button>
-          </div>
         </div>
         <div className="login-left">
           <div className="login-header">Login</div>
@@ -98,7 +87,9 @@ function LoginFormPage() {
               <button type="button" onClick={handleDemoUserLogin}>
                 Demo User
               </button>
-              <button type="button" onClick={handleSignUpClick}>Sign Up</button> 
+              <button type="button" onClick={handleSignUpClick}>
+                Sign Up
+              </button>
             </div>
           </form>
         </div>
