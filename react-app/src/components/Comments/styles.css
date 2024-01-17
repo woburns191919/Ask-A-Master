@@ -10,6 +10,10 @@
 
 }
 
+.elo-rating {
+  font-weight:100;
+}
+
 .question-photo {
   width:100%;
 }

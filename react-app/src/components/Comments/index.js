@@ -194,7 +194,7 @@ const Comments = () => {
               <div className="question-body">
                 <div className="user-profile-container">
                   <img
-                    src={userImages[question?.user_id] || defaultProfile}
+                    src={userImages[question?.question?.user_id] || defaultProfile}
                     className="user-profile-image"
                     alt="Profile"
                   />
