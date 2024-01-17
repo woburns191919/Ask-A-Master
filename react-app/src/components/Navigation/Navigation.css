@@ -9,8 +9,9 @@
   gap: 40px;
   position: fixed;
   width: 100%;
-  height: fit-content;
+  height: 50px;
   z-index: 1000;
+
 
 }
 
@@ -23,6 +24,12 @@
   align-items: center;
   gap: 20px;
   flex-grow: 1;
+  justify-content:space-between
+}
+
+.profile-and-question {
+  display:flex;
+  gap:10px;
 }
 
 .navIcon {
