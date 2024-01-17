@@ -207,22 +207,23 @@ def get_question(question_id):
 
 
 @questions_routes.route("/")
+@questions_routes.route("/")
 def get_all_questions():
-
     questions = Question.query.all()
     all_questions = []
 
     for question in questions:
         question_dict = question.to_dict()
 
-        # Fetch associated image for each question
-        image = Image.query.filter_by(question_id=question.id).first()
-        if image:
-            question_dict["image_filename"] = image.filename
+       
+        images = Image.query.filter_by(question_id=question.id).all()
+        question_dict["image_filenames"] = [img.filename for img in images]
+
         print('Question data:', question_dict)
         all_questions.append(question_dict)
 
     return jsonify({'questions': all_questions})
+
 
 
 

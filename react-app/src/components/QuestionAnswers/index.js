@@ -165,15 +165,18 @@ export default function QuestionAnswers({
                   answersForQuestions[question.id]?.map((answer, i) => (
                     <p key={i}>{answer.content}</p>
                   ))}
-                {question.image_filename && (
+              
+                <div className="image-grid">
+                {question.image_filenames?.map((filename, idx) => (
                   <img
-                    className="photos"
-                    src={`/${question.image_filename}`}
-                    alt="Related"
-                    style={{ height: "400px" }}
+                    key={`${filename}-${idx}`}
+                    className="image-grid-item"
+                    src={`/${filename}`}
+                    alt={`Related to ${question.title}`}
                   />
-                )}
+                ))}
               </div>
+            </div>
               <div className="ellipsis-container">
                 <img
                   className="ellipsis"

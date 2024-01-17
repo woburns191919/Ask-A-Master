@@ -1,20 +1,16 @@
 """empty message
 
-Revision ID: d9b5499b85a5
-Revises:
-Create Date: 2024-01-15 10:18:54.395843
+Revision ID: 29a3f68c83e8
+Revises: 
+Create Date: 2024-01-17 12:58:23.932507
 
 """
 from alembic import op
 import sqlalchemy as sa
 
-import os
-environment = os.getenv("FLASK_ENV")
-SCHEMA = os.environ.get("SCHEMA")
-
 
 # revision identifiers, used by Alembic.
-revision = 'd9b5499b85a5'
+revision = '29a3f68c83e8'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,10 +23,6 @@ def upgrade():
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE topics SET SCHEMA {SCHEMA};")
-
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=40), nullable=False),
@@ -44,10 +36,6 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-
     op.create_table('questions',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=255), nullable=False),
@@ -60,21 +48,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    if environment == "production":
-        op.execute(f"ALTER TABLE questions SET SCHEMA {SCHEMA};")
-
-
-    op.create_table('images',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('filename', sa.String(), nullable=False),
-    sa.Column('question_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE images SET SCHEMA {SCHEMA};")
-
     op.create_table('answers',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -86,32 +59,28 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE answers SET SCHEMA {SCHEMA};")
-
+    op.create_table('images',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('filename', sa.String(), nullable=False),
+    sa.Column('question_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('question_topic_association',
-        sa.Column('question_id', sa.Integer(), nullable=False),
-        sa.Column('topic_id', sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(['question_id'], ['questions.id']),
-        sa.ForeignKeyConstraint(['topic_id'], ['topics.id']),
-        sa.PrimaryKeyConstraint('question_id', 'topic_id')
+    sa.Column('question_id', sa.Integer(), nullable=False),
+    sa.Column('topic_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
+    sa.ForeignKeyConstraint(['topic_id'], ['topics.id'], ),
+    sa.PrimaryKeyConstraint('question_id', 'topic_id')
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE question_topic_association SET SCHEMA {SCHEMA};")
-
-
     op.create_table('saved_questions',
-        sa.Column('user_id', sa.Integer(), nullable=False),
-        sa.Column('question_id', sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-        sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
-        sa.PrimaryKeyConstraint('user_id', 'question_id')
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('question_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('user_id', 'question_id')
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE saved_questions SET SCHEMA {SCHEMA};")
+    # ### end Alembic commands ###
 
 
 def downgrade():
