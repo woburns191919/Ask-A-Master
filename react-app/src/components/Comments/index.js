@@ -203,15 +203,15 @@ const Comments = () => {
     <div className="user-credentials">
       <div className="user-name">
 
-        {users[0]?.find((user) => user.id === question?.user_id)?.first_name}{" "}
-        {users[0]?.find((user) => user.id === question?.user_id)?.last_name}
+        {users[0]?.find((user) => user.id === question?.question.user_id)?.first_name}{" "}
+        {users[0]?.find((user) => user.id === question?.question.user_id)?.last_name}
       </div>
       <div className="elo-rating">
 
         ELO Rating{" "}
         <span>
           {
-            users[0]?.find((user) => user.id === question?.user_id)
+            users[0]?.find((user) => user.id === question?.question.user_id)
               ?.elo_rating
           }
         </span>
