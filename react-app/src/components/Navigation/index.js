@@ -54,6 +54,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
         const data = await response.json();
         updateSearchResults(data);
         history.push("/search-results");
+        setSearchTerm(""); 
       } else {
         console.error("Search failed");
       }
@@ -61,6 +62,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
       console.error("Error during search:", error);
     }
   };
+
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
