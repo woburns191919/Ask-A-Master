@@ -205,7 +205,7 @@ const Comments = () => {
                           ?.first_name
                       }{" "}
                       {
-                        users[0]?.find((user) => user.id === question?.user_id)
+                        users[0]?.find((user) => user.id === question?.question?.user_id)
                           ?.last_name
                       }
                     </div>
