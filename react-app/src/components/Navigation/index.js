@@ -23,6 +23,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
   const sessionUser = useSelector((state) => state.session.user);
   const history = useHistory();
 
+
   function TooltipIcon({ src, alt, tooltipText }) {
     const [showTooltip, setShowTooltip] = useState(false);
 
@@ -43,7 +44,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
   };
 
   const performSearch = async () => {
-    if (!searchTerm.trim()) return; 
+    if (!searchTerm.trim()) return;
 
     try {
       const response = await fetch(
@@ -91,14 +92,17 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
           tooltipText="Notifications"
         />
         <div className="searchBar">
-          <input
-            type="search"
-            placeholder="Search Quora"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyDown={handleKeyPress}
-          />
+        <input
+          type="search"
+          placeholder="Search Quora"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          onKeyDown={handleKeyPress}
+        />
+        <div className="searchIconWrapper" onClick={performSearch}>
+          <img src={searchIcon} alt="Search" />
         </div>
+      </div>
         <button className="tryQuoraButton">Try Ask a Master+</button>
         <div
           className="navActions"
