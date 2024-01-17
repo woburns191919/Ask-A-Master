@@ -185,45 +185,49 @@ const Comments = () => {
         <div className="center-content">
           <div className="ask-share-container">
             <div className="topic-info-container">
-              {console.log('question array?', question)}
-                <h2>{question?.title}
-              </h2>
+              {console.log("question array?", question)}
+              <h2>{question?.title}</h2>
             </div>
           </div>
           <div className="question-comments-container">
             <div>
-            <div className="question-body">
-            <div className="user-profile-container">
-
-    <img
-      src={userImages[question?.user_id] || defaultProfile}
-      className="user-profile-image"
-      alt="Profile"
-    />
-    <div className="user-credentials">
-      <div className="user-name">
-
-        {users[0]?.find((user) => user.id === question?.user_id)?.first_name}{" "}
-        {users[0]?.find((user) => user.id === question?.user_id)?.last_name}
-      </div>
-      <div className="elo-rating">
-
-        ELO Rating{" "}
-        <span>
-          {
-            users[0]?.find((user) => user.id === question?.user_id)
-              ?.elo_rating
-          }
-        </span>
-      </div>
-    </div>
-  </div>
-              <p className="question-content">
-              {question?.body}
-                </p>
+              <div className="question-body">
+                <div className="user-profile-container">
+                  <img
+                    src={userImages[question?.user_id] || defaultProfile}
+                    className="user-profile-image"
+                    alt="Profile"
+                  />
+                  <div className="user-credentials">
+                    <div className="user-name">
+                      {
+                        users[0]?.find((user) => user.id === question?.user_id)
+                          ?.first_name
+                      }{" "}
+                      {
+                        users[0]?.find((user) => user.id === question?.user_id)
+                          ?.last_name
+                      }
+                    </div>
+                    <div className="elo-rating">
+                      ELO Rating{" "}
+                      <span>
+                        {
+                          users[0]?.find(
+                            (user) => user.id === question?.user_id
+                          )?.elo_rating
+                        }
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <p className="question-content">{question?.question?.body}</p>
               </div>
               <div className="image-grid">
-                {console.log('question array?', question?.question?.image_filenames)}
+                {console.log(
+                  "question array?",
+                  question?.question?.image_filenames
+                )}
                 {question?.question?.image_filenames?.map((filename, idx) => (
                   <img
                     key={`${filename}-${idx}`}
