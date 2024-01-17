@@ -222,14 +222,17 @@ const Comments = () => {
               {question?.body}
                 </p>
               </div>
-              {question?.image_filename && (
-                <img
-                  className="question-photo"
-                  src={`/${question.image_filename}`}
-                  alt="Question"
-                  style={{ height: "400px" }}
-                />
-              )}
+              <div className="image-grid">
+                {console.log('question array?', question?.question?.image_filenames)}
+                {question?.question?.image_filenames?.map((filename, idx) => (
+                  <img
+                    key={`${filename}-${idx}`}
+                    className="image-grid-item"
+                    src={`/${filename}`}
+                    alt={`Related to ${question.title}`}
+                  />
+                ))}
+              </div>
             </div>
             <div className="answers-container">
               {answers.map((answer) => {

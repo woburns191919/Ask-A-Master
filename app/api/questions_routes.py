@@ -199,14 +199,19 @@ def create_question():
 
 @questions_routes.route("<int:question_id>")
 def get_question(question_id):
-    """returns a specific question by id"""
     question = Question.query.get(question_id)
-    return jsonify(question.to_dict())
+    if not question:
+        return jsonify({"message": "Question not found"}), 404
+
+    question_dict = question.to_dict()
+
+    images = Image.query.filter_by(question_id=question_id).all()
+    question_dict["image_filenames"] = [image.filename for image in images]
+
+    return jsonify(question=question_dict)
 
 
 
-
-@questions_routes.route("/")
 @questions_routes.route("/")
 def get_all_questions():
     questions = Question.query.all()
@@ -215,7 +220,7 @@ def get_all_questions():
     for question in questions:
         question_dict = question.to_dict()
 
-       
+
         images = Image.query.filter_by(question_id=question.id).all()
         question_dict["image_filenames"] = [img.filename for img in images]
 
