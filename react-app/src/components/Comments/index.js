@@ -219,7 +219,7 @@ const Comments = () => {
     </div>
   </div>
               <p className="question-content">
-              {question?.body}
+              {question?.question.body}
                 </p>
               </div>
               <div className="image-grid">
