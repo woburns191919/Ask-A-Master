@@ -186,7 +186,7 @@ const Comments = () => {
           <div className="ask-share-container">
             <div className="topic-info-container">
               {console.log("question array?", question)}
-              <h2>{question?.title}</h2>
+              <h2>{question?.question?.title}</h2>
             </div>
           </div>
           <div className="question-comments-container">
@@ -214,7 +214,7 @@ const Comments = () => {
                       <span>
                         {
                           users[0]?.find(
-                            (user) => user.id === question?.user_id
+                            (user) => user.id === question?.question?.user_id
                           )?.elo_rating
                         }
                       </span>
