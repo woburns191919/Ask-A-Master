@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "./styles.css";
 
 function TopicInfo() {
+
   const { id: topicId } = useParams();
   const [topicInfo, setTopicInfo] = useState(null);
   const [followerCount, setFollowerCount] = useState(0);
