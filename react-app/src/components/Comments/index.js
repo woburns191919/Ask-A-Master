@@ -224,7 +224,7 @@ const Comments = () => {
                 <p className="question-content">{question?.question?.body}</p>
               </div>
               <div className="image-grid">
-              
+
                 {question?.question?.image_filenames?.map((filename, idx) => (
                   <img
                     key={`${filename}-${idx}`}
@@ -282,6 +282,7 @@ const Comments = () => {
                           ?.first_name
                       }{" "}
                       on {new Date(answer.created_at).toLocaleDateString()}
+                      <div className="comment-edit-and-delete">
                       {sessionUser && answer.user_id === sessionUser.id && (
                         <>
                           <button
@@ -297,6 +298,7 @@ const Comments = () => {
                           </button>
                         </>
                       )}
+                      </div>
                     </div>
                   </div>
                 );
