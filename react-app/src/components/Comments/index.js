@@ -224,10 +224,7 @@ const Comments = () => {
                 <p className="question-content">{question?.question?.body}</p>
               </div>
               <div className="image-grid">
-                {console.log(
-                  "question array?",
-                  question?.question?.image_filenames
-                )}
+              
                 {question?.question?.image_filenames?.map((filename, idx) => (
                   <img
                     key={`${filename}-${idx}`}
