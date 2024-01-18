@@ -59,10 +59,10 @@
 }
 
 .question-content {
-  font-style:Roboto;
+  font-family:Roboto;
 }
 .question-content p{
-  font-style:Roboto;
+  font-family:Roboto;
 }
 
 .comment-text,
