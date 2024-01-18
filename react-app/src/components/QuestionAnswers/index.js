@@ -30,14 +30,12 @@ import hikaruProfile from "../../images/hikaru.jpg";
 import levonProfile from "../../images/levon.jpg";
 
 export default function QuestionAnswers({
-
   allQuestions,
   answersForQuestions,
   onUpdateQuestion,
   openDeleteModal,
   handleQuestionsUpdate,
 }) {
-
   const [showDropdown, setShowDropdown] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -167,18 +165,15 @@ export default function QuestionAnswers({
                   answersForQuestions[question.id]?.map((answer, i) => (
                     <p key={i}>{answer.content}</p>
                   ))}
-
-                <div className="image-grid">
-                {question?.image_filenames?.map((filename, idx) => (
+                {question.image_filename && (
                   <img
-                    key={`${filename}-${idx}`}
-                    className="image-grid-item"
-                    src={`/${filename}`}
-                    alt={`Related to ${question.title}`}
+                    className="photos"
+                    src={`/${question.image_filename}`}
+                    alt="Related"
+                    style={{ height: "400px" }}
                   />
-                ))}
+                )}
               </div>
-            </div>
               <div className="ellipsis-container">
                 <img
                   className="ellipsis"

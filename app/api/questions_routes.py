@@ -199,36 +199,30 @@ def create_question():
 
 @questions_routes.route("<int:question_id>")
 def get_question(question_id):
+    """returns a specific question by id"""
     question = Question.query.get(question_id)
-    if not question:
-        return jsonify({"message": "Question not found"}), 404
+    return jsonify(question.to_dict())
 
-    question_dict = question.to_dict()
-
-    images = Image.query.filter_by(question_id=question_id).all()
-    question_dict["image_filenames"] = [image.filename for image in images]
-
-    return jsonify(question=question_dict)
 
 
 
 @questions_routes.route("/")
 def get_all_questions():
+
     questions = Question.query.all()
     all_questions = []
 
     for question in questions:
         question_dict = question.to_dict()
 
-
-        images = Image.query.filter_by(question_id=question.id).all()
-        question_dict["image_filenames"] = [img.filename for img in images]
-
+        # Fetch associated image for each question
+        image = Image.query.filter_by(question_id=question.id).first()
+        if image:
+            question_dict["image_filename"] = image.filename
         print('Question data:', question_dict)
         all_questions.append(question_dict)
 
     return jsonify({'questions': all_questions})
-
 
 
 

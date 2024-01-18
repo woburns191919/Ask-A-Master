@@ -185,55 +185,51 @@ const Comments = () => {
         <div className="center-content">
           <div className="ask-share-container">
             <div className="topic-info-container">
-              {console.log("question array?", question)}
-              <h2>{question?.question?.title}</h2>
+              {console.log('question array?', question)}
+                <h2>{question?.title}
+              </h2>
             </div>
           </div>
           <div className="question-comments-container">
             <div>
-              <div className="question-body">
-                <div className="user-profile-container">
-                  <img
-                    src={userImages[question?.question?.user_id] || defaultProfile}
-                    className="user-profile-image"
-                    alt="Profile"
-                  />
-                  <div className="user-credentials">
-                    <div className="user-name">
-                      {
-                        users[0]?.find((user) => user.id === question?.question?.user_id)
-                          ?.first_name
-                      }{" "}
-                      {
-                        users[0]?.find((user) => user.id === question?.question?.user_id)
-                          ?.last_name
-                      }
-                    </div>
-                    <div className="elo-rating">
-                      ELO Rating{" "}
-                      <span>
-                        {
-                          users[0]?.find(
-                            (user) => user.id === question?.question?.user_id
-                          )?.elo_rating
-                        }
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <p className="question-content">{question?.question?.body}</p>
-              </div>
-              <div className="image-grid">
+            <div className="question-body">
+            <div className="user-profile-container">
 
-                {question?.question?.image_filenames?.map((filename, idx) => (
-                  <img
-                    key={`${filename}-${idx}`}
-                    className="image-grid-item"
-                    src={`/${filename}`}
-                    alt={`Related to ${question.title}`}
-                  />
-                ))}
+    <img
+      src={userImages[question?.user_id] || defaultProfile}
+      className="user-profile-image"
+      alt="Profile"
+    />
+    <div className="user-credentials">
+      <div className="user-name">
+
+        {users[0]?.find((user) => user.id === question?.user_id)?.first_name}{" "}
+        {users[0]?.find((user) => user.id === question?.user_id)?.last_name}
+      </div>
+      <div className="elo-rating">
+
+        ELO Rating{" "}
+        <span>
+          {
+            users[0]?.find((user) => user.id === question?.user_id)
+              ?.elo_rating
+          }
+        </span>
+      </div>
+    </div>
+  </div>
+              <p className="question-content">
+              {question?.body}
+                </p>
               </div>
+              {question?.image_filename && (
+                <img
+                  className="question-photo"
+                  src={`/${question.image_filename}`}
+                  alt="Question"
+                  style={{ height: "400px" }}
+                />
+              )}
             </div>
             <div className="answers-container">
               {answers.map((answer) => {
@@ -282,7 +278,6 @@ const Comments = () => {
                           ?.first_name
                       }{" "}
                       on {new Date(answer.created_at).toLocaleDateString()}
-                      <div className="comment-edit-and-delete">
                       {sessionUser && answer.user_id === sessionUser.id && (
                         <>
                           <button
@@ -298,7 +293,6 @@ const Comments = () => {
                           </button>
                         </>
                       )}
-                      </div>
                     </div>
                   </div>
                 );

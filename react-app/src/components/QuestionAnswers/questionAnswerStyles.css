@@ -59,13 +59,11 @@
 }
 
 .question-content {
-  font-style:inherit;
+  font-style:Roboto;
 }
 .question-content p{
-  font-style:inherit;
+  font-style:Roboto;
 }
-
-
 
 .comment-text,
 .answer-box p {
@@ -243,6 +241,6 @@
 
 @media screen and (max-width: 768px) {
   .image-grid {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
   }
 }
