@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./styles.css";
 
 const TopicQuestionsPage = ({ topicQuestions }) => {
+  console.log('component mounting?')
   const { id } = useParams();
   const [questions, setQuestions] = useState([]);
   const [allTopics, setAllTopics] = useState([]);

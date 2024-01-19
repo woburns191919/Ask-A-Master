@@ -59,13 +59,11 @@
 }
 
 .question-content {
-  font-style:inherit;
+  font-family:Roboto;
 }
 .question-content p{
-  font-style:inherit;
+  font-family:Roboto;
 }
-
-
 
 .comment-text,
 .answer-box p {
@@ -196,6 +194,20 @@
   /* width:fit-content; */
 
 }
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  margin-top: 20px;
+}
+
+.image-grid-item {
+  width: 100%;
+  height: auto;
+}
+
+
+
 
 @media screen and (min-width: 500px) and (max-width: 768px) {
 
@@ -223,5 +235,12 @@
   .comment-text,
   .answer-box p {
     font-size: 13px;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .image-grid {
+    grid-template-columns: 1fr;
   }
 }

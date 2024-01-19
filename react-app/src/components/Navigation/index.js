@@ -43,7 +43,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
   };
 
   const performSearch = async () => {
-    if (!searchTerm.trim()) return; 
+    if (!searchTerm.trim()) return;
 
     try {
       const response = await fetch(
@@ -53,6 +53,7 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
         const data = await response.json();
         updateSearchResults(data);
         history.push("/search-results");
+        setSearchTerm("");
       } else {
         console.error("Search failed");
       }
@@ -73,52 +74,38 @@ function Navigation({ onAddQuestion, user, updateSearchResults }) {
 
   return (
     <header className="navBarContainer">
-      <div className="navLogo">
-        <NavLink exact to="/">
-          <img className="header-logo" src={icon} alt="ask-a-master-logo" />
-        </NavLink>
-      </div>
       <div className="navItems">
         <NavLink exact to="/">
           <TooltipIcon src={home} alt="home" tooltipText="Home" />
         </NavLink>
-        <TooltipIcon src={following} alt="following" tooltipText="Following" />
-        <TooltipIcon src={answer} alt="answer" tooltipText="Answer" />
-        <TooltipIcon src={spaces} alt="spaces" tooltipText="Spaces" />
-        <TooltipIcon
-          src={notifications}
-          alt="notifications"
-          tooltipText="Notifications"
-        />
+
         <div className="searchBar">
           <input
             type="search"
-            placeholder="Search Quora"
+            placeholder="Search Ask a Master"
             value={searchTerm}
             onChange={handleSearchChange}
             onKeyDown={handleKeyPress}
           />
+          <div className="searchIconWrapper" onClick={performSearch}>
+            <img src={searchIcon} alt="Search" />
+          </div>
         </div>
-        <button className="tryQuoraButton">Try Ask a Master+</button>
-        <div
-          className="navActions"
-          style={{ display: "flex", alignItems: "center", gap: "10px" }}
-        >
-          {user && <ProfileButton user={user} />}
-          <TooltipIcon src={languages} alt="languages" tooltipText="languages" />
 
-          <div className="red-question">
-            <OpenModalButton
-              buttonText="Add Question"
-              modalComponent={
-                <AddQuestionForm
-                  formType="Create"
-                  onQuestionAdded={onAddQuestion}
-                  className="open-modal-button"
+<div className="profile-and-question">
+        {user && <ProfileButton user={user} />}
 
-                />
-              }
-            />
+        <div className="red-question">
+          <OpenModalButton
+            buttonText="Add Question"
+            modalComponent={
+              <AddQuestionForm
+                formType="Create"
+                onQuestionAdded={onAddQuestion}
+                className="open-modal-button"
+              />
+            }
+          />
           </div>
         </div>
       </div>

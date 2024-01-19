@@ -10,6 +10,13 @@
 
 }
 
+.elo-rating {
+  font-weight:100;
+  font-family:Roboto;
+}
+
+
+
 .question-photo {
   width:100%;
 }
@@ -41,12 +48,17 @@
 .comment-content {
   font-size: 14px;
   margin-bottom: 5px;
+  font-family:Roboto;
 }
 
 .comment-info {
   font-size: 12px;
   color: #999;
   margin-bottom: 10px;
+}
+
+.comment-info button {
+  border: 4px solid red
 }
 
 .comment-section {

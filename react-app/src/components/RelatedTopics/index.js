@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ad1 from "../../images/ad1.png"
-import ad2 from "../../images/ad2.jpg"
+import ad1 from "../../images/ad1.jpeg"
+// import ad2 from "../../images/ad2.jpg"
 import "./styles.css";
 
 export default function RelatedTopics({ showAds }) {
   const [allTopics, setAllTopics] = useState([]);
+  const [adVisible, setAdVisible] = useState(true);
+
+
+  const closeAd = () => {
+    setAdVisible(false);
+  };
+
 
   useEffect(() => {
     if (!showAds) {
@@ -29,14 +36,12 @@ export default function RelatedTopics({ showAds }) {
 
   const renderTopicsOrAds = () => {
     return showAds ? (
-      <>
+      adVisible && (
         <div className="related-topics-box ad-box">
-          <img src={ad1} />
+          <button className="close-ad" onClick={closeAd}>X</button> 
+          <img src={ad1} alt="Advertisement"/>
         </div>
-        <div className="related-topics-box ad-box">
-        <img src={ad2} />
-        </div>
-      </>
+      )
     ) : (
       allTopics.map((topic, i) => (
         <div className="related-topics-box topic-box" key={i}>
