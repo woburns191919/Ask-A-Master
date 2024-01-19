@@ -8,3 +8,9 @@ body, h1, h2, h3, p {
 *, body {
   font-family: 'Roboto', sans-serif;
 }
+
+
+/* img {
+  max-height: 400px;
+  max-width:500px;
+} */

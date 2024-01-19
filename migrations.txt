@@ -91,7 +91,7 @@ def upgrade():
         op.execute(f"ALTER TABLE question_topic_association SET SCHEMA {SCHEMA};")
 
 
-     op.create_table('saved_questions',
+    op.create_table('saved_questions',
         sa.Column('user_id', sa.Integer(), nullable=False),
         sa.Column('question_id', sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
