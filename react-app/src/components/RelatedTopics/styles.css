@@ -2,6 +2,7 @@
   background-color: white;
   font-size: 16px;
   margin-bottom: 10px;
+ 
 
 }
 
@@ -9,6 +10,7 @@
   width: fit-content;
   display: flex;
   gap: 10%;
+
 }
 
 .related-topics-box a {
@@ -45,4 +47,26 @@
 .followers {
   font-size: 0.9em;
   color: rgb(198, 195, 195);
+}
+
+.close-ad {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background-color: transparent;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.ad-box {
+  position: relative;
+}
+
+
+
+
+.container {
+  display: flex;
+  justify-content: space-between;
 }
