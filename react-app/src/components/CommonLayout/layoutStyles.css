@@ -19,6 +19,8 @@
 
 .center-content {
   padding-right:3%;
+  min-width:60%;
+  max-width:450px;
 }
 
 .content {
