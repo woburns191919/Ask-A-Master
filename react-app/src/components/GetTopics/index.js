@@ -67,10 +67,10 @@ export default function GetTopics() {
 
   return (
     <main className="topics-main-container">
-      <div className="create-topic-option" onClick={handleOpenModalClick}>
+      {/* <div className="create-topic-option" onClick={handleOpenModalClick}>
         <i className="fa fa-plus create-topic-icon" />
         <span className="create-topic-text">Create Space</span>
-      </div>
+      </div> */}
       {allTopics
         ?.concat()
         .reverse()
