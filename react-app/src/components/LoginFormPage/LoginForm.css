@@ -112,6 +112,7 @@ body {
   display: flex;
   justify-content:center;
   gap: 10%;
+  max-width:200px;
 }
 
 
@@ -129,6 +130,10 @@ body {
 .form-button {
   background-color: #b92b27;
   color: white;
+}
+
+.form-label {
+  max-width:200px;
 }
 
 
@@ -149,7 +154,13 @@ body {
   }
 
   .login-left button, .login-right button {
-    width: 45%;
+    /* width: 45%; */
     margin-bottom: 10px;
+    max-width:100px;
+    max-height:100px;
+
+  }
+
+  .button {
   }
 }
