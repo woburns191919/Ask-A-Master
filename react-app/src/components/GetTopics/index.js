@@ -81,7 +81,7 @@ export default function GetTopics() {
             className="topic-link"
           >
             <div className="topics-box">
-              <div className="topics">
+              <div className="topics selected-topic">
                 <i className={getIconForTopic(topic.name)} />
                 <span>{topic.name}</span>
               </div>

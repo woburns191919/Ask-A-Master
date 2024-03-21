@@ -62,11 +62,12 @@ const MainLayout = ({
             handleQuestionsUpdate={handleQuestionsUpdate}
           />
         </div>
-        {isMainPage ? (
+        {/* {isMainPage ? (
           <RelatedTopics showAds={true} />
         ) : (
           <RelatedTopics showAds={false} />
-        )}
+        )} */}
+           <RelatedTopics showAds={isMainPage} />
       </div>
     </>
   );
