@@ -10,7 +10,6 @@ import SavedQuestions from "./components/SavedQuestions";
 import Comments from "./components/Comments";
 import { useModal } from "./context/Modal";
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
-import AskShareComponent from "./components/AskShareInput";
 import SearchResults from "./components/SearchResults";
 import MainLayout from "./components/MainLayout";
 import CommonLayout from "./components/CommonLayout";
@@ -72,8 +71,8 @@ function App() {
     setModalContent(
       <ConfirmDelete
         itemType="question"
-        questionId={questionId}
-        onDeletionSuccess={() => onDeleteQuestion(questionId)}
+        questionId={questionId} // id of question to delete, passed to ConfirmDelete so it knows what's being deleted
+        onDeletionSuccess={() => onDeleteQuestion(questionId)} // cb ConfirmDelete will call if deletion is confirmed and successfully processed, updating state to remove question
       />
     );
   };

@@ -62,7 +62,7 @@ const Comments = () => {
     );
   };
 
-  const openDeleteModal = (commentId) => {
+  const openDeleteModal = (commentId) => { // handles case when user initiates a dleete action for a question; reusable modal system, using context to manage state
     setModalContent(
       <ConfirmDelete
         itemType="comment"

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useModal } from "../../context/Modal";
 
+// modal styles
+
 const modalContainerStyles = {
   position: "fixed",
   top: 0,
   left: 0,
   right: 0,
   bottom: 0,
-  // backgroundColor: "rgba(0, 0, 0, 0.5)",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -53,8 +54,11 @@ const cancelButtonStyles = {
   transition: "background-color 0.3s",
 };
 
+
+//end modal styles
+
 export default function ConfirmDelete({
-  onDeletionSuccess,
+  onDeletionSuccess, // cb for if deletion is a success, indirectly influencing state for app.js
   itemType,
   itemId,
   questionId,
@@ -100,7 +104,7 @@ export default function ConfirmDelete({
       });
       if (response.ok) {
         if (response.ok) {
-          setOnCloseCallback(() => setTimeout(() => onDeletionSuccess(), 0));
+          setOnCloseCallback(() => setTimeout(() => onDeletionSuccess(), 0)); // pushes execution of this cb to end of event loop, strategic solution to ensure modal fully closes and completes cleanup before executing deletion success cb. this gives a smoother user experience and prevents ui issues related by snchronous state updates
           closeModal();
         }
 
