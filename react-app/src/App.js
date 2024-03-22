@@ -23,26 +23,38 @@ function App() {
   const [images, setImages] = useState([]);
   const { setModalContent } = useModal();
   const [searchResults, setSearchResults] = useState([]);
-
-
   const [questionId, setQuestionId] = useState(null);
+
+  const fetchAllQuestions = async () => {
+    try {
+      const res = await fetch("/api/questions");
+      if (res.ok) {
+        const data = await res.json();
+        setAllQuestions(data.questions);
+      } else {
+        console.error("Failed to fetch questions.");
+      }
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    }
+  };
+
 
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
+
   useEffect(() => {
-    fetchAllQuestions();
+    fetchAllQuestions(); // necessary for initially populating the list of question when the app loads
   }, []);
 
   const handleAddQuestion = (newQuestion) => {
-    setAllQuestions([
-      ...allQuestions,
-      { ...newQuestion, image_filename: newQuestion.image_filename },
-    ]);
+    setAllQuestions(prevQuestions => [...prevQuestions, newQuestion]);  // reflects addition of new question in UI
   };
 
-  const onUpdateQuestion = (updatedQuestion) => {
+
+  const onUpdateQuestion = (updatedQuestion) => { //updates allQuestions state (an array) to reflect changes to existing question -- holds all questions displayed in the UI
     setAllQuestions(
       allQuestions.map((q) =>
         q.id === updatedQuestion.id ? updatedQuestion : q
@@ -50,7 +62,9 @@ function App() {
     );
   };
 
-  const onDeleteQuestion = (deletedQuestionId) => {
+  //results in a new array of questions where the question with the matching 'id' is being updated, which triggers a re-render
+
+  const onDeleteQuestion = (deletedQuestionId) => { //updates state by removing a question
     setAllQuestions(allQuestions.filter((q) => q.id !== deletedQuestionId));
   };
 
@@ -68,19 +82,6 @@ function App() {
     setSearchResults(newResults);
   };
 
-  const fetchAllQuestions = async () => {
-    try {
-      const res = await fetch("/api/questions");
-      if (res.ok) {
-        const data = await res.json();
-        setAllQuestions(data.questions);
-      } else {
-        console.error("Failed to fetch questions.");
-      }
-    } catch (error) {
-      console.error("Error fetching questions:", error);
-    }
-  };
 
   return (
     <>

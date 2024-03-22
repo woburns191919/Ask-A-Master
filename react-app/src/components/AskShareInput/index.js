@@ -26,7 +26,6 @@ export default function AskShareComponent({ handleAddQuestion }) {
     justifyContent: "center",
     flexDirection: "column",
     gap: "10px",
-    // width: "max-width",
   };
 
   const textareaStyle = {
