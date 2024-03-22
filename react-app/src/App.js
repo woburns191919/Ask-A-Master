@@ -86,9 +86,9 @@ function App() {
     <>
       <Navigation
         isLoaded={isLoaded}
-        onAddQuestion={handleAddQuestion}
+        onAddQuestion={handleAddQuestion} // whole reason behind clunky looking App.js--needed to lift state to make handleAddQuestion available to my navbar and landing page
         user={sessionUser}
-        updateSearchResults={updateSearchResults}
+        updateSearchResults={updateSearchResults} //see above note
       />
       {isLoaded && (
         <Switch>
