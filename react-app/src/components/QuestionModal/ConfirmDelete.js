@@ -58,11 +58,14 @@ const cancelButtonStyles = {
 //end modal styles
 
 export default function ConfirmDelete({
-  onDeletionSuccess, // cb for if deletion is a success, indirectly influencing state for app.js
+  onDeletionSuccess, // same as onDeletequestion, cb for if deletion is a success
   itemType,
   itemId,
   questionId,
-}) {
+})
+
+{
+
   const { closeModal, setOnCloseCallback } = useModal();
   const [allQuestions, setAllQuestions] = useState([]);
 
@@ -104,7 +107,9 @@ export default function ConfirmDelete({
       });
       if (response.ok) {
         if (response.ok) {
-          setOnCloseCallback(() => setTimeout(() => onDeletionSuccess(), 0)); // pushes execution of this cb to end of event loop, strategic solution to ensure modal fully closes and completes cleanup before executing deletion success cb. this gives a smoother user experience and prevents ui issues related by snchronous state updates
+          setOnCloseCallback(() => setTimeout(() => onDeletionSuccess(), 0));
+          // pushes execution of this cb to end of event loop. without the setTimeout, I needed to refresh the page to see an update. explanation: onDeletionSuccess (without setTimeout) was running before the UI had time to handle things.
+
           closeModal();
         }
 
