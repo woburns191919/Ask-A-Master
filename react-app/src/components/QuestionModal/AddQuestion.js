@@ -62,16 +62,15 @@ export default function AddQuestionForm({
   questionId,
   onQuestionAdded,
   onUpdateQuestion,
-  handleQuestionsUpdate,
 }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [topic, setTopic] = useState("Opening Theory");
   const { closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
-  const [image, setImage] = useState(null);
 
-  //fetch logic for editing a question
+
+  //fetch logic for editing a question, allows edit form to pre-populate
   useEffect(() => {
     const fetchQuestionData = async () => {
       try {
@@ -88,10 +87,14 @@ export default function AddQuestionForm({
         console.error("Error fetching question data:", error);
       }
     };
+//only run fetch logic if editing a question
 
     if (formType === "Edit" && questionId) {
       fetchQuestionData();
     }
+    // watching formType and question Id here--important bc
+    //if you switch to a different question or change modes,
+    //the form updates with the correct data
   }, [formType, questionId]);
 
   const handleSubmit = async (e) => {
@@ -101,7 +104,7 @@ export default function AddQuestionForm({
       title,
       body,
       user_id: sessionUser.id,
-      topic_id: topicsMap[topic] || 1,
+      topic_id: topicsMap[topic] || 1, //1 being the fallback value if an expected value is falsey
       if(image) {
         formData.append("image", image);
       },
@@ -125,13 +128,9 @@ export default function AddQuestionForm({
 
       if (response.ok) {
         const data = await response.json();
-
-        if (formType === "Edit") {
-          onUpdateQuestion(data.question);
-          handleQuestionsUpdate(data.question);
-        } else {
-          onQuestionAdded(data.question);
-        }
+        formType === "Edit"
+          ? onUpdateQuestion(data.question)
+          : onQuestionAdded(data.question);
         closeModal();
       } else {
         console.error("Failed to post question:", response.status);
