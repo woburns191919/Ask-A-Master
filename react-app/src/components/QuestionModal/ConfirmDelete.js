@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useModal } from "../../context/Modal";
 
 // modal styles
@@ -54,7 +54,6 @@ const cancelButtonStyles = {
   transition: "background-color 0.3s",
 };
 
-
 //end modal styles
 
 export default function ConfirmDelete({
@@ -62,38 +61,8 @@ export default function ConfirmDelete({
   itemType,
   itemId,
   questionId,
-})
-
-{
-
+}) {
   const { closeModal, setOnCloseCallback } = useModal();
-  const [allQuestions, setAllQuestions] = useState([]);
-
-  useEffect(() => {
-    (async function () {
-      const allQuestionsData = await fetchAllQuestions();
-
-      setAllQuestions(allQuestionsData);
-    })();
-  }, []);
-
-  const fetchAllQuestions = async () => {
-    try {
-      const res = await fetch("/api/questions");
-      if (res.ok) {
-        const data = await res.json();
-        return data.questions;
-      } else {
-        console.error("Failed to fetch questions. Status:", res.status);
-        return [];
-      }
-    } catch (error) {
-      console.error("Failed to fetch questions:", error);
-      return [];
-    }
-  };
-
-  useEffect(() => {}, [questionId]);
 
   const handleDelete = async () => {
     const url =
