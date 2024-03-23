@@ -66,6 +66,7 @@ export default function AddQuestionForm({
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [topic, setTopic] = useState("Opening Theory");
+  const [image, setImage] = useState(null);
   const { closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
 
@@ -104,11 +105,15 @@ export default function AddQuestionForm({
       title,
       body,
       user_id: sessionUser.id,
-      topic_id: topicsMap[topic] || 1, //1 being the fallback value if an expected value is falsey
-      if(image) {
-        formData.append("image", image);
-      },
+      topic_id: topicsMap[topic] || 1, // Use 1 (opening theory) as fallback if the topic is falsy
     };
+    // In the future, I can allow user to upload images
+
+    
+    // Conditionally add the image property if an image exists
+    // if (image) {
+    //   formData.image = image;
+    // }
 
     try {
       // Determine URL and method based on formType
