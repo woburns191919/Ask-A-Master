@@ -66,11 +66,12 @@ export default function AddQuestionForm({
 }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [topic, setTopic] = useState("");
+  const [topic, setTopic] = useState("Opening Theory");
   const { closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
   const [image, setImage] = useState(null);
 
+  //fetch logic for editing a question
   useEffect(() => {
     const fetchQuestionData = async () => {
       try {
@@ -93,10 +94,6 @@ export default function AddQuestionForm({
     }
   }, [formType, questionId]);
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -111,16 +108,12 @@ export default function AddQuestionForm({
     };
 
     try {
-      let url;
-      let method;
-
-      if (formType === "Edit") {
-        url = `/api/questions/edit/${questionId}`;
-        method = "PUT";
-      } else {
-        url = "/api/questions/new";
-        method = "POST";
-      }
+      // Determine URL and method based on formType
+      const url =
+        formType === "Edit"
+          ? `/api/questions/edit/${questionId}`
+          : "/api/questions/new";
+      const method = formType === "Edit" ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method: method,
