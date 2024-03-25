@@ -64,6 +64,8 @@ export default function ConfirmDelete({
 }) {
   const { closeModal, setOnCloseCallback } = useModal();
 
+  //went for conditional fetching because it was easier--two choices for endpoint urls based on itemtype
+
   const handleDelete = async () => {
     const url =
       itemType === "comment"
