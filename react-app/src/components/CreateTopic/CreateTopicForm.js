@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useModal } from "../../context/Modal";
 import { useHistory } from "react-router-dom";
 
+//component for future development, will allow user to add a topic to the left list
+
 export default function CreateTopicForm({ addNewTopic }) {
   const [topicName, setTopicName] = useState("");
   const [description, setDescription] = useState("");
