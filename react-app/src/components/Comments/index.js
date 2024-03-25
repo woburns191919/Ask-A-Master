@@ -44,62 +44,33 @@ const Comments = () => {
     dispatch(thunkGetAllUsers());
   }, [dispatch]);
 
-  useEffect(() => {
-    let isMounted = true; //safeguard to prevent state updates on unmounted component
-    const foundQuestion = allQuestions?.find((q) => q.id === parseInt(id));
-    if (isMounted) {
-      setQuestion(foundQuestion);
+
+
+ // Fetch the specific question and answers from the API
+ useEffect(() => {
+  const fetchQuestionAndAnswers = async () => {
+    // Fetch the question
+    const questionRes = await fetch(`/api/questions/${id}`);
+    if (!questionRes.ok) {
+      console.error("Failed to fetch question.");
+      return;
     }
+    const questionData = await questionRes.json();
+    setQuestion(questionData);
 
-    return () => {
-      isMounted = false;
-    };
-  }, [id, allQuestions]);
-
-  const onDeleteComment = (deletedCommentId) => {
-    setAnswers((currentAnswers) =>
-      currentAnswers.filter((answer) => answer.id !== deletedCommentId)
-    );
+    // Fetch the answers
+    const answersRes = await fetch(`/api/questions/${id}/answers`);
+    if (!answersRes.ok) {
+      console.error("Failed to fetch answers.");
+      return;
+    }
+    const answersData = await answersRes.json();
+    setAnswers(answersData.answers);
   };
 
-  const openDeleteModal = (commentId) => { // handles case when user initiates a delete action for a question;
-    //reusable modal system, using context to manage state
-    setModalContent(
-      <ConfirmDelete
-        itemType="comment"
-        itemId={commentId}
-        questionId={id}
-        onDeletionSuccess={() => onDeleteComment(commentId)}
-      />
-    );
-  };
+  fetchQuestionAndAnswers();
+}, [id]);
 
-  useEffect(() => {
-    const fetchQuestionAndAnswers = async () => {
-      try {
-        const questionResponse = await fetch(`/api/questions/${id}`);
-        const answersResponse = await fetch(`/api/questions/${id}/answers`);
-
-        if (questionResponse.ok && answersResponse.ok) {
-          const questionData = await questionResponse.json();
-          const answersData = await answersResponse.json();
-
-          setQuestion(questionData);
-          setAnswers(answersData.answers);
-        } else {
-          console.error(
-            "Failed to fetch question or answers:",
-            questionResponse.status,
-            answersResponse.status
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching question or answers:", error);
-      }
-    };
-
-    fetchQuestionAndAnswers();
-  }, [id]);
 
   const postComment = async () => {
     if (!newComment.trim()) {
@@ -126,6 +97,25 @@ const Comments = () => {
     } catch (error) {
       console.error("Error posting comment:", error);
     }
+  };
+
+
+  const onDeleteComment = (deletedCommentId) => {
+    setAnswers((currentAnswers) =>
+      currentAnswers.filter((answer) => answer.id !== deletedCommentId)
+    );
+  };
+
+  const openDeleteModal = (commentId) => { // handles case when user initiates a delete action for a question;
+    //reusable modal system, using context to manage state
+    setModalContent(
+      <ConfirmDelete
+        itemType="comment"
+        itemId={commentId}
+        questionId={id}
+        onDeletionSuccess={() => onDeleteComment(commentId)}
+      />
+    );
   };
 
   const submitEdit = async (commentId) => {
