@@ -21,7 +21,7 @@ const MainLayout = ({
   onDeleteQuestion,
   openDeleteModal,
   handleAddQuestion,
-  handleTopicCreated,
+  // handleTopicCreated,
   handleQuestionsUpdate,
 }) => {
   const { id: topicId } = useParams();

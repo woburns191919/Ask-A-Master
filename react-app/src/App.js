@@ -7,12 +7,14 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import SavedQuestions from "./components/SavedQuestions";
+import TopicPage from "./components/TopicPage/TopicPage";
 import Comments from "./components/Comments";
 import { useModal } from "./context/Modal";
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
 import SearchResults from "./components/SearchResults";
 import MainLayout from "./components/MainLayout";
 import CommonLayout from "./components/CommonLayout";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -86,7 +88,7 @@ function App() {
     <>
       <Navigation
         isLoaded={isLoaded}
-        onAddQuestion={handleAddQuestion} // whole reason behind clunky looking App.js--needed to lift state to make handleAddQuestion available to my navbar and landing page
+        onAddQuestion={handleAddQuestion} // needed to lift state to make handleAddQuestion available to my navbar and landing page
         user={sessionUser}
         updateSearchResults={updateSearchResults} //see above note
       />
@@ -133,30 +135,3 @@ function App() {
 }
 
 export default App;
-
-// Component for rendering topic specific page
-const TopicPage = () => {
-  const { id: topicId } = useParams();
-  const [topicQuestions, setTopicQuestions] = useState([]);
-
-  useEffect(() => {
-    const fetchQuestionsByTopic = async () => {
-      try {
-        const res = await fetch(`/api/topics/${topicId}/questions`);
-        if (res.ok) {
-          const data = await res.json();
-          setTopicQuestions(data.questions);
-        }
-      } catch (error) {
-        console.error("Error fetching topic questions:", error);
-      }
-    };
-    fetchQuestionsByTopic();
-  }, [topicId]);
-
-  return (
-    <CommonLayout>
-      <MainLayout allQuestions={topicQuestions} />
-    </CommonLayout>
-  );
-};

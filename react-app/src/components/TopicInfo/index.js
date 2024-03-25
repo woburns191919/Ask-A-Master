@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./styles.css";
 
+//mounts when user clicks topic, top section that gives num folowers, etc
+
 function TopicInfo() {
-  // console.log("TopidInfo mounting")
+
 
   const { id: topicId } = useParams();
   const [topicInfo, setTopicInfo] = useState(null);
@@ -15,6 +17,7 @@ function TopicInfo() {
         const response = await fetch(`/api/topics/${topicId}`);
         if (response.ok) {
           const data = await response.json();
+          console.log('data from TopicInfo component', data)
           setTopicInfo(data.topic);
           setFollowerCount(Math.floor(Math.random() * 1000));
         } else {

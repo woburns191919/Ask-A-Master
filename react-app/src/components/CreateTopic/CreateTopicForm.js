@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useModal } from "../../context/Modal";
 import { useHistory } from "react-router-dom";
 
+// future plans
 //component for future development, will allow user to add a topic to the left list
 
 export default function CreateTopicForm({ addNewTopic }) {
