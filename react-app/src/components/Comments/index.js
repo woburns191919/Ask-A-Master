@@ -45,7 +45,7 @@ const Comments = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    let isMounted = true;
+    let isMounted = true; //safeguard to prevent state updates on unmounted component
     const foundQuestion = allQuestions?.find((q) => q.id === parseInt(id));
     if (isMounted) {
       setQuestion(foundQuestion);

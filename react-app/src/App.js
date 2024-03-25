@@ -48,14 +48,18 @@ function App() {
 
   useEffect(() => {
     fetchAllQuestions(); // necessary for initially populating the list of question when the app loads
+   //refactor: could be moved to MainLayout for closer proximity to where questions are displayed
+   //to enhance modularity and component autonomy--same with other functions that have the same refactor note
   }, []);
 
   const handleAddQuestion = (newQuestion) => {
-    setAllQuestions(prevQuestions => [...prevQuestions, newQuestion]);  // reflects addition of new question in UI
+    setAllQuestions(prevQuestions => [...prevQuestions, newQuestion]);  // reflects addition of new question in UI, shared with navbar and MainLayout
   };
 
 
   const onUpdateQuestion = (updatedQuestion) => { //updates allQuestions state (an array) to reflect changes to existing question -- holds all questions displayed in the UI
+    //refactor: could be moved to MainLayout if structure stays the same
+    //reason to keep it here: if I want to 'my questions' page a user can update from
     setAllQuestions(
       allQuestions.map((q) =>
         q.id === updatedQuestion.id ? updatedQuestion : q
@@ -66,6 +70,8 @@ function App() {
   //results in a new array of questions where the question with the matching 'id' is being updated, which triggers a re-render
 
   const onDeleteQuestion = (deletedQuestionId) => { //updates state by removing a question
+    //refactor: could be moved to MainLayout, if structure stays the same
+    //reason to keep it here: if I want to have a 'my questions' page a user can delete from
     setAllQuestions(allQuestions.filter((q) => q.id !== deletedQuestionId));
   };
 
