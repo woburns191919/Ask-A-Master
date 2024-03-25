@@ -62,11 +62,8 @@
   font-family:Roboto;
 }
 .question-content {
-color: rgb(74, 74, 74);
-display: block;
-font-family: Roboto;
-font-size: 16px;
-font-weight: 700;
+  font-size: 16px;
+  color: #333333;
 
 }
 
