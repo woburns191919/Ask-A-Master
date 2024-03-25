@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "./styles.css";
 
 function TopicInfo() {
+  // console.log("TopidInfo mounting")
 
   const { id: topicId } = useParams();
   const [topicInfo, setTopicInfo] = useState(null);

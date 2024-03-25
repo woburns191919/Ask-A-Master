@@ -10,7 +10,9 @@ import { useParams } from "react-router-dom";
 import TopicInfo from "../TopicInfo";
 import { useLocation } from "react-router-dom";
 
-
+//determines how main content is structured and which components are shown
+//, based on state and user interactions
+//can update this without changing CommonLayout
 const MainLayout = ({
   allQuestions,
   images,
@@ -35,7 +37,6 @@ const MainLayout = ({
 
   return (
     <>
-      {/* <div className="upper-layout"></div> */}
       <div className="content-wrapper">
         <div className="left-content">
         <GetTopics />
@@ -46,9 +47,9 @@ const MainLayout = ({
           {sessionUser && (
             <div className="ask-share-container">
               {topicId ? (
-                <TopicInfo topicId={topicId} />
+                <TopicInfo topicId={topicId} /> //component mounts when logged-in user clicks topic
               ) : (
-                <AskShareComponent handleAddQuestion={handleAddQuestion} />
+                <AskShareComponent handleAddQuestion={handleAddQuestion} /> //component mounts when logged-in user is on main page
               )}
             </div>
           )}
@@ -67,6 +68,7 @@ const MainLayout = ({
         ) : (
           <RelatedTopics showAds={false} />
         )} */}
+        {/* refactor for concision, leveraging isMainPage being a boolean */}
            <RelatedTopics showAds={isMainPage} />
       </div>
     </>

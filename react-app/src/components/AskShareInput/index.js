@@ -49,7 +49,7 @@ export default function AskShareComponent({ handleAddQuestion }) {
       title,
       body,
       user_id: sessionUser.id,
-      topic_id: topicsMap[topic] || 1,
+      topic_id: topicsMap[topic] || 1, 
     };
 
     const response = await fetch("/api/questions/new", {
