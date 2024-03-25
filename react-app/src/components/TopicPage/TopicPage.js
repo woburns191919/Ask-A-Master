@@ -25,6 +25,7 @@ const TopicPage = () => {
 
   return (
     <CommonLayout>
+      {/* rendering QuestionAnswer component from MainLayout, but topic-specific questions */}
       <MainLayout allQuestions={topicQuestions} />
     </CommonLayout>
   );
