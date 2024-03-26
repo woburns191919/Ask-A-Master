@@ -1,12 +1,14 @@
 import React from "react";
-import MainLayout from "../MainLayout";
 import "./layoutStyles.css";
 
+//encapsulates common layout patterns,
+//can wrap component in this so it can inherit structure/styling--see app.js
+
 const CommonLayout = ({ children }) => {
+  console.log('children from CommonLayout', children)
   return (
     <div className="main-layout">
       {children}
-      {/* <MainLayout/> */}
     </div>
   );
 };

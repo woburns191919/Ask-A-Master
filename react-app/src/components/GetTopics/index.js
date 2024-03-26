@@ -47,9 +47,9 @@ export default function GetTopics() {
     }
   };
 
-  const addNewTopic = (newTopic) => {
-    setAllTopics((prevTopics) => [...prevTopics, newTopic]);
-  };
+  // const addNewTopic = (newTopic) => {
+  //   setAllTopics((prevTopics) => [...prevTopics, newTopic]);
+  // };
 
   useEffect(() => {
     (async function () {
@@ -59,11 +59,11 @@ export default function GetTopics() {
     })();
   }, []);
 
-  useEffect(() => {}, [allTopics]);
+  
 
-  const handleOpenModalClick = () => {
-    setModalContent(<CreateTopicForm addNewTopic={addNewTopic} />);
-  };
+  // const handleOpenModalClick = () => {
+  //   setModalContent(<CreateTopicForm addNewTopic={addNewTopic} />);
+  // };
 
   return (
     <main className="topics-main-container">

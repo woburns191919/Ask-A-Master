@@ -7,13 +7,14 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import SavedQuestions from "./components/SavedQuestions";
+import TopicPage from "./components/TopicPage/TopicPage";
 import Comments from "./components/Comments";
 import { useModal } from "./context/Modal";
 import ConfirmDelete from "./components/QuestionModal/ConfirmDelete";
-import AskShareComponent from "./components/AskShareInput";
 import SearchResults from "./components/SearchResults";
 import MainLayout from "./components/MainLayout";
 import CommonLayout from "./components/CommonLayout";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -23,50 +24,7 @@ function App() {
   const [images, setImages] = useState([]);
   const { setModalContent } = useModal();
   const [searchResults, setSearchResults] = useState([]);
-
-
   const [questionId, setQuestionId] = useState(null);
-
-  useEffect(() => {
-    dispatch(authenticate()).then(() => setIsLoaded(true));
-  }, [dispatch]);
-
-  useEffect(() => {
-    fetchAllQuestions();
-  }, []);
-
-  const handleAddQuestion = (newQuestion) => {
-    setAllQuestions([
-      ...allQuestions,
-      { ...newQuestion, image_filename: newQuestion.image_filename },
-    ]);
-  };
-
-  const onUpdateQuestion = (updatedQuestion) => {
-    setAllQuestions(
-      allQuestions.map((q) =>
-        q.id === updatedQuestion.id ? updatedQuestion : q
-      )
-    );
-  };
-
-  const onDeleteQuestion = (deletedQuestionId) => {
-    setAllQuestions(allQuestions.filter((q) => q.id !== deletedQuestionId));
-  };
-
-  const openDeleteModal = (questionId) => {
-    setModalContent(
-      <ConfirmDelete
-        itemType="question"
-        questionId={questionId}
-        onDeletionSuccess={() => onDeleteQuestion(questionId)}
-      />
-    );
-  };
-
-  const updateSearchResults = (newResults) => {
-    setSearchResults(newResults);
-  };
 
   const fetchAllQuestions = async () => {
     try {
@@ -82,13 +40,63 @@ function App() {
     }
   };
 
+
+  useEffect(() => {
+    dispatch(authenticate()).then(() => setIsLoaded(true));
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    fetchAllQuestions(); // necessary for initially populating the list of question when the app loads
+   //refactor: could be moved to MainLayout for closer proximity to where questions are displayed
+   //to enhance modularity and component autonomy--same with other functions that have the same refactor note
+  }, []);
+
+  const handleAddQuestion = (newQuestion) => {
+    setAllQuestions(prevQuestions => [...prevQuestions, newQuestion]);  // reflects addition of new question in UI, shared with navbar and MainLayout
+  };
+
+
+  const onUpdateQuestion = (updatedQuestion) => { //updates allQuestions state (an array) to reflect changes to existing question -- holds all questions displayed in the UI
+    //refactor: could be moved to MainLayout if structure stays the same
+    //reason to keep it here: if I want to 'my questions' page a user can update from
+    setAllQuestions(
+      allQuestions.map((q) =>
+        q.id === updatedQuestion.id ? updatedQuestion : q
+      )
+    );
+  };
+
+  //results in a new array of questions where the question with the matching 'id' is being updated, which triggers a re-render
+
+  const onDeleteQuestion = (deletedQuestionId) => { //updates state by removing a question
+    //refactor: could be moved to MainLayout, if structure stays the same
+    //reason to keep it here: if I want to have a 'my questions' page a user can delete from
+    setAllQuestions(allQuestions.filter((q) => q.id !== deletedQuestionId));
+  };
+
+  const openDeleteModal = (questionId) => {
+    setModalContent(
+      <ConfirmDelete
+        itemType="question"
+        questionId={questionId} // id of question to delete, passed to ConfirmDelete so it knows what's being deleted
+        onDeletionSuccess={() => onDeleteQuestion(questionId)} // cb ConfirmDelete will call if deletion is confirmed and successfully processed, updating state to remove question
+      />
+    );
+  };
+
+  const updateSearchResults = (newResults) => {
+    setSearchResults(newResults);
+  };
+
+
   return (
     <>
       <Navigation
         isLoaded={isLoaded}
-        onAddQuestion={handleAddQuestion}
+        onAddQuestion={handleAddQuestion} // needed to lift state to make handleAddQuestion available to my navbar and landing page
         user={sessionUser}
-        updateSearchResults={updateSearchResults}
+        updateSearchResults={updateSearchResults} //see above note
       />
       {isLoaded && (
         <Switch>
@@ -133,30 +141,3 @@ function App() {
 }
 
 export default App;
-
-// Component for rendering topic specific page
-const TopicPage = () => {
-  const { id: topicId } = useParams();
-  const [topicQuestions, setTopicQuestions] = useState([]);
-
-  useEffect(() => {
-    const fetchQuestionsByTopic = async () => {
-      try {
-        const res = await fetch(`/api/topics/${topicId}/questions`);
-        if (res.ok) {
-          const data = await res.json();
-          setTopicQuestions(data.questions);
-        }
-      } catch (error) {
-        console.error("Error fetching topic questions:", error);
-      }
-    };
-    fetchQuestionsByTopic();
-  }, [topicId]);
-
-  return (
-    <CommonLayout>
-      <MainLayout allQuestions={topicQuestions} />
-    </CommonLayout>
-  );
-};

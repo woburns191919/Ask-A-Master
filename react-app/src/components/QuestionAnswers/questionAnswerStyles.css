@@ -61,8 +61,10 @@
 .question-content {
   font-family:Roboto;
 }
-.question-content p{
-  font-family:Roboto;
+.question-content {
+  font-size: 16px;
+  color: #333333;
+
 }
 
 .comment-text,
@@ -215,7 +217,6 @@
     padding: 10px;
     margin: 0;
     font-size: 14px;
-    display: block;
   }
 
   .content {

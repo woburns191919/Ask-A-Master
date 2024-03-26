@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useModal } from "../../context/Modal";
+
+// modal styles
 
 const modalContainerStyles = {
   position: "fixed",
@@ -7,7 +9,6 @@ const modalContainerStyles = {
   left: 0,
   right: 0,
   bottom: 0,
-  // backgroundColor: "rgba(0, 0, 0, 0.5)",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -53,40 +54,17 @@ const cancelButtonStyles = {
   transition: "background-color 0.3s",
 };
 
+//end modal styles
+
 export default function ConfirmDelete({
-  onDeletionSuccess,
+  onDeletionSuccess, // same as onDeletequestion, cb for if deletion is a success
   itemType,
   itemId,
   questionId,
 }) {
   const { closeModal, setOnCloseCallback } = useModal();
-  const [allQuestions, setAllQuestions] = useState([]);
 
-  useEffect(() => {
-    (async function () {
-      const allQuestionsData = await fetchAllQuestions();
-
-      setAllQuestions(allQuestionsData);
-    })();
-  }, []);
-
-  const fetchAllQuestions = async () => {
-    try {
-      const res = await fetch("/api/questions");
-      if (res.ok) {
-        const data = await res.json();
-        return data.questions;
-      } else {
-        console.error("Failed to fetch questions. Status:", res.status);
-        return [];
-      }
-    } catch (error) {
-      console.error("Failed to fetch questions:", error);
-      return [];
-    }
-  };
-
-  useEffect(() => {}, [questionId]);
+  //went for conditional fetching because it was easier--two choices for endpoint urls based on itemtype
 
   const handleDelete = async () => {
     const url =
@@ -101,6 +79,8 @@ export default function ConfirmDelete({
       if (response.ok) {
         if (response.ok) {
           setOnCloseCallback(() => setTimeout(() => onDeletionSuccess(), 0));
+          // pushes execution of this cb to end of event loop. without the setTimeout, I needed to refresh the page to see an update. explanation: onDeletionSuccess (without setTimeout) was running before the UI had time to handle things.
+
           closeModal();
         }
 

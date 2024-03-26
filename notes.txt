@@ -69,6 +69,8 @@ ads more dynamic
 
 sizing on ask question post
 
+floaty ellipsis on bookmark page, different size too
+
 media screens for small screens
 
 error handling?

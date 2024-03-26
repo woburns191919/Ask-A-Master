@@ -20,6 +20,8 @@ export default function RelatedTopics({ showAds }) {
     }
   }, [showAds]);
 
+  //future plans: should fetch different topics than the ones on the left-hand list
+
   const fetchAllTopics = async () => {
     try {
       const res = await fetch("/api/topics");
@@ -38,7 +40,7 @@ export default function RelatedTopics({ showAds }) {
     return showAds ? (
       adVisible && (
         <div className="related-topics-box ad-box">
-          <button className="close-ad" onClick={closeAd}>X</button> 
+          <button className="close-ad" onClick={closeAd}>X</button>
           <img src={ad1} alt="Advertisement"/>
         </div>
       )
