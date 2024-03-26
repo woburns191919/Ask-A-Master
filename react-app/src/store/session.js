@@ -100,6 +100,8 @@ export const signUp = (username, email, password) => async (dispatch) => {
   }
 };
 
+//2. fetch request to /api/users endpoint
+
 export const thunkGetAllUsers = () => async (dispatch) => {
   try {
     const response = await fetch("/api/users", {
@@ -108,15 +110,19 @@ export const thunkGetAllUsers = () => async (dispatch) => {
       },
     });
 
+    // 3. server receives request and queries the db
     if (response.status === 401) {
       // Handle unauthorized user
       console.error("User is not authorized to access /api/users");
     }
-
+ //4. if successful, the thunk extracts the json data and dispatches
+ // the action creator
+ // the action is a simple object with type GET_ALL_USERS
+ //and payload of users array received from server
     if (response.ok) {
       const data = await response.json();
       dispatch(getAllUsers(data));
-   
+
       return data.users
     }
   } catch (error) {
@@ -132,8 +138,11 @@ export default function reducer(state = initialState, action) {
       return { user: action.payload };
     case REMOVE_USER:
       return { user: null };
+    // 5. reducer listens for type 'GET_ALL_USERS'
+    //creates new state object.
+    //new state object maintains existing data and updates the allUsers field to contain the array of users from the action's payload--updates redux store to give latest list of users
     case GET_ALL_USERS:
-      const newState = { ...state, allUsers: [] };
+      const newState = { ...state };
       newState.allUsers = action.payload;
       return newState;
     default:

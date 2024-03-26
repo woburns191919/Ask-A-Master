@@ -34,17 +34,20 @@ const Comments = () => {
 
   const dispatch = useDispatch();
 
+
+  useEffect(() => {
+    dispatch(thunkGetAllUsers());
+  }, [dispatch]);
+  //1. component dispatches thunkGetAllUsers()
+
+//6. after redux store updates, we get that info here
+// any component connected to the store (specifially, allUsers slice of state)
+// receive updated list of users as props
   const users = Object.values(
     useSelector((state) =>
       state.session.allUsers ? state.session.allUsers : []
     )
   );
-
-  useEffect(() => {
-    dispatch(thunkGetAllUsers());
-  }, [dispatch]);
-
-
 
  // Fetch the specific question and answers from the API
  useEffect(() => {
@@ -106,7 +109,7 @@ const Comments = () => {
     );
   };
 
-  const openDeleteModal = (commentId) => { // handles case when user initiates a delete action for a question;
+  const openDeleteModal = (commentId) => { // handles case when user initiates a delete action for a comment;
     //reusable modal system, using context to manage state
     setModalContent(
       <ConfirmDelete
@@ -124,7 +127,7 @@ const Comments = () => {
       return;
     }
 //4. API request to update comment at endpoint below
-//5. server processes the request, updates the comment in the db with the new content, and returns the updated comment data as a response
+
     try {
       const response = await fetch(
         `/api/questions/${id}/comments/${commentId}/edit`,
@@ -136,6 +139,9 @@ const Comments = () => {
           body: JSON.stringify({ content: newComment }),
         }
       );
+
+      //5. server processes the request, updates the comment in the db with the new content,
+      //and returns the updated comment data as a response
 
       if (response.ok) {
         const updatedComment = await response.json();
@@ -278,7 +284,8 @@ const Comments = () => {
                         <>
                           <button
                             onClick={() => {
-                              // 1. The user clicks on an "Edit" button associated with a comment, which triggers an event handler, which sets the state for editingCommentId to the ID of the comment being edited and pre-populates newComment with content.
+                              // 1. The user clicks on an "Edit" button associated with a comment, which triggers an event handler.
+                              //It sets the editingCommentId state with the ID of the comment that the user intends to edit, pre-populates newComment with content.
                               //2. The user modifies the comment's content in the input field (bound to newComment state).
                               setEditingCommentId(answer.id);
                               setNewComment(answer.content);
