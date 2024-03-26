@@ -26,7 +26,6 @@ export default function AskShareComponent({ handleAddQuestion }) {
     justifyContent: "center",
     flexDirection: "column",
     gap: "10px",
-    // width: "max-width",
   };
 
   const textareaStyle = {
@@ -50,7 +49,7 @@ export default function AskShareComponent({ handleAddQuestion }) {
       title,
       body,
       user_id: sessionUser.id,
-      topic_id: topicsMap[topic] || 1,
+      topic_id: topicsMap[topic] || 1, 
     };
 
     const response = await fetch("/api/questions/new", {
@@ -63,13 +62,15 @@ export default function AskShareComponent({ handleAddQuestion }) {
 
     if (response.ok) {
       const newQuestion = await response.json();
+      //console.log('new question (JSON)', newQuestion)
       setTitle("");
       setBody("");
       setTopic("");
+      //clearing form for future submissions, also indicates successful processing
       handleAddQuestion(newQuestion.question);
       setImageFilename(newQuestion.image_filename);
     } else {
-      console.error("Failed to post question");
+      console.error("Failed to post question"); //response from server if not ok
     }
   };
 

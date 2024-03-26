@@ -7,7 +7,7 @@ import { thunkGetAllUsers } from "../../store/session";
 import GetTopics from "../GetTopics";
 import RelatedTopics from "../RelatedTopics";
 import defaultProfile from "../../images/default-profile.png";
-import UserProfileInfo from "../UserProfileInfo";
+// import UserProfileInfo from "../UserProfileInfo";
 import "./styles.css";
 
 import willProfile from "../../images/wbheadshot.jpg";
@@ -29,76 +29,51 @@ const Comments = () => {
   const [newComment, setNewComment] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const sessionUser = useSelector((state) => state.session.user);
-  const allQuestions = useSelector((state) => state.questions?.allQuestions);
+  // const allQuestions = useSelector((state) => state.questions?.allQuestions);
   const { setModalContent } = useModal();
 
   const dispatch = useDispatch();
 
+
+  useEffect(() => {
+    dispatch(thunkGetAllUsers());
+  }, [dispatch]);
+  //1. component dispatches thunkGetAllUsers()
+
+//6. after redux store updates, we get that info here
+// any component connected to the store (specifially, allUsers slice of state)
+// receive updated list of users as props
   const users = Object.values(
     useSelector((state) =>
       state.session.allUsers ? state.session.allUsers : []
     )
   );
 
-  useEffect(() => {
-    dispatch(thunkGetAllUsers());
-  }, [dispatch]);
-
-  useEffect(() => {
-    let isMounted = true;
-    const foundQuestion = allQuestions?.find((q) => q.id === parseInt(id));
-    if (isMounted) {
-      setQuestion(foundQuestion);
+ // Fetch the specific question and answers from the API
+ useEffect(() => {
+  const fetchQuestionAndAnswers = async () => {
+    // Fetch the question
+    const questionRes = await fetch(`/api/questions/${id}`);
+    if (!questionRes.ok) {
+      console.error("Failed to fetch question.");
+      return;
     }
+    const questionData = await questionRes.json();
+    setQuestion(questionData);
 
-    return () => {
-      isMounted = false;
-    };
-  }, [id, allQuestions]);
-
-  const onDeleteComment = (deletedCommentId) => {
-    setAnswers((currentAnswers) =>
-      currentAnswers.filter((answer) => answer.id !== deletedCommentId)
-    );
+    // Fetch the answers
+    const answersRes = await fetch(`/api/questions/${id}/answers`);
+    if (!answersRes.ok) {
+      console.error("Failed to fetch answers.");
+      return;
+    }
+    const answersData = await answersRes.json();
+    setAnswers(answersData.answers);
   };
 
-  const openDeleteModal = (commentId) => {
-    setModalContent(
-      <ConfirmDelete
-        itemType="comment"
-        itemId={commentId}
-        questionId={id}
-        onDeletionSuccess={() => onDeleteComment(commentId)}
-      />
-    );
-  };
+  fetchQuestionAndAnswers();
+}, [id]);
 
-  useEffect(() => {
-    const fetchQuestionAndAnswers = async () => {
-      try {
-        const questionResponse = await fetch(`/api/questions/${id}`);
-        const answersResponse = await fetch(`/api/questions/${id}/answers`);
-
-        if (questionResponse.ok && answersResponse.ok) {
-          const questionData = await questionResponse.json();
-          const answersData = await answersResponse.json();
-
-          setQuestion(questionData);
-          setAnswers(answersData.answers);
-        } else {
-          console.error(
-            "Failed to fetch question or answers:",
-            questionResponse.status,
-            answersResponse.status
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching question or answers:", error);
-      }
-    };
-
-    fetchQuestionAndAnswers();
-  }, [id]);
 
   const postComment = async () => {
     if (!newComment.trim()) {
@@ -114,7 +89,7 @@ const Comments = () => {
         },
         body: JSON.stringify({ content: newComment }),
       });
-
+//should clear up comments/answers in refactor
       if (response.ok) {
         const data = await response.json();
         setAnswers([...answers, data.comment]);
@@ -127,11 +102,31 @@ const Comments = () => {
     }
   };
 
+//currently, such functions (delete, post, edit comment) are close to the component--I'm only displaying comments on a single page
+  const onDeleteComment = (deletedCommentId) => {
+    setAnswers((currentAnswers) =>
+      currentAnswers.filter((answer) => answer.id !== deletedCommentId)
+    );
+  };
+
+  const openDeleteModal = (commentId) => { // handles case when user initiates a delete action for a comment;
+    //reusable modal system, using context to manage state
+    setModalContent(
+      <ConfirmDelete
+        itemType="comment"
+        itemId={commentId}
+        questionId={id}
+        onDeletionSuccess={() => onDeleteComment(commentId)}
+      />
+    );
+  };
+
   const submitEdit = async (commentId) => {
     if (!newComment.trim()) {
       alert("Comment cannot be empty.");
       return;
     }
+//4. API request to update comment at endpoint below
 
     try {
       const response = await fetch(
@@ -145,14 +140,21 @@ const Comments = () => {
         }
       );
 
+      //5. server processes the request, updates the comment in the db with the new content,
+      //and returns the updated comment data as a response
+
       if (response.ok) {
         const updatedComment = await response.json();
+        //6. updating answer state
+        //7. re-render!
         setAnswers(
           answers.map((answer) =>
             answer.id === editingCommentId ? updatedComment.comment : answer
           )
         );
+        //after submitting new comment, this clears the input field for adding a new comment or editing an existing one.
         setNewComment("");
+        //indicates we're no longer in the editing mode
         setEditingCommentId(null);
       } else {
         console.error("Failed to edit comment:", response.status);
@@ -282,6 +284,9 @@ const Comments = () => {
                         <>
                           <button
                             onClick={() => {
+                              // 1. The user clicks on an "Edit" button associated with a comment, which triggers an event handler.
+                              //It sets the editingCommentId state with the ID of the comment that the user intends to edit, pre-populates newComment with content.
+                              //2. The user modifies the comment's content in the input field (bound to newComment state).
                               setEditingCommentId(answer.id);
                               setNewComment(answer.content);
                             }}
@@ -313,6 +318,7 @@ const Comments = () => {
                   onClick={() => submitEdit(editingCommentId)}
                 >
                   Save Edit
+                  {/* 3. submitEdit function is called with the commentId of the comment being edited. */}
                 </button>
               ) : (
                 <button className="comment-submit-button" onClick={postComment}>

@@ -62,15 +62,16 @@ export default function AddQuestionForm({
   questionId,
   onQuestionAdded,
   onUpdateQuestion,
-  handleQuestionsUpdate,
 }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [topic, setTopic] = useState("");
+  const [topic, setTopic] = useState("Opening Theory");
+  const [image, setImage] = useState(null);
   const { closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
-  const [image, setImage] = useState(null);
 
+
+  //fetch logic for editing a question, allows edit form to pre-populate
   useEffect(() => {
     const fetchQuestionData = async () => {
       try {
@@ -87,15 +88,15 @@ export default function AddQuestionForm({
         console.error("Error fetching question data:", error);
       }
     };
+//only run fetch logic if editing a question
 
     if (formType === "Edit" && questionId) {
       fetchQuestionData();
     }
+    // watching formType and question Id here--important bc
+    //if you switch to a different question or change modes,
+    //the form updates with the correct data
   }, [formType, questionId]);
-
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,23 +105,23 @@ export default function AddQuestionForm({
       title,
       body,
       user_id: sessionUser.id,
-      topic_id: topicsMap[topic] || 1,
-      if(image) {
-        formData.append("image", image);
-      },
+      topic_id: topicsMap[topic] || 1, // Use 1 (opening theory) as fallback if the topic is falsy
     };
+    // In the future, I can allow user to upload images
+
+    
+    // Conditionally add the image property if an image exists
+    // if (image) {
+    //   formData.image = image;
+    // }
 
     try {
-      let url;
-      let method;
-
-      if (formType === "Edit") {
-        url = `/api/questions/edit/${questionId}`;
-        method = "PUT";
-      } else {
-        url = "/api/questions/new";
-        method = "POST";
-      }
+      // Determine URL and method based on formType
+      const url =
+        formType === "Edit"
+          ? `/api/questions/edit/${questionId}`
+          : "/api/questions/new";
+      const method = formType === "Edit" ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method: method,
@@ -132,13 +133,9 @@ export default function AddQuestionForm({
 
       if (response.ok) {
         const data = await response.json();
-
-        if (formType === "Edit") {
-          onUpdateQuestion(data.question);
-          handleQuestionsUpdate(data.question);
-        } else {
-          onQuestionAdded(data.question);
-        }
+        formType === "Edit"
+          ? onUpdateQuestion(data.question)
+          : onQuestionAdded(data.question);
         closeModal();
       } else {
         console.error("Failed to post question:", response.status);

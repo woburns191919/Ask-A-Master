@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
+// future plans
+
 const AddTopicToQuestion = ({ questionId }) => {
   const [topics, setTopics] = useState([]);
-  const [selectedTopic, setSelectedTopic] = useState(''); 
+  const [selectedTopic, setSelectedTopic] = useState('');
   useEffect(() => {
     const fetchTopics = async () => {
       try {

@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { signUp } from "../../store/session";
 
 function SignupFormPage() {
+  console.log('signup form page mounting')
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");

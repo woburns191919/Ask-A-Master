@@ -28,17 +28,6 @@ function LoginFormPage() {
     setPassword("password9");
   };
 
-  const handleGoogleLogin = () => {
-    alert(
-      "Google login is not currently available. Please use the standard login method."
-    );
-  };
-
-  const handleFacebookLogin = () => {
-    alert(
-      "Facebook login is not currently available. Please use the standard login method."
-    );
-  };
 
   const handleSignUpClick = () => {
     history.push("/signup");
