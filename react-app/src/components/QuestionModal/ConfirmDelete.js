@@ -79,7 +79,8 @@ export default function ConfirmDelete({
       if (response.ok) {
         if (response.ok) {
           setOnCloseCallback(() => setTimeout(() => onDeletionSuccess(), 0));
-          // pushes execution of this cb to end of event loop. without the setTimeout, I needed to refresh the page to see an update. explanation: onDeletionSuccess (without setTimeout) was running before the UI had time to handle things.
+          // pushes execution of this cb to end of event loop. without the setTimeout, I needed to refresh the page to see an update. \
+          //explanation: this function was executing before the fetch on the server side was completed, before the promise was resolved
 
           closeModal();
         }

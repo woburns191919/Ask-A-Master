@@ -67,7 +67,7 @@ git issues:
 
 ads more dynamic
 
-sizing on ask question post
+sizing on ask question post/ remove button very large
 
 floaty ellipsis on bookmark page, different size too
 

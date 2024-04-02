@@ -6,6 +6,7 @@ import logo from "../../images/new-logo.png";
 import "./LoginForm.css";
 
 function LoginFormPage() {
+  // console.log('login form mounting')
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
