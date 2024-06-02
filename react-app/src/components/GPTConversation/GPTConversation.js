@@ -7,7 +7,7 @@ const GPTConversation = () => {
 
   const sendPrompt = async () => {
     try {
-      const response = await axios.post('/api/gpt-response', { prompt });
+      const response = await axios.post('/gpt/api/gpt-response', { prompt });
       setGptResponse(response.data.response);
     } catch (error) {
       console.error('Error fetching GPT response:', error);

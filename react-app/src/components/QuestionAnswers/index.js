@@ -28,6 +28,9 @@ import talProfile from "../../images/tal.jpg";
 import fabProfile from "../../images/fab.jpg";
 import hikaruProfile from "../../images/hikaru.jpg";
 import levonProfile from "../../images/levon.jpg";
+import MyComponent from "../MyComponent";
+
+
 
 export default function QuestionAnswers({
   allQuestions,
@@ -106,7 +109,7 @@ export default function QuestionAnswers({
     history.push(`/questions/${questionId}`);
   };
 
- 
+
 
   const handleSaveQuestion = async (questionId) => {
     try {
@@ -138,6 +141,7 @@ export default function QuestionAnswers({
 
   return (
     <>
+     <MyComponent />
       {allQuestions
         ?.concat()
         .reverse()
@@ -148,16 +152,19 @@ export default function QuestionAnswers({
             (user) => user.id === parseInt(question.user_id)
           );
           return (
+
             <div
               className="question-answer-box"
               key={index}
               onClick={(e) => handleBoxClick(question.id, e)}
             >
+
               <UserProfileInfo
                 user={user}
                 userProfileImage={userProfileImage}
               />
               <br></br>
+
               <div>
                 <h5 className="title-content">{question.title}</h5>
                 <p className="question-content">{question.body}</p>

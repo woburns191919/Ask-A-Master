@@ -20,6 +20,7 @@ export const thunkGetGPTResponse = (prompt) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
+      console.log('data from gpt', data)
       dispatch(getGPTResponse(data.response));
     } else {
       console.error("Failed to get GPT response");

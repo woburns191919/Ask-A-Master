@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkGetGPTResponse } from './store/gpt';
+import { thunkGetGPTResponse } from '../../store/gpt';
 
 
 const MyComponent = () => {

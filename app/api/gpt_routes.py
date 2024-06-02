@@ -7,9 +7,10 @@ gpt_routes = Blueprint('gpt', __name__)
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
-@gpt_routes.route('/api/gpt-response', methods=['POST'])
+@gpt_routes.route('/gpt-response', methods=['POST'])
 def gpt_response():
     data = request.get_json()
+    print('data from post', data)
     prompt = data.get('prompt', '')
 
     if not prompt:
@@ -17,10 +18,11 @@ def gpt_response():
 
 
     response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=prompt,
-        max_tokens=100,
+        model="gpt-3.5-turbo",
+        prompt="Short prompt",
+        max_tokens=50,
         temperature=0.7
     )
+    print('response', response)
 
     return jsonify({'response': response.choices[0].text})
