@@ -6,6 +6,8 @@ from app.forms import question_form
 from app.models.image import Image
 import spacy
 from random import randint
+import pandas as pd
+
 
 
 questions_routes = Blueprint('questions', __name__)
@@ -19,7 +21,7 @@ def extract_keywords(text):
 
 default_images = ["genius.jpg", "light_squares.jpg"]
 def map_keywords_to_image(keywords):
-    print("Function map_keywords_to_image called with keywords:", keywords)
+    # print("Function map_keywords_to_image called with keywords:", keywords)
     keyword_to_image = {
         "blunder": ["blunder2.png"],
         "analysis": ["analysis2.jpg"],
@@ -33,21 +35,21 @@ def map_keywords_to_image(keywords):
 
     image_scores = {image: 0 for images in keyword_to_image.values() for image in images}
 
-    print("Keywords:", keywords)
-    print("Keyword to Image Mapping:", keyword_to_image)
-    print("Initial Image Scores:", image_scores)
+    # print("Keywords:", keywords)
+    # print("Keyword to Image Mapping:", keyword_to_image)
+    # print("Initial Image Scores:", image_scores)
 
 
     for keyword in keywords:
         for image in keyword_to_image.get(keyword, []):
             image_scores[image] += 1
 
-    print("Updated Image Scores:", image_scores)
+    # print("Updated Image Scores:", image_scores)
 
 
     best_image = max(image_scores, key=image_scores.get)
 
-    print("Best Image:", best_image)
+    # print("Best Image:", best_image)
     if image_scores[best_image] == 0:
         random_index = randint(0, len(default_images) - 1)
         return default_images[random_index]
@@ -71,7 +73,7 @@ def get_question_images():
                 "question_id": question.id,
                 "image_filename": image_filename
             })
-    print('images***', question_images)
+    # print('images***', question_images)
 
     return jsonify(question_images)
 
@@ -161,7 +163,7 @@ def get_answers_for_question(question_id):
 @questions_routes.route('/new', methods=['POST'])
 def create_question():
     data = request.get_json()
-    print("Received data for new question:", data)
+    # print("Received data for new question:", data)
 
     title = data.get('title', '')
     body = data.get('body', '')
@@ -208,7 +210,6 @@ def get_question(question_id):
 
 @questions_routes.route("/")
 def get_all_questions():
-
     questions = Question.query.all()
     all_questions = []
 
@@ -219,10 +220,21 @@ def get_all_questions():
         image = Image.query.filter_by(question_id=question.id).first()
         if image:
             question_dict["image_filename"] = image.filename
-        print('Question data:', question_dict)
         all_questions.append(question_dict)
 
-    return jsonify({'questions': all_questions})
+    # Create a pandas DataFrame from the questions
+    df = pd.DataFrame(all_questions)
+    
+
+    # Calculate the average length of question bodies
+    df['body_length'] = df['body'].apply(len)
+    average_length = df['body_length'].mean()
+
+    # Print the DataFrame and the average length to the terminal
+    print(f"Questions DataFrame:\n{df}", flush=True)
+    print(f"Average length of question bodies: {average_length}", flush=True)
+
+    return jsonify({'questions': all_questions, 'average_body_length': average_length})
 
 
 
@@ -245,7 +257,7 @@ def edit_question(question_id):
         return jsonify(message="You cannot edit this question"), 403
 
     data = request.get_json()
-    print("Received data for editing question:", data)
+    # print("Received data for editing question:", data)
     question_to_edit.title = data.get('title', question_to_edit.title)
     question_to_edit.body = data.get('body', question_to_edit.body)
     question_to_edit.topic_id = data.get('topic_id', question_to_edit.topic_id)
